@@ -5,8 +5,9 @@ import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import dev.gothickit.zenkit.LogLevel;
-import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import dev.gothickit.zenkit.Whence;
+import dev.gothickit.zenkit.fnt.FontGlyph;
+import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -96,6 +97,24 @@ public interface ZenKitNative extends Library {
 
 	String ZkCutsceneMessage_getName(Pointer slf);
 
+	Pointer ZkFont_load(Pointer buf);
+
+	Pointer ZkFont_loadPath(String path);
+
+	Pointer ZkFont_loadVfs(Pointer vfs, String path);
+
+	void ZkFont_del(Pointer slf);
+
+	String ZkFont_getName(Pointer slf);
+
+	int ZkFont_getHeight(Pointer slf);
+
+	long ZkFont_getGlyphCount(Pointer slf);
+
+	FontGlyph.ByValue ZkFont_getGlyph(Pointer slf, long i);
+
+	void ZkFont_enumerateGlyphs(Pointer slf, ZkFontGlyphEnumerator cb, Pointer ctx);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -108,12 +127,16 @@ public interface ZenKitNative extends Library {
 		boolean invoke(Pointer ctx, Pointer block);
 	}
 
+	interface ZkFontGlyphEnumerator extends Callback {
+		boolean invoke(Pointer ctx, FontGlyph.ByReference glyph);
+	}
+
 	final class ZkReadExt extends Structure {
 		public ReadFn read;
 		public SeekFn seek;
 		public TellFn tell;
 		public EofFn eof;
-		private Pointer del = Pointer.NULL;
+		private final Pointer del = Pointer.NULL;
 
 		@Override
 		protected List<String> getFieldOrder() {
