@@ -7,13 +7,18 @@ import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.AxisAlignedBoundingBox;
 import dev.gothickit.zenkit.LogLevel;
+import dev.gothickit.zenkit.Vec3f;
 import dev.gothickit.zenkit.Whence;
 import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.fnt.FontGlyph;
+import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public interface ZenKitNative extends Library {
 	void ZkLogger_set(LogLevel lvl, ZkLogger logger, Pointer ctx);
@@ -158,6 +163,32 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkModelAnimation_getNodeIndices(Pointer slf, IntByReference size);
 
+	Pointer ZkModelHierarchy_load(Pointer buf);
+
+	Pointer ZkModelHierarchy_loadPath(String path);
+
+	Pointer ZkModelHierarchy_loadVfs(Pointer vfs, String name);
+
+	void ZkModelHierarchy_del(Pointer slf);
+
+	long ZkModelHierarchy_getNodeCount(Pointer slf);
+
+	ModelHierarchyNode.ByValue ZkModelHierarchy_getNode(Pointer slf, long i);
+
+	AxisAlignedBoundingBox.ByValue ZkModelHierarchy_getBbox(Pointer slf);
+
+	AxisAlignedBoundingBox.ByValue ZkModelHierarchy_getCollisionBbox(Pointer slf);
+
+	Vec3f.ByValue ZkModelHierarchy_getRootTranslation(Pointer slf);
+
+	long ZkModelHierarchy_getChecksum(Pointer slf);
+
+	ZkDate ZkModelHierarchy_getSourceDate(Pointer slf);
+
+	String ZkModelHierarchy_getSourcePath(Pointer slf);
+
+	void ZkModelHierarchy_enumerateNodes(Pointer slf, ZkModelHierarchyNodeEnumerator cb, Pointer ctx);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -176,6 +207,10 @@ public interface ZenKitNative extends Library {
 
 	interface ZkAnimationSampleEnumerator extends Callback {
 		boolean invoke(Pointer ctx, AnimationSample.ByReference sample);
+	}
+
+	interface ZkModelHierarchyNodeEnumerator extends Callback {
+		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReference node);
 	}
 
 	final class ZkReadExt extends Structure {
@@ -215,6 +250,13 @@ public interface ZenKitNative extends Library {
 		public short hour;
 		public short minute;
 		public short second;
+
+		public Instant toInstant() {
+			var cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			cal.clear();
+			cal.set(year, month, day, hour, minute, second);
+			return cal.toInstant();
+		}
 
 		@Override
 		protected List<String> getFieldOrder() {

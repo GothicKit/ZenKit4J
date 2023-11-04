@@ -11,9 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 public class ModelAnimation {
 	private final Handle handle;
@@ -87,11 +85,7 @@ public class ModelAnimation {
 	}
 
 	public Instant getSourceDate() {
-		var date = ZenKit.API.ZkModelAnimation_getSourceDate(this.getHandle());
-		var cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.clear();
-		cal.set(date.year, date.month, date.day, date.hour, date.minute, date.second);
-		return cal.toInstant();
+		return ZenKit.API.ZkModelAnimation_getSourceDate(this.getHandle()).toInstant();
 	}
 
 	public String getSourceScript() {
