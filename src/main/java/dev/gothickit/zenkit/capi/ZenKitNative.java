@@ -4,8 +4,11 @@ import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+import com.sun.jna.ptr.IntByReference;
+import dev.gothickit.zenkit.AxisAlignedBoundingBox;
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Whence;
+import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
@@ -115,6 +118,46 @@ public interface ZenKitNative extends Library {
 
 	void ZkFont_enumerateGlyphs(Pointer slf, ZkFontGlyphEnumerator cb, Pointer ctx);
 
+	Pointer ZkModelAnimation_load(Pointer buf);
+
+	Pointer ZkModelAnimation_loadPath(String path);
+
+	Pointer ZkModelAnimation_loadVfs(Pointer vfs, String name);
+
+	void ZkModelAnimation_del(Pointer slf);
+
+	String ZkModelAnimation_getName(Pointer slf);
+
+	String ZkModelAnimation_getNext(Pointer slf);
+
+	int ZkModelAnimation_getLayer(Pointer slf);
+
+	int ZkModelAnimation_getFrameCount(Pointer slf);
+
+	int ZkModelAnimation_getNodeCount(Pointer slf);
+
+	float ZkModelAnimation_getFps(Pointer slf);
+
+	float ZkModelAnimation_getFpsSource(Pointer slf);
+
+	AxisAlignedBoundingBox.ByValue ZkModelAnimation_getBbox(Pointer slf);
+
+	long ZkModelAnimation_getChecksum(Pointer slf);
+
+	String ZkModelAnimation_getSourcePath(Pointer slf);
+
+	ZkDate.ByValue ZkModelAnimation_getSourceDate(Pointer slf);
+
+	String ZkModelAnimation_getSourceScript(Pointer slf);
+
+	long ZkModelAnimation_getSampleCount(Pointer slf);
+
+	AnimationSample.ByValue ZkModelAnimation_getSample(Pointer slf, long i);
+
+	void ZkModelAnimation_enumerateSamples(Pointer slf, ZkAnimationSampleEnumerator cb, Pointer ctx);
+
+	Pointer ZkModelAnimation_getNodeIndices(Pointer slf, IntByReference size);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -131,12 +174,16 @@ public interface ZenKitNative extends Library {
 		boolean invoke(Pointer ctx, FontGlyph.ByReference glyph);
 	}
 
+	interface ZkAnimationSampleEnumerator extends Callback {
+		boolean invoke(Pointer ctx, AnimationSample.ByReference sample);
+	}
+
 	final class ZkReadExt extends Structure {
+		private final Pointer del = Pointer.NULL;
 		public ReadFn read;
 		public SeekFn seek;
 		public TellFn tell;
 		public EofFn eof;
-		private final Pointer del = Pointer.NULL;
 
 		@Override
 		protected List<String> getFieldOrder() {
@@ -158,6 +205,23 @@ public interface ZenKitNative extends Library {
 
 		public interface EofFn extends Callback {
 			boolean invoke(Pointer ctx);
+		}
+	}
+
+	class ZkDate extends Structure {
+		public int year;
+		public short month;
+		public short day;
+		public short hour;
+		public short minute;
+		public short second;
+
+		@Override
+		protected List<String> getFieldOrder() {
+			return List.of("year", "month", "day", "hour", "minute", "second");
+		}
+
+		public static class ByValue extends ZkDate implements Structure.ByValue {
 		}
 	}
 }
