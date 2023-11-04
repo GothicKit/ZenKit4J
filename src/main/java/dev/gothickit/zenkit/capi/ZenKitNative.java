@@ -74,12 +74,38 @@ public interface ZenKitNative extends Library {
 
 	void ZkVfsNode_enumerateChildren(Pointer slf, ZkVfsNodeEnumerator callback, Pointer ctx);
 
+	Pointer ZkCutsceneLibrary_load(Pointer buf);
+
+	Pointer ZkCutsceneLibrary_loadPath(String path);
+
+	Pointer ZkCutsceneLibrary_loadVfs(Pointer vfs, String name);
+
+	void ZkCutsceneLibrary_del(Pointer slf);
+
+	Pointer ZkCutsceneLibrary_getBlock(Pointer slf, String name);
+
+	void ZkCutsceneLibrary_enumerateBlocks(Pointer slf, ZkCutsceneBlockEnumerator cb, Pointer ctx);
+
+	String ZkCutsceneBlock_getName(Pointer slf);
+
+	Pointer ZkCutsceneBlock_getMessage(Pointer slf);
+
+	int ZkCutsceneMessage_getType(Pointer slf);
+
+	String ZkCutsceneMessage_getText(Pointer slf);
+
+	String ZkCutsceneMessage_getName(Pointer slf);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
 
 	interface ZkVfsNodeEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer node);
+	}
+
+	interface ZkCutsceneBlockEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer block);
 	}
 
 	final class ZkReadExt extends Structure {
