@@ -23,4 +23,10 @@ public class Vec2f extends Structure {
 	protected List<String> getFieldOrder() {
 		return List.of("x", "y");
 	}
+
+	public static class ByValue extends Vec2f implements Structure.ByValue {
+	}
+
+	public static class ByReference extends Vec2f implements Structure.ByReference {
+	}
 }

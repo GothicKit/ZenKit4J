@@ -5,13 +5,12 @@ import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
-import dev.gothickit.zenkit.AxisAlignedBoundingBox;
-import dev.gothickit.zenkit.LogLevel;
-import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.Whence;
+import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.fnt.FontGlyph;
+import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
+import dev.gothickit.zenkit.mrm.*;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
@@ -189,6 +188,125 @@ public interface ZenKitNative extends Library {
 
 	void ZkModelHierarchy_enumerateNodes(Pointer slf, ZkModelHierarchyNodeEnumerator cb, Pointer ctx);
 
+	Vec3f.ByValue ZkOrientedBoundingBox_getCenter(Pointer slf);
+
+	Vec3f.ByValue ZkOrientedBoundingBox_getAxis(Pointer slf, long i);
+
+	Vec3f.ByValue ZkOrientedBoundingBox_getHalfWidth(Pointer slf);
+
+	long ZkOrientedBoundingBox_getChildCount(Pointer slf);
+
+	Pointer ZkOrientedBoundingBox_getChild(Pointer slf, long i);
+
+	void ZkOrientedBoundingBox_enumerateChildren(Pointer slf, ZkOrientedBoundingBoxEnumerator cb, Pointer ctx);
+
+	AxisAlignedBoundingBox.ByValue ZkOrientedBoundingBox_toAabb(Pointer slf);
+
+	Pointer ZkMaterial_load(Pointer buf);
+
+	Pointer ZkMaterial_loadPath(String path);
+
+	void ZkMaterial_del(Pointer slf);
+
+	String ZkMaterial_getName(Pointer slf);
+
+	MaterialGroup ZkMaterial_getGroup(Pointer slf);
+
+	Color.ByValue ZkMaterial_getColor(Pointer slf);
+
+	float ZkMaterial_getSmoothAngle(Pointer slf);
+
+	String ZkMaterial_getTexture(Pointer slf);
+
+	Vec2f.ByValue ZkMaterial_getTextureScale(Pointer slf);
+
+	float ZkMaterial_getTextureAnimationFps(Pointer slf);
+
+	AnimationMapping ZkMaterial_getTextureAnimationMapping(Pointer slf);
+
+	Vec2f.ByValue ZkMaterial_getTextureAnimationMappingDirection(Pointer slf);
+
+	boolean ZkMaterial_getDisableCollision(Pointer slf);
+
+	boolean ZkMaterial_getDisableLightmap(Pointer slf);
+
+	boolean ZkMaterial_getDontCollapse(Pointer slf);
+
+	String ZkMaterial_getDetailObject(Pointer slf);
+
+	float ZkMaterial_getDetailObjectScale(Pointer slf);
+
+	boolean ZkMaterial_getForceOccluder(Pointer slf);
+
+	boolean ZkMaterial_getEnvironmentMapping(Pointer slf);
+
+	float ZkMaterial_getEnvironmentMappingStrength(Pointer slf);
+
+	WaveMode ZkMaterial_getWaveMode(Pointer slf);
+
+	WaveSpeed ZkMaterial_getWaveSpeed(Pointer slf);
+
+	float ZkMaterial_getWaveAmplitude(Pointer slf);
+
+	float ZkMaterial_getWaveGridSize(Pointer slf);
+
+	boolean ZkMaterial_getIgnoreSun(Pointer slf);
+
+	AlphaFunction ZkMaterial_getAlphaFunction(Pointer slf);
+
+	Vec2f.ByValue ZkMaterial_getDefaultMapping(Pointer slf);
+
+
+	Pointer ZkMultiResolutionMesh_load(Pointer buf);
+
+	Pointer ZkMultiResolutionMesh_loadPath(String path);
+
+	Pointer ZkMultiResolutionMesh_loadVfs(Pointer vfs, String name);
+
+	void ZkMultiResolutionMesh_del(Pointer slf);
+
+	Vec3f ZkMultiResolutionMesh_getPositions(Pointer slf, IntByReference count);
+
+	Vec3f ZkMultiResolutionMesh_getNormals(Pointer slf, IntByReference count);
+
+	long ZkMultiResolutionMesh_getSubMeshCount(Pointer slf);
+
+	Pointer ZkMultiResolutionMesh_getSubMesh(Pointer slf, long i);
+
+	void ZkMultiResolutionMesh_enumerateSubMeshes(Pointer slf, ZkSubMeshEnumerator cb, Pointer i);
+
+	long ZkMultiResolutionMesh_getMaterialCount(Pointer slf);
+
+	Pointer ZkMultiResolutionMesh_getMaterial(Pointer slf, long i);
+
+	void ZkMultiResolutionMesh_enumerateMaterials(Pointer slf, ZkMaterialEnumerator cb, Pointer i);
+
+	boolean ZkMultiResolutionMesh_getAlphaTest(Pointer slf);
+
+	AxisAlignedBoundingBox.ByValue ZkMultiResolutionMesh_getBbox(Pointer slf);
+
+	Pointer ZkMultiResolutionMesh_getOrientedBbox(Pointer slf);
+
+	Pointer ZkSubMesh_getMaterial(Pointer slf);
+
+	MeshTriangle ZkSubMesh_getTriangles(Pointer slf, IntByReference count);
+
+	MeshWedge ZkSubMesh_getWedges(Pointer slf, IntByReference count);
+
+	Pointer ZkSubMesh_getColors(Pointer slf, IntByReference count);
+
+	Pointer ZkSubMesh_getTrianglePlaneIndices(Pointer slf, IntByReference count);
+
+	MeshPlane ZkSubMesh_getTrianglePlanes(Pointer slf, IntByReference count);
+
+	MeshTriangleEdge ZkSubMesh_getTriangleEdges(Pointer slf, IntByReference count);
+
+	MeshEdge ZkSubMesh_getEdges(Pointer slf, IntByReference count);
+
+	Pointer ZkSubMesh_getEdgeScores(Pointer slf, IntByReference count);
+
+	Pointer ZkSubMesh_getWedgeMap(Pointer slf, IntByReference count);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -211,6 +329,18 @@ public interface ZenKitNative extends Library {
 
 	interface ZkModelHierarchyNodeEnumerator extends Callback {
 		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReference node);
+	}
+
+	interface ZkOrientedBoundingBoxEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer box);
+	}
+
+	interface ZkSubMeshEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer mesh);
+	}
+
+	interface ZkMaterialEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer mesh);
 	}
 
 	final class ZkReadExt extends Structure {
