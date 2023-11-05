@@ -11,6 +11,8 @@ import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
 import dev.gothickit.zenkit.mrm.*;
+import dev.gothickit.zenkit.ssm.SoftSkinWedgeNormal;
+import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
@@ -307,6 +309,44 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkSubMesh_getWedgeMap(Pointer slf, IntByReference count);
 
+	long ZkSoftSkinMesh_getNodeCount(Pointer slf);
+
+	Pointer ZkSoftSkinMesh_getMesh(Pointer slf);
+
+	Pointer ZkSoftSkinMesh_getBbox(Pointer slf, long node);
+
+	void ZkSoftSkinMesh_enumerateBoundingBoxes(Pointer slf, ZkOrientedBoundingBoxEnumerator cb, Pointer ctx);
+
+	SoftSkinWeightEntry ZkSoftSkinMesh_getWeights(Pointer slf, long node, IntByReference count);
+
+	void ZkSoftSkinMesh_enumerateWeights(Pointer slf, ZkSoftSkinWeightEnumerator cb, Pointer ctx);
+
+	SoftSkinWedgeNormal ZkSoftSkinMesh_getWedgeNormals(Pointer slf, IntByReference count);
+
+	Pointer ZkSoftSkinMesh_getNodes(Pointer slf, IntByReference count);
+
+	Pointer ZkModelMesh_load(Pointer buf);
+
+	Pointer ZkModelMesh_loadPath(String path);
+
+	Pointer ZkModelMesh_loadVfs(Pointer vfs, String name);
+
+	void ZkModelMesh_del(Pointer slf);
+
+	long ZkModelMesh_getMeshCount(Pointer slf);
+
+	Pointer ZkModelMesh_getMesh(Pointer slf, long i);
+
+	void ZkModelMesh_enumerateMeshes(Pointer slf, ZkSoftSkinMeshEnumerator cb, Pointer ctx);
+
+	long ZkModelMesh_getAttachmentCount(Pointer slf);
+
+	Pointer ZkModelMesh_getAttachment(Pointer slf, String name);
+
+	void ZkModelMesh_enumerateAttachments(Pointer slf, ZkAttachmentEnumerator cb, Pointer ctx);
+
+	long ZkModelMesh_getChecksum(Pointer slf);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -341,6 +381,18 @@ public interface ZenKitNative extends Library {
 
 	interface ZkMaterialEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer mesh);
+	}
+
+	interface ZkSoftSkinWeightEnumerator extends Callback {
+		boolean invoke(Pointer ctx, SoftSkinWeightEntry entry, long count);
+	}
+
+	interface ZkSoftSkinMeshEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer ssm);
+	}
+
+	interface ZkAttachmentEnumerator extends Callback {
+		boolean invoke(Pointer ctx, String name, Pointer mesh);
 	}
 
 	final class ZkReadExt extends Structure {
