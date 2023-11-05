@@ -44,6 +44,11 @@ public class ModelHierarchy {
 		this.handle = handle;
 	}
 
+	public ModelHierarchy(Pointer handle) {
+		this.handle = new Handle(handle, (o) -> {
+		});
+	}
+
 	public Pointer getHandle() {
 		return handle.get();
 	}

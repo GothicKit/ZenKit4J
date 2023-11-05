@@ -347,6 +347,18 @@ public interface ZenKitNative extends Library {
 
 	long ZkModelMesh_getChecksum(Pointer slf);
 
+	Pointer ZkModel_load(Pointer buf);
+
+	Pointer ZkModel_loadPath(String path);
+
+	Pointer ZkModel_loadVfs(Pointer vfs, String name);
+
+	void ZkModel_del(Pointer slf);
+
+	Pointer ZkModel_getHierarchy(Pointer slf);
+
+	Pointer ZkModel_getMesh(Pointer slf);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}

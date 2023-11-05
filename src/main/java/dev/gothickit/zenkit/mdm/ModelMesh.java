@@ -32,6 +32,11 @@ public class ModelMesh {
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load model mesh");
 	}
 
+	public ModelMesh(Pointer handle) {
+		this.handle = new Handle(handle, (o) -> {
+		});
+	}
+
 	public Pointer getHandle() {
 		return handle.get();
 	}
