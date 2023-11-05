@@ -13,6 +13,7 @@ import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
 import dev.gothickit.zenkit.mrm.*;
 import dev.gothickit.zenkit.ssm.SoftSkinWedgeNormal;
 import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
+import dev.gothickit.zenkit.tex.TextureFormat;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
@@ -359,6 +360,44 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkModel_getMesh(Pointer slf);
 
+
+	Pointer ZkTexture_load(Pointer buf);
+
+	Pointer ZkTexture_loadPath(String path);
+
+	Pointer ZkTexture_loadVfs(Pointer vfs, String name);
+
+	void ZkTexture_del(Pointer slf);
+
+	TextureFormat ZkTexture_getFormat(Pointer slf);
+
+	int ZkTexture_getWidth(Pointer slf);
+
+	int ZkTexture_getHeight(Pointer slf);
+
+	int ZkTexture_getWidthMipmap(Pointer slf, long level);
+
+	int ZkTexture_getHeightMipmap(Pointer slf, long level);
+
+	int ZkTexture_getWidthRef(Pointer slf);
+
+	int ZkTexture_getHeightRef(Pointer slf);
+
+	int ZkTexture_getMipmapCount(Pointer slf);
+
+	int ZkTexture_getAverageColor(Pointer slf);
+
+	ZkColorArgb ZkTexture_getPalette(Pointer slf, IntByReference size);
+
+	Pointer ZkTexture_getMipmapRaw(Pointer slf, long level, IntByReference size);
+
+	long ZkTexture_getMipmapRgba(Pointer slf, long level, byte[] buf, long size);
+
+	void ZkTexture_enumerateRawMipmaps(Pointer slf, ZkTextureMipmapEnumerator cb, Pointer ctx);
+
+	void ZkTexture_enumerateRgbaMipmaps(Pointer slf, ZkTextureMipmapEnumerator cb, Pointer ctx);
+
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -405,6 +444,10 @@ public interface ZenKitNative extends Library {
 
 	interface ZkAttachmentEnumerator extends Callback {
 		boolean invoke(Pointer ctx, String name, Pointer mesh);
+	}
+
+	interface ZkTextureMipmapEnumerator extends Callback {
+		boolean invoke(Pointer ctx, long level, Pointer data, long size);
 	}
 
 	final class ZkReadExt extends Structure {
@@ -459,5 +502,10 @@ public interface ZenKitNative extends Library {
 
 		public static class ByValue extends ZkDate implements Structure.ByValue {
 		}
+	}
+
+	@Structure.FieldOrder({"a", "r", "g", "b"})
+	class ZkColorArgb extends Structure {
+		public byte a, r, g, b;
 	}
 }
