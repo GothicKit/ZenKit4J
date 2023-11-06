@@ -9,8 +9,8 @@ import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ModelHierarchy {
@@ -77,8 +77,8 @@ public class ModelHierarchy {
 		return ZenKit.API.ZkModelHierarchy_getChecksum(this.getHandle());
 	}
 
-	public Instant getSourceDate() {
-		return ZenKit.API.ZkModelHierarchy_getSourceDate(this.getHandle()).toInstant();
+	public Calendar getSourceDate() {
+		return ZenKit.API.ZkModelHierarchy_getSourceDate(this.getHandle()).toCalendar();
 	}
 
 	public String getSourcePath() {

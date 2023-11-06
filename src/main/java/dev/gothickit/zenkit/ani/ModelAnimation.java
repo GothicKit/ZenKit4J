@@ -9,8 +9,8 @@ import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ModelAnimation {
@@ -84,8 +84,8 @@ public class ModelAnimation {
 		return ZenKit.API.ZkModelAnimation_getSourcePath(this.getHandle());
 	}
 
-	public Instant getSourceDate() {
-		return ZenKit.API.ZkModelAnimation_getSourceDate(this.getHandle()).toInstant();
+	public Calendar getSourceDate() {
+		return ZenKit.API.ZkModelAnimation_getSourceDate(this.getHandle()).toCalendar();
 	}
 
 	public String getSourceScript() {

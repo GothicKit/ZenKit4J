@@ -17,7 +17,6 @@ import dev.gothickit.zenkit.tex.TextureFormat;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -360,7 +359,6 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkModel_getMesh(Pointer slf);
 
-
 	Pointer ZkTexture_load(Pointer buf);
 
 	Pointer ZkTexture_loadPath(String path);
@@ -488,11 +486,11 @@ public interface ZenKitNative extends Library {
 		public short minute;
 		public short second;
 
-		public Instant toInstant() {
+		public Calendar toCalendar() {
 			var cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			cal.clear();
 			cal.set(year, month, day, hour, minute, second);
-			return cal.toInstant();
+			return cal;
 		}
 
 		@Override
