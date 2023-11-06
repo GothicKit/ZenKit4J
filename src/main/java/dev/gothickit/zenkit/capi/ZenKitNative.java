@@ -7,6 +7,8 @@ import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.ani.AnimationSample;
+import dev.gothickit.zenkit.bsp.BspNode;
+import dev.gothickit.zenkit.bsp.BspTreeType;
 import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
@@ -19,6 +21,7 @@ import dev.gothickit.zenkit.ssm.SoftSkinWedgeNormal;
 import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
 import dev.gothickit.zenkit.tex.TextureFormat;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
+import dev.gothickit.zenkit.way.WayEdge;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
@@ -744,6 +747,71 @@ public interface ZenKitNative extends Library {
 
 	AnimationDirection ZkAnimationAlias_getDirection(Pointer slf);
 
+	BspTreeType ZkBspTree_getType(Pointer slf);
+
+	Pointer ZkBspTree_getPolygonIndices(Pointer slf, IntByReference count);
+
+	Pointer ZkBspTree_getLeafPolygonIndices(Pointer slf, IntByReference count);
+
+	Pointer ZkBspTree_getPortalPolygonIndices(Pointer slf, IntByReference count);
+
+	Vec3f ZkBspTree_getLightPoints(Pointer slf, IntByReference count);
+
+	Pointer ZkBspTree_getLeafNodeIndices(Pointer slf, IntByReference count);
+
+	BspNode ZkBspTree_getNodes(Pointer slf, IntByReference count);
+
+	long ZkBspTree_getSectorCount(Pointer slf);
+
+	Pointer ZkBspTree_getSector(Pointer slf, long i);
+
+	void ZkBspTree_enumerateSectors(Pointer slf, ZkBspSectorEnumerator cb, Pointer ctx);
+
+	String ZkBspSector_getName(Pointer slf);
+
+	Pointer ZkBspSector_getNodeIndices(Pointer slf, IntByReference count);
+
+	Pointer ZkBspSector_getPortalPolygonIndices(Pointer slf, IntByReference count);
+
+	WayEdge ZkWayNet_getEdges(Pointer slf, IntByReference count);
+
+	long ZkWayNet_getPointCount(Pointer slf);
+
+	Pointer ZkWayNet_getPoint(Pointer slf, long i);
+
+	void ZkWayNet_enumeratePoints(Pointer slf, ZkWayPointEnumerator cb, Pointer ctx);
+
+	String ZkWayPoint_getName(Pointer slf);
+
+	int ZkWayPoint_getWaterDepth(Pointer slf);
+
+	boolean ZkWayPoint_getUnderWater(Pointer slf);
+
+	Vec3f.ByValue ZkWayPoint_getPosition(Pointer slf);
+
+	Vec3f.ByValue ZkWayPoint_getDirection(Pointer slf);
+
+	boolean ZkWayPoint_getFreePoint(Pointer slf);
+
+	Pointer ZkWorld_load(Pointer buf);
+
+	Pointer ZkWorld_loadPath(String path);
+
+	Pointer ZkWorld_loadVfs(Pointer vfs, String name);
+
+	void ZkWorld_del(Pointer slf);
+
+	Pointer ZkWorld_getMesh(Pointer slf);
+
+	Pointer ZkWorld_getWayNet(Pointer slf);
+
+	Pointer ZkWorld_getBspTree(Pointer slf);
+
+	long ZkWorld_getRootObjectCount(Pointer slf);
+
+	Pointer ZkWorld_getRootObject(Pointer slf, long i);
+
+	void ZkWorld_enumerateRootObjects(Pointer slf, ZkVirtualObjectEnumerator cb, Pointer ctx);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
@@ -859,6 +927,18 @@ public interface ZenKitNative extends Library {
 
 	interface ZkEventCameraTremorEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkBspSectorEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer sector);
+	}
+
+	interface ZkVirtualObjectEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer vob);
+	}
+
+	interface ZkWayPointEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer point);
 	}
 
 	final class ZkReadExt extends Structure {

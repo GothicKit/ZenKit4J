@@ -34,6 +34,10 @@ public class Mesh {
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load mesh");
 	}
 
+	public Mesh(Pointer handle) {
+		this.handle = new Handle(handle, (o) -> {});
+	}
+
 	public Pointer getHandle() {
 		return handle.get();
 	}
