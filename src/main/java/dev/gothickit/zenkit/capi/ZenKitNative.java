@@ -395,6 +395,55 @@ public interface ZenKitNative extends Library {
 
 	void ZkTexture_enumerateRgbaMipmaps(Pointer slf, ZkTextureMipmapEnumerator cb, Pointer ctx);
 
+	Pointer ZkMorphMesh_load(Pointer buf);
+
+	Pointer ZkMorphMesh_loadPath(String path);
+
+	Pointer ZkMorphMesh_loadVfs(Pointer vfs, String name);
+
+	void ZkMorphMesh_del(Pointer slf);
+
+	String ZkMorphMesh_getName(Pointer slf);
+
+	Pointer ZkMorphMesh_getMesh(Pointer slf);
+
+	Vec3f ZkMorphMesh_getMorphPositions(Pointer slf, IntByReference count);
+
+	long ZkMorphMesh_getAnimationCount(Pointer slf);
+
+	Pointer ZkMorphMesh_getAnimation(Pointer slf, long i);
+
+	void ZkMorphMesh_enumerateAnimations(Pointer slf, ZkMorphAnimationEnumerator cb, Pointer ctx);
+
+	long ZkMorphMesh_getSourceCount(Pointer slf);
+
+	Pointer ZkMorphMesh_getSource(Pointer slf, long i);
+
+	void ZkMorphMesh_enumerateSources(Pointer slf, ZkMorphSourceEnumerator cb, Pointer ctx);
+
+	String ZkMorphAnimation_getName(Pointer slf);
+
+	int ZkMorphAnimation_getLayer(Pointer slf);
+
+	float ZkMorphAnimation_getBlendIn(Pointer slf);
+
+	float ZkMorphAnimation_getBlendOut(Pointer slf);
+
+	float ZkMorphAnimation_getDuration(Pointer slf);
+
+	float ZkMorphAnimation_getSpeed(Pointer slf);
+
+	byte ZkMorphAnimation_getFlags(Pointer slf);
+
+	int ZkMorphAnimation_getFrameCount(Pointer slf);
+
+	Pointer ZkMorphAnimation_getVertices(Pointer slf, IntByReference count);
+
+	Vec3f ZkMorphAnimation_getSamples(Pointer slf, IntByReference count);
+
+	String ZkMorphSource_getFileName(Pointer slf);
+
+	ZkDate.ByValue ZkMorphSource_getFileDate(Pointer slf);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
@@ -446,6 +495,14 @@ public interface ZenKitNative extends Library {
 
 	interface ZkTextureMipmapEnumerator extends Callback {
 		boolean invoke(Pointer ctx, long level, Pointer data, long size);
+	}
+
+	interface ZkMorphAnimationEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer ani);
+	}
+
+	interface ZkMorphSourceEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer src);
 	}
 
 	final class ZkReadExt extends Structure {
