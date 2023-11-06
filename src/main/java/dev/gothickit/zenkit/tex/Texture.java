@@ -31,6 +31,11 @@ public class Texture {
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load texture");
 	}
 
+	public Texture(Pointer handle) {
+		this.handle = new Handle(handle, (o) -> {
+		});
+	}
+
 	public Pointer getHandle() {
 		return handle.get();
 	}

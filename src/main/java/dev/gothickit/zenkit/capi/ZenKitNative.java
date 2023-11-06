@@ -11,6 +11,7 @@ import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
 import dev.gothickit.zenkit.mrm.*;
+import dev.gothickit.zenkit.msh.Vertex;
 import dev.gothickit.zenkit.ssm.SoftSkinWedgeNormal;
 import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
 import dev.gothickit.zenkit.tex.TextureFormat;
@@ -445,6 +446,79 @@ public interface ZenKitNative extends Library {
 
 	ZkDate.ByValue ZkMorphSource_getFileDate(Pointer slf);
 
+
+	Pointer ZkMesh_load(Pointer buf);
+
+	Pointer ZkMesh_loadPath(String path);
+
+	Pointer ZkMesh_loadVfs(Pointer vfs, String name);
+
+	void ZkMesh_del(Pointer slf);
+
+	ZkDate.ByValue ZkMesh_getSourceDate(Pointer slf);
+
+	String ZkMesh_getName(Pointer slf);
+
+	AxisAlignedBoundingBox.ByValue ZkMesh_getBoundingBox(Pointer slf);
+
+	Pointer ZkMesh_getOrientedBoundingBox(Pointer slf);
+
+	long ZkMesh_getMaterialCount(Pointer slf);
+
+	Pointer ZkMesh_getMaterial(Pointer slf, long i);
+
+	void ZkMesh_enumerateMaterials(Pointer slf, ZkMaterialEnumerator cb, Pointer ctx);
+
+	Vec3f ZkMesh_getPositions(Pointer slf, IntByReference count);
+
+	Vertex ZkMesh_getVertices(Pointer slf, IntByReference count);
+
+	long ZkMesh_getLightMapCount(Pointer slf);
+
+	Pointer ZkMesh_getLightMap(Pointer slf, long i);
+
+	void ZkMesh_enumerateLightMaps(Pointer slf, ZkLightMapEnumerator cb, Pointer ctx);
+
+	long ZkMesh_getPolygonCount(Pointer slf);
+
+	Pointer ZkMesh_getPolygon(Pointer slf, long i);
+
+	void ZkMesh_enumeratePolygons(Pointer slf, ZkPolygonEnumerator cb, Pointer ctx);
+
+	Pointer ZkLightMap_getImage(Pointer slf);
+
+	Vec3f.ByValue ZkLightMap_getOrigin(Pointer slf);
+
+	Vec3f.ByValue ZkLightMap_getNormal(Pointer slf, long i);
+
+	int ZkPolygon_getMaterialIndex(Pointer slf);
+
+	int ZkPolygon_getLightMapIndex(Pointer slf);
+
+	Pointer ZkPolygon_getPositionIndices(Pointer slf, IntByReference count);
+
+	Pointer ZkPolygon_getPolygonIndices(Pointer slf, IntByReference count);
+
+	boolean ZkPolygon_getIsPortal(Pointer slf);
+
+	boolean ZkPolygon_getIsOccluder(Pointer slf);
+
+	boolean ZkPolygon_getIsSector(Pointer slf);
+
+	boolean ZkPolygon_getShouldRelight(Pointer slf);
+
+	boolean ZkPolygon_getIsOutdoor(Pointer slf);
+
+	boolean ZkPolygon_getIsGhostOccluder(Pointer slf);
+
+	boolean ZkPolygon_getIsDynamicallyLit(Pointer slf);
+
+	boolean ZkPolygon_getIsLod(Pointer slf);
+
+	byte ZkPolygon_getNormalAxis(Pointer slf);
+
+	short ZkPolygon_getSectorIndex(Pointer slf);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -478,7 +552,7 @@ public interface ZenKitNative extends Library {
 	}
 
 	interface ZkMaterialEnumerator extends Callback {
-		boolean invoke(Pointer ctx, Pointer mesh);
+		boolean invoke(Pointer ctx, Pointer material);
 	}
 
 	interface ZkSoftSkinWeightEnumerator extends Callback {
@@ -503,6 +577,14 @@ public interface ZenKitNative extends Library {
 
 	interface ZkMorphSourceEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer src);
+	}
+
+	interface ZkLightMapEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer lightMap);
+	}
+
+	interface ZkPolygonEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer polygon);
 	}
 
 	final class ZkReadExt extends Structure {
