@@ -10,6 +10,9 @@ import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
+import dev.gothickit.zenkit.mds.AnimationDirection;
+import dev.gothickit.zenkit.mds.EventType;
+import dev.gothickit.zenkit.mds.FightMode;
 import dev.gothickit.zenkit.mrm.*;
 import dev.gothickit.zenkit.msh.Vertex;
 import dev.gothickit.zenkit.ssm.SoftSkinWedgeNormal;
@@ -519,6 +522,229 @@ public interface ZenKitNative extends Library {
 
 	short ZkPolygon_getSectorIndex(Pointer slf);
 
+	Pointer ZkModelScript_load(Pointer buf);
+
+	Pointer ZkModelScript_loadPath(String path);
+
+	Pointer ZkModelScript_loadVfs(Pointer vfs, String name);
+
+	void ZkModelScript_del(Pointer slf);
+
+	String ZkModelScript_getSkeletonName(Pointer slf);
+
+	boolean ZkModelScript_getSkeletonMeshDisabled(Pointer slf);
+
+	long ZkModelScript_getMeshCount(Pointer slf);
+
+	long ZkModelScript_getDisabledAnimationsCount(Pointer slf);
+
+	long ZkModelScript_getAnimationCombineCount(Pointer slf);
+
+	long ZkModelScript_getAnimationBlendCount(Pointer slf);
+
+	long ZkModelScript_getAnimationAliasCount(Pointer slf);
+
+	long ZkModelScript_getModelTagCount(Pointer slf);
+
+	long ZkModelScript_getAnimationCount(Pointer slf);
+
+	String ZkModelScript_getDisabledAnimation(Pointer slf, long i);
+
+	String ZkModelScript_getMesh(Pointer slf, long i);
+
+	Pointer ZkModelScript_getAnimationCombine(Pointer slf, long i);
+
+	Pointer ZkModelScript_getAnimationBlend(Pointer slf, long i);
+
+	Pointer ZkModelScript_getAnimationAlias(Pointer slf, long i);
+
+	String ZkModelScript_getModelTag(Pointer slf, long i);
+
+	Pointer ZkModelScript_getAnimation(Pointer slf, long i);
+
+	void ZkModelScript_enumerateAnimationCombines(Pointer slf, ZkAnimationCombineEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateMeshes(Pointer slf, ZkStringEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateDisabledAnimations(Pointer slf, ZkStringEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateAnimationBlends(Pointer slf, ZkAnimationBlendEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateAnimationAliases(Pointer slf, ZkAnimationAliasEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateModelTags(Pointer slf, ZkStringEnumerator cb, Pointer ctx);
+
+	void ZkModelScript_enumerateAnimations(Pointer slf, ZkAnimationEnumerator cb, Pointer ctx);
+
+	String ZkAnimation_getName(Pointer slf);
+
+	int ZkAnimation_getLayer(Pointer slf);
+
+	String ZkAnimation_getNext(Pointer slf);
+
+	float ZkAnimation_getBlendIn(Pointer slf);
+
+	float ZkAnimation_getBlendOut(Pointer slf);
+
+	int ZkAnimation_getFlags(Pointer slf);
+
+	String ZkAnimation_getModel(Pointer slf);
+
+	AnimationDirection ZkAnimation_getDirection(Pointer slf);
+
+	int ZkAnimation_getFirstFrame(Pointer slf);
+
+	int ZkAnimation_getLastFrame(Pointer slf);
+
+	float ZkAnimation_getFps(Pointer slf);
+
+	float ZkAnimation_getSpeed(Pointer slf);
+
+	float ZkAnimation_getCollisionVolumeScale(Pointer slf);
+
+	long ZkAnimation_getEventTagCount(Pointer slf);
+
+	long ZkAnimation_getParticleEffectCount(Pointer slf);
+
+	long ZkAnimation_getParticleEffectStopCount(Pointer slf);
+
+	long ZkAnimation_getSoundEffectCount(Pointer slf);
+
+	long ZkAnimation_getSoundEffectGroundCount(Pointer slf);
+
+	long ZkAnimation_getMorphAnimationCount(Pointer slf);
+
+	long ZkAnimation_getCameraTremorCount(Pointer slf);
+
+	Pointer ZkAnimation_getEventTag(Pointer slf, long i);
+
+	Pointer ZkAnimation_getParticleEffect(Pointer slf, long i);
+
+	Pointer ZkAnimation_getParticleEffectStop(Pointer slf, long i);
+
+	Pointer ZkAnimation_getSoundEffect(Pointer slf, long i);
+
+	Pointer ZkAnimation_getSoundEffectGround(Pointer slf, long i);
+
+	Pointer ZkAnimation_getMorphAnimation(Pointer slf, long i);
+
+	Pointer ZkAnimation_getCameraTremor(Pointer slf, long i);
+
+	void ZkAnimation_enumerateEventTags(Pointer slf, ZkEventTagEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateParticleEffects(Pointer slf, ZkEventParticleEffectEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateParticleEffectStops(Pointer slf, ZkEventParticleEffectStopEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateSoundEffects(Pointer slf, ZkEventSoundEffectEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateSoundEffectGrounds(Pointer slf, ZkEventSoundEffectGroundEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateMorphAnimations(Pointer slf, ZkEventMorphAnimationEnumerator cb, Pointer ctx);
+
+	void ZkAnimation_enumerateCameraTremors(Pointer slf, ZkEventCameraTremorEnumerator cb, Pointer ctx);
+
+	int ZkEventTag_getFrame(Pointer slf);
+
+	EventType ZkEventTag_getType(Pointer slf);
+
+	String ZkEventTag_getSlot(Pointer slf, long i);
+
+	String ZkEventTag_getItem(Pointer slf);
+
+	Pointer ZkEventTag_getFrames(Pointer slf, IntByReference count);
+
+	FightMode ZkEventTag_getFightMode(Pointer slf);
+
+	boolean ZkEventTag_getIsAttached(Pointer slf);
+
+	int ZkEventParticleEffect_getFrame(Pointer slf);
+
+	int ZkEventParticleEffect_getIndex(Pointer slf);
+
+	String ZkEventParticleEffect_getName(Pointer slf);
+
+	String ZkEventParticleEffect_getPosition(Pointer slf);
+
+	boolean ZkEventParticleEffect_getIsAttached(Pointer slf);
+
+	int ZkEventParticleEffectStop_getFrame(Pointer slf);
+
+	int ZkEventParticleEffectStop_getIndex(Pointer slf);
+
+	int ZkEventCameraTremor_getFrame(Pointer slf);
+
+	int ZkEventCameraTremor_getField1(Pointer slf);
+
+	int ZkEventCameraTremor_getField2(Pointer slf);
+
+	int ZkEventCameraTremor_getField3(Pointer slf);
+
+	int ZkEventCameraTremor_getField4(Pointer slf);
+
+	int ZkEventSoundEffect_getFrame(Pointer slf);
+
+	String ZkEventSoundEffect_getName(Pointer slf);
+
+	float ZkEventSoundEffect_getRange(Pointer slf);
+
+	boolean ZkEventSoundEffect_getEmptySlot(Pointer slf);
+
+	int ZkEventSoundEffectGround_getFrame(Pointer slf);
+
+	String ZkEventSoundEffectGround_getName(Pointer slf);
+
+	float ZkEventSoundEffectGround_getRange(Pointer slf);
+
+	boolean ZkEventSoundEffectGround_getEmptySlot(Pointer slf);
+
+	int ZkMorphAnimation_getFrame(Pointer slf);
+
+	String ZkMorphAnimation_getAnimation(Pointer slf);
+
+	String ZkMorphAnimation_getNode(Pointer slf);
+
+	String ZkAnimationCombine_getName(Pointer slf);
+
+	int ZkAnimationCombine_getLayer(Pointer slf);
+
+	String ZkAnimationCombine_getNext(Pointer slf);
+
+	float ZkAnimationCombine_getBlendIn(Pointer slf);
+
+	float ZkAnimationCombine_getBlendOut(Pointer slf);
+
+	int ZkAnimationCombine_getFlags(Pointer slf);
+
+	String ZkAnimationCombine_getModel(Pointer slf);
+
+	int ZkAnimationCombine_getLastFrame(Pointer slf);
+
+	String ZkAnimationBlend_getName(Pointer slf);
+
+	String ZkAnimationBlend_getNext(Pointer slf);
+
+	float ZkAnimationBlend_getBlendIn(Pointer slf);
+
+	float ZkAnimationBlend_getBlendOut(Pointer slf);
+
+	String ZkAnimationAlias_getName(Pointer slf);
+
+	int ZkAnimationAlias_getLayer(Pointer slf);
+
+	String ZkAnimationAlias_getNext(Pointer slf);
+
+	float ZkAnimationAlias_getBlendIn(Pointer slf);
+
+	float ZkAnimationAlias_getBlendOut(Pointer slf);
+
+	int ZkAnimationAlias_getFlags(Pointer slf);
+
+	String ZkAnimationAlias_getAlias(Pointer slf);
+
+	AnimationDirection ZkAnimationAlias_getDirection(Pointer slf);
+
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -585,6 +811,54 @@ public interface ZenKitNative extends Library {
 
 	interface ZkPolygonEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer polygon);
+	}
+
+	interface ZkAnimationCombineEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkStringEnumerator extends Callback {
+		boolean invoke(Pointer ctx, String evt);
+	}
+
+	interface ZkAnimationBlendEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkAnimationAliasEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkAnimationEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventTagEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventParticleEffectEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventParticleEffectStopEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventSoundEffectEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventSoundEffectGroundEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventMorphAnimationEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
+	}
+
+	interface ZkEventCameraTremorEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer evt);
 	}
 
 	final class ZkReadExt extends Structure {
