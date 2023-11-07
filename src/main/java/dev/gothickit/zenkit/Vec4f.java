@@ -2,8 +2,6 @@ package dev.gothickit.zenkit;
 
 import com.sun.jna.Structure;
 
-import java.util.List;
-
 @Structure.FieldOrder({"x", "y", "z", "w"})
 public class Vec4f extends Structure {
 	public float x;

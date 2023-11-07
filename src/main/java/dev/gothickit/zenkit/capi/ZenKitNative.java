@@ -22,6 +22,7 @@ import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
 import dev.gothickit.zenkit.tex.TextureFormat;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import dev.gothickit.zenkit.way.WayEdge;
+import dev.gothickit.zenkit.world.vob.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
@@ -812,6 +813,78 @@ public interface ZenKitNative extends Library {
 	Pointer ZkWorld_getRootObject(Pointer slf, long i);
 
 	void ZkWorld_enumerateRootObjects(Pointer slf, ZkVirtualObjectEnumerator cb, Pointer ctx);
+
+	Pointer ZkVirtualObject_load(Pointer buf, GameVersion version);
+
+	Pointer ZkVirtualObject_loadPath(String path, GameVersion version);
+
+	void ZkVirtualObject_del(Pointer slf);
+
+	VirtualObjectType ZkVirtualObject_getType(Pointer slf);
+
+	int ZkVirtualObject_getId(Pointer slf);
+
+	AxisAlignedBoundingBox.ByValue ZkVirtualObject_getBbox(Pointer slf);
+
+	Vec3f.ByValue ZkVirtualObject_getPosition(Pointer slf);
+
+	Mat3x3.ByValue ZkVirtualObject_getRotation(Pointer slf);
+
+	boolean ZkVirtualObject_getShowVisual(Pointer slf);
+
+	SpriteAlignment ZkVirtualObject_getSpriteCameraFacingMode(Pointer slf);
+
+	boolean ZkVirtualObject_getCdStatic(Pointer slf);
+
+	boolean ZkVirtualObject_getCdDynamic(Pointer slf);
+
+	boolean ZkVirtualObject_getVobStatic(Pointer slf);
+
+	ShadowType ZkVirtualObject_getDynamicShadows(Pointer slf);
+
+	boolean ZkVirtualObject_getPhysicsEnabled(Pointer slf);
+
+	AnimationType ZkVirtualObject_getAnimMode(Pointer slf);
+
+	int ZkVirtualObject_getBias(Pointer slf);
+
+	boolean ZkVirtualObject_getAmbient(Pointer slf);
+
+	float ZkVirtualObject_getAnimStrength(Pointer slf);
+
+	float ZkVirtualObject_getFarClipScale(Pointer slf);
+
+	String ZkVirtualObject_getPresetName(Pointer slf);
+
+	String ZkVirtualObject_getName(Pointer slf);
+
+	String ZkVirtualObject_getVisualName(Pointer slf);
+
+	VisualType ZkVirtualObject_getVisualType(Pointer slf);
+
+	Pointer ZkVirtualObject_getVisualDecal(Pointer slf);
+
+	long ZkVirtualObject_getChildCount(Pointer slf);
+
+	Pointer ZkVirtualObject_getChild(Pointer slf, long i);
+
+	void ZkVirtualObject_enumerateChildren(Pointer slf, ZkVirtualObjectEnumerator cb, Pointer ctx);
+
+	String ZkDecal_getName(Pointer slf);
+
+	Vec2f ZkDecal_getDimension(Pointer slf);
+
+	Vec2f ZkDecal_getOffset(Pointer slf);
+
+	boolean ZkDecal_getTwoSided(Pointer slf);
+
+	AlphaFunction ZkDecal_getAlphaFunc(Pointer slf);
+
+	float ZkDecal_getTextureAnimFps(Pointer slf);
+
+	byte ZkDecal_getAlphaWeight(Pointer slf);
+
+	boolean ZkDecal_getIgnoreDaylight(Pointer slf);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
