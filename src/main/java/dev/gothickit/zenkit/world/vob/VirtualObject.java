@@ -54,6 +54,8 @@ public class VirtualObject {
 			case oCMobFire -> new Fire(ptr);
 			case oCMobInter, oCMobLadder, oCMobSwitch, oCMobWheel, oCMobBed -> new InteractiveObject(ptr);
 			case oCMOB -> new MovableObject(ptr);
+			case zCVobSound -> new Sound(ptr);
+			case zCVobSoundDaytime -> new SoundDaytime(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}

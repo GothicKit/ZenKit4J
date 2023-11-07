@@ -1238,6 +1238,45 @@ public interface ZenKitNative extends Library {
 
 	String ZkDoor_getPickString(Pointer slf);
 
+	Pointer ZkSound_load(Pointer buf, GameVersion version);
+
+	Pointer ZkSound_loadPath(String path, GameVersion version);
+
+	void ZkSound_del(Pointer slf);
+
+	float ZkSound_getVolume(Pointer slf);
+
+	SoundMode ZkSound_getMode(Pointer slf);
+
+	float ZkSound_getRandomDelay(Pointer slf);
+
+	float ZkSound_getRandomDelayVar(Pointer slf);
+
+	boolean ZkSound_getInitiallyPlaying(Pointer slf);
+
+	boolean ZkSound_getAmbient3d(Pointer slf);
+
+	boolean ZkSound_getObstruction(Pointer slf);
+
+	float ZkSound_getConeAngle(Pointer slf);
+
+	SoundTriggerVolumeType ZkSound_getVolumeType(Pointer slf);
+
+	float ZkSound_getRadius(Pointer slf);
+
+	String ZkSound_getSoundName(Pointer slf);
+
+	Pointer ZkSoundDaytime_load(Pointer buf, GameVersion version);
+
+	Pointer ZkSoundDaytime_loadPath(String path, GameVersion version);
+
+	void ZkSoundDaytime_del(Pointer slf);
+
+	float ZkSoundDaytime_getStartTime(Pointer slf);
+
+	float ZkSoundDaytime_getEndTime(Pointer slf);
+
+	String ZkSoundDaytime_getSoundNameDaytime(Pointer slf);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
