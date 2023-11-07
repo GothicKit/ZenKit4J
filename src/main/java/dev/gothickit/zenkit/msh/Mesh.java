@@ -35,7 +35,8 @@ public class Mesh {
 	}
 
 	public Mesh(Pointer handle) {
-		this.handle = new Handle(handle, (o) -> {});
+		this.handle = new Handle(handle, (o) -> {
+		});
 	}
 
 	public Pointer getHandle() {

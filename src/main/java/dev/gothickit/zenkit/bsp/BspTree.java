@@ -1,6 +1,5 @@
 package dev.gothickit.zenkit.bsp;
 
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.Vec3f;

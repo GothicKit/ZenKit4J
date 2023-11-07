@@ -7,7 +7,7 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModelHierarchyTest {
 	@BeforeAll
@@ -82,6 +82,9 @@ class ModelHierarchyTest {
 		assertEquals(0, mdh.getRootTranslation().y);
 		assertEquals(-394.040466f, mdh.getRootTranslation().z);
 		assertEquals(965956401, mdh.getChecksum());
-		assertEquals("\\_WORK\\DATA\\ANIMS\\\\_WORK\\DATA\\ANIMS\\ASC_MOBSI\\ANIMATED\\STONEMILL_OM.ASC", mdh.getSourcePath());
+		assertEquals(
+				"\\_WORK\\DATA\\ANIMS\\\\_WORK\\DATA\\ANIMS\\ASC_MOBSI\\ANIMATED\\STONEMILL_OM.ASC",
+				mdh.getSourcePath()
+		);
 	}
 }

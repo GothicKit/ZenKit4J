@@ -1,8 +1,9 @@
 package dev.gothickit.zenkit;
 
-import dev.gothickit.zenkit.capi.ZenKit;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 
 public class Util {

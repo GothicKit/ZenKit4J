@@ -4,8 +4,6 @@ import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
-import dev.gothickit.zenkit.vfs.Vfs;
-import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

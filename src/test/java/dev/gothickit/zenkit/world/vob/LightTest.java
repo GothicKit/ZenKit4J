@@ -8,22 +8,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LightTest {
-	private static final float[] G1LightRangeAnimationScale = { };
+	private static final float[] G1LightRangeAnimationScale = {};
 
 	private static final Color[] G1LightColorAnimationList =
-	{
-		new Color(211, 147, 107, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
-		new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(223, 173, 117, 255),
-		new Color(227, 209, 106, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
-		new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(227, 209, 106, 255),
-		new Color(223, 173, 117, 255), new Color(211, 147, 107, 255), new Color(225, 197, 100, 255),
-		new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(211, 147, 107, 255),
-		new Color(223, 173, 117, 255), new Color(227, 209, 106, 255), new Color(225, 197, 100, 255),
-		new Color(211, 147, 107, 255), new Color(225, 197, 100, 255), new Color(223, 173, 117, 255),
-		new Color(225, 197, 100, 255), new Color(227, 209, 106, 255), new Color(223, 173, 117, 255),
-		new Color(211, 147, 107, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
-		new Color(225, 197, 100, 255), new Color(227, 209, 106, 255), new Color(223, 173, 117, 255),
-	};
+			{
+					new Color(211, 147, 107, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
+					new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(223, 173, 117, 255),
+					new Color(227, 209, 106, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
+					new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(227, 209, 106, 255),
+					new Color(223, 173, 117, 255), new Color(211, 147, 107, 255), new Color(225, 197, 100, 255),
+					new Color(223, 173, 117, 255), new Color(225, 197, 100, 255), new Color(211, 147, 107, 255),
+					new Color(223, 173, 117, 255), new Color(227, 209, 106, 255), new Color(225, 197, 100, 255),
+					new Color(211, 147, 107, 255), new Color(225, 197, 100, 255), new Color(223, 173, 117, 255),
+					new Color(225, 197, 100, 255), new Color(227, 209, 106, 255), new Color(223, 173, 117, 255),
+					new Color(211, 147, 107, 255), new Color(223, 173, 117, 255), new Color(211, 147, 107, 255),
+					new Color(225, 197, 100, 255), new Color(227, 209, 106, 255), new Color(223, 173, 117, 255),
+			};
 
 	@BeforeAll
 	static void beforeAll() {
