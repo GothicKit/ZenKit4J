@@ -40,6 +40,15 @@ public class VirtualObject {
 		return switch (ZenKit.API.ZkVirtualObject_getType(ptr)) {
 			case zCCSCamera -> new CutsceneCamera(ptr);
 			case zCVobLight -> new Light(ptr);
+			case zCVobAnimate -> new Animate(ptr);
+			case zCCodeMaster -> new CodeMaster(ptr);
+			case zCEarthquake -> new Earthquake(ptr);
+			case oCItem -> new Item(ptr);
+			case zCVobLensFlare -> new LensFlare(ptr);
+			case zCMessageFilter -> new MessageFilter(ptr);
+			case zCMoverController -> new MoverController(ptr);
+			case zCPFXController -> new ParticleEffectController(ptr);
+			case oCTouchDamage -> new TouchDamage(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}

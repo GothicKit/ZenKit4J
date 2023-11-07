@@ -1032,6 +1032,129 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkLight_getCanMove(Pointer slf);
 
+	Pointer ZkAnimate_load(Pointer buf, GameVersion version);
+
+	Pointer ZkAnimate_loadPath(String path, GameVersion version);
+
+	void ZkAnimate_del(Pointer slf);
+
+	boolean ZkAnimate_getStartOn(Pointer slf);
+
+	Pointer ZkItem_load(Pointer buf, GameVersion version);
+
+	Pointer ZkItem_loadPath(String path, GameVersion version);
+
+	void ZkItem_del(Pointer slf);
+
+	String ZkItem_getInstance(Pointer slf);
+
+	Pointer ZkLensFlare_load(Pointer buf, GameVersion version);
+
+	Pointer ZkLensFlare_loadPath(String path, GameVersion version);
+
+	void ZkLensFlare_del(Pointer slf);
+
+	String ZkLensFlare_getEffect(Pointer slf);
+
+	Pointer ZkParticleEffectController_load(Pointer buf, GameVersion version);
+
+	Pointer ZkParticleEffectController_loadPath(String path, GameVersion version);
+
+	void ZkParticleEffectController_del(Pointer slf);
+
+	String ZkParticleEffectController_getEffectName(Pointer slf);
+
+	boolean ZkParticleEffectController_getKillWhenDone(Pointer slf);
+
+	boolean ZkParticleEffectController_getInitiallyRunning(Pointer slf);
+
+	Pointer ZkMessageFilter_load(Pointer buf, GameVersion version);
+
+	Pointer ZkMessageFilter_loadPath(String path, GameVersion version);
+
+	void ZkMessageFilter_del(Pointer slf);
+
+	String ZkMessageFilter_getTarget(Pointer slf);
+
+	MessageFilterAction ZkMessageFilter_getOnTrigger(Pointer slf);
+
+	MessageFilterAction ZkMessageFilter_getOnUntrigger(Pointer slf);
+
+	Pointer ZkCodeMaster_load(Pointer buf, GameVersion version);
+
+	Pointer ZkCodeMaster_loadPath(String path, GameVersion version);
+
+	void ZkCodeMaster_del(Pointer slf);
+
+	String ZkCodeMaster_getTarget(Pointer slf);
+
+	boolean ZkCodeMaster_getOrdered(Pointer slf);
+
+	boolean ZkCodeMaster_getFirstFalseIsFailure(Pointer slf);
+
+	String ZkCodeMaster_getFailureTarget(Pointer slf);
+
+	boolean ZkCodeMaster_getUntriggeredCancels(Pointer slf);
+
+	long ZkCodeMaster_getSlaveCount(Pointer slf);
+
+	String ZkCodeMaster_getSlave(Pointer slf, long i);
+
+	void ZkCodeMaster_enumerateSlaves(Pointer slf, ZkStringEnumerator cb, Pointer ctx);
+
+	Pointer ZkMoverController_load(Pointer buf, GameVersion version);
+
+	Pointer ZkMoverController_loadPath(String path, GameVersion version);
+
+	void ZkMoverController_del(Pointer slf);
+
+	String ZkMoverController_getTarget(Pointer slf);
+
+	MoverMessageType ZkMoverController_getMessage(Pointer slf);
+
+	int ZkMoverController_getKey(Pointer slf);
+
+	Pointer ZkTouchDamage_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTouchDamage_loadPath(String path, GameVersion version);
+
+	void ZkTouchDamage_del(Pointer slf);
+
+	float ZkTouchDamage_getDamage(Pointer slf);
+
+	boolean ZkTouchDamage_getIsBarrier(Pointer slf);
+
+	boolean ZkTouchDamage_getIsBlunt(Pointer slf);
+
+	boolean ZkTouchDamage_getIsEdge(Pointer slf);
+
+	boolean ZkTouchDamage_getIsFire(Pointer slf);
+
+	boolean ZkTouchDamage_getIsFly(Pointer slf);
+
+	boolean ZkTouchDamage_getIsMagic(Pointer slf);
+
+	boolean ZkTouchDamage_getIsPoint(Pointer slf);
+
+	boolean ZkTouchDamage_getIsFall(Pointer slf);
+
+	float ZkTouchDamage_getRepeatDelaySeconds(Pointer slf);
+
+	float ZkTouchDamage_getVolumeScale(Pointer slf);
+
+	TouchCollisionType ZkTouchDamage_getCollisionType(Pointer slf);
+
+	Pointer ZkEarthquake_load(Pointer buf, GameVersion version);
+
+	Pointer ZkEarthquake_loadPath(String path, GameVersion version);
+
+	void ZkEarthquake_del(Pointer slf);
+
+	float ZkEarthquake_getRadius(Pointer slf);
+
+	float ZkEarthquake_getDuration(Pointer slf);
+
+	Vec3f.ByValue ZkEarthquake_getAmplitude(Pointer slf);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
