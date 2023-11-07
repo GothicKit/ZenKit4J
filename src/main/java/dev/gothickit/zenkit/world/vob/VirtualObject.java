@@ -39,6 +39,7 @@ public class VirtualObject {
 	public static VirtualObject fromNative(Pointer ptr) {
 		return switch (ZenKit.API.ZkVirtualObject_getType(ptr)) {
 			case zCCSCamera -> new CutsceneCamera(ptr);
+			case zCVobLight -> new Light(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}

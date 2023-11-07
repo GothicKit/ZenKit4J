@@ -956,6 +956,82 @@ public interface ZenKitNative extends Library {
 
 	Mat4x4.ByValue ZkCameraTrajectoryFrame_getOriginalPose(Pointer slf);
 
+	Pointer ZkLightPreset_load(Pointer buf, GameVersion version);
+
+	Pointer ZkLightPreset_loadPath(String path, GameVersion version);
+
+	void ZkLightPreset_del(Pointer slf);
+
+	Pointer ZkLight_load(Pointer slf, GameVersion version);
+
+	Pointer ZkLight_loadPath(String path, GameVersion version);
+
+	void ZkLight_del(Pointer slf);
+
+	String ZkLightPreset_getPreset(Pointer slf);
+
+	LightType ZkLightPreset_getLightType(Pointer slf);
+
+	float ZkLightPreset_getRange(Pointer slf);
+
+	Color.ByValue ZkLightPreset_getColor(Pointer slf);
+
+	float ZkLightPreset_getConeAngle(Pointer slf);
+
+	boolean ZkLightPreset_getIsStatic(Pointer slf);
+
+	LightQuality ZkLightPreset_getQuality(Pointer slf);
+
+	String ZkLightPreset_getLensflareFx(Pointer slf);
+
+	boolean ZkLightPreset_getOn(Pointer slf);
+
+	Pointer ZkLightPreset_getRangeAnimationScale(Pointer slf, IntByReference count);
+
+	float ZkLightPreset_getRangeAnimationFps(Pointer slf);
+
+	boolean ZkLightPreset_getRangeAnimationSmooth(Pointer slf);
+
+	Color ZkLightPreset_getColorAnimationList(Pointer slf, IntByReference count);
+
+	float ZkLightPreset_getColorAnimationFps(Pointer slf);
+
+	boolean ZkLightPreset_getColorAnimationSmooth(Pointer slf);
+
+	boolean ZkLightPreset_getCanMove(Pointer slf);
+
+	String ZkLight_getPreset(Pointer slf);
+
+	LightType ZkLight_getLightType(Pointer slf);
+
+	float ZkLight_getRange(Pointer slf);
+
+	Color.ByValue ZkLight_getColor(Pointer slf);
+
+	float ZkLight_getConeAngle(Pointer slf);
+
+	boolean ZkLight_getIsStatic(Pointer slf);
+
+	LightQuality ZkLight_getQuality(Pointer slf);
+
+	String ZkLight_getLensflareFx(Pointer slf);
+
+	boolean ZkLight_getOn(Pointer slf);
+
+	Pointer ZkLight_getRangeAnimationScale(Pointer slf, IntByReference count);
+
+	float ZkLight_getRangeAnimationFps(Pointer slf);
+
+	boolean ZkLight_getRangeAnimationSmooth(Pointer slf);
+
+	Color ZkLight_getColorAnimationList(Pointer slf, IntByReference count);
+
+	float ZkLight_getColorAnimationFps(Pointer slf);
+
+	boolean ZkLight_getColorAnimationSmooth(Pointer slf);
+
+	boolean ZkLight_getCanMove(Pointer slf);
+
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
