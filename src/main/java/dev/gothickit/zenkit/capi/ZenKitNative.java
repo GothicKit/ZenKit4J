@@ -886,6 +886,77 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkDecal_getIgnoreDaylight(Pointer slf);
 
+	Pointer ZkCutsceneCamera_load(Pointer buf, GameVersion version);
+
+	Pointer ZkCutsceneCamera_loadPath(String path, GameVersion version);
+
+	void ZkCutsceneCamera_del(Pointer slf);
+
+	CameraTrajectory ZkCutsceneCamera_getTrajectoryFOR(Pointer slf);
+
+	CameraTrajectory ZkCutsceneCamera_getTargetTrajectoryFOR(Pointer slf);
+
+	CameraLoopType ZkCutsceneCamera_getLoopMode(Pointer slf);
+
+	CameraLerpType ZkCutsceneCamera_getLerpMode(Pointer slf);
+
+	boolean ZkCutsceneCamera_getIgnoreFORVobRotation(Pointer slf);
+
+	boolean ZkCutsceneCamera_getIgnoreFORVobRotationTarget(Pointer slf);
+
+	boolean ZkCutsceneCamera_getAdapt(Pointer slf);
+
+	boolean ZkCutsceneCamera_getEaseFirst(Pointer slf);
+
+	boolean ZkCutsceneCamera_getEaseLast(Pointer slf);
+
+	float ZkCutsceneCamera_getTotalDuration(Pointer slf);
+
+	String ZkCutsceneCamera_getAutoFocusVob(Pointer slf);
+
+	boolean ZkCutsceneCamera_getAutoPlayerMovable(Pointer slf);
+
+	boolean ZkCutsceneCamera_getAutoUntriggerLast(Pointer slf);
+
+	float ZkCutsceneCamera_getAutoUntriggerLastDelay(Pointer slf);
+
+	int ZkCutsceneCamera_getPositionCount(Pointer slf);
+
+	int ZkCutsceneCamera_getTargetCount(Pointer slf);
+
+	long ZkCutsceneCamera_getFrameCount(Pointer slf);
+
+	Pointer ZkCutsceneCamera_getFrame(Pointer slf, long i);
+
+	void ZkCutsceneCamera_enumerateFrames(Pointer slf, ZkCameraTrajectoryFrameEnumerator cb, Pointer ctx);
+
+	float ZkCameraTrajectoryFrame_getTime(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getRollAngle(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getFovScale(Pointer slf);
+
+	CameraMotion ZkCameraTrajectoryFrame_getMotionType(Pointer slf);
+
+	CameraMotion ZkCameraTrajectoryFrame_getMotionTypeFov(Pointer slf);
+
+	CameraMotion ZkCameraTrajectoryFrame_getMotionTypeRoll(Pointer slf);
+
+	CameraMotion ZkCameraTrajectoryFrame_getMotionTypeTimeScale(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getTension(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getCamBias(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getContinuity(Pointer slf);
+
+	float ZkCameraTrajectoryFrame_getTimeScale(Pointer slf);
+
+	boolean ZkCameraTrajectoryFrame_getTimeFixed(Pointer slf);
+
+	Mat4x4.ByValue ZkCameraTrajectoryFrame_getOriginalPose(Pointer slf);
+
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -1012,6 +1083,10 @@ public interface ZenKitNative extends Library {
 
 	interface ZkWayPointEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer point);
+	}
+
+	interface ZkCameraTrajectoryFrameEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer frame);
 	}
 
 	final class ZkReadExt extends Structure {
