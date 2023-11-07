@@ -49,6 +49,11 @@ public class VirtualObject {
 			case zCMoverController -> new MoverController(ptr);
 			case zCPFXController -> new ParticleEffectController(ptr);
 			case oCTouchDamage -> new TouchDamage(ptr);
+			case oCMobContainer -> new Container(ptr);
+			case oCMobDoor -> new Door(ptr);
+			case oCMobFire -> new Fire(ptr);
+			case oCMobInter, oCMobLadder, oCMobSwitch, oCMobWheel, oCMobBed -> new InteractiveObject(ptr);
+			case oCMOB -> new MovableObject(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}

@@ -1156,6 +1156,89 @@ public interface ZenKitNative extends Library {
 
 	Vec3f.ByValue ZkEarthquake_getAmplitude(Pointer slf);
 
+	Pointer ZkMovableObject_load(Pointer buf, GameVersion version);
+
+	Pointer ZkMovableObject_loadPath(String path, GameVersion version);
+
+	void ZkMovableObject_del(Pointer slf);
+
+	String ZkMovableObject_getName(Pointer slf);
+
+	int ZkMovableObject_getHp(Pointer slf);
+
+	int ZkMovableObject_getDamage(Pointer slf);
+
+	boolean ZkMovableObject_getMovable(Pointer slf);
+
+	boolean ZkMovableObject_getTakable(Pointer slf);
+
+	boolean ZkMovableObject_getFocusOverride(Pointer slf);
+
+	SoundMaterialType ZkMovableObject_getMaterial(Pointer slf);
+
+	String ZkMovableObject_getVisualDestroyed(Pointer slf);
+
+	String ZkMovableObject_getOwner(Pointer slf);
+
+	String ZkMovableObject_getOwnerGuild(Pointer slf);
+
+	boolean ZkMovableObject_getDestroyed(Pointer slf);
+
+	Pointer ZkInteractiveObject_load(Pointer buf, GameVersion version);
+
+	Pointer ZkInteractiveObject_loadPath(String path, GameVersion version);
+
+	void ZkInteractiveObject_del(Pointer slf);
+
+	int ZkInteractiveObject_getState(Pointer slf);
+
+	String ZkInteractiveObject_getTarget(Pointer slf);
+
+	String ZkInteractiveObject_getItem(Pointer slf);
+
+	String ZkInteractiveObject_getConditionFunction(Pointer slf);
+
+	String ZkInteractiveObject_getOnStateChangeFunction(Pointer slf);
+
+	boolean ZkInteractiveObject_getRewind(Pointer slf);
+
+	Pointer ZkFire_load(Pointer buf, GameVersion version);
+
+	Pointer ZkFire_loadPath(String path, GameVersion version);
+
+	void ZkFire_del(Pointer slf);
+
+	String ZkFire_getSlot(Pointer slf);
+
+	String ZkFire_getVobTree(Pointer slf);
+
+	Pointer ZkContainer_load(Pointer buf, GameVersion version);
+
+	Pointer ZkContainer_loadPath(String path, GameVersion version);
+
+	void ZkContainer_del(Pointer slf);
+
+	boolean ZkContainer_getIsLocked(Pointer slf);
+
+	String ZkContainer_getKey(Pointer slf);
+
+	String ZkContainer_getPickString(Pointer slf);
+
+	String ZkContainer_getContents(Pointer slf);
+
+	Pointer ZkDoor_load(Pointer buf, GameVersion version);
+
+	Pointer ZkDoor_loadPath(String path, GameVersion version);
+
+	void ZkDoor_del(Pointer slf);
+
+	boolean ZkDoor_getIsLocked(Pointer slf);
+
+	String ZkDoor_getKey(Pointer slf);
+
+	String ZkDoor_getPickString(Pointer slf);
+
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
