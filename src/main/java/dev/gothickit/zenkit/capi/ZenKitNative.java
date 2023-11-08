@@ -9,6 +9,8 @@ import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.bsp.BspNode;
 import dev.gothickit.zenkit.bsp.BspTreeType;
+import dev.gothickit.zenkit.daedalus.DaedalusDataType;
+import dev.gothickit.zenkit.daedalus.DaedalusInstruction;
 import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
@@ -1441,6 +1443,70 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkZoneFog_getOverrideColor(Pointer slf);
 
+	Pointer ZkDaedalusScript_load(Pointer buf);
+
+	Pointer ZkDaedalusScript_loadPath(String path);
+
+	Pointer ZkDaedalusScript_loadVfs(Pointer vfs, String name);
+
+	void ZkDaedalusScript_del(Pointer slf);
+
+	int ZkDaedalusScript_getSymbolCount(Pointer slf);
+
+	void ZkDaedalusScript_enumerateSymbols(Pointer slf, ZkDaedalusSymbolEnumerator cb, Pointer ctx);
+
+	void ZkDaedalusScript_enumerateInstanceSymbols(
+			Pointer slf,
+			String className,
+			ZkDaedalusSymbolEnumerator cb,
+			Pointer ctx
+	);
+
+	DaedalusInstruction.ByValue ZkDaedalusScript_getInstruction(Pointer slf, long address);
+
+	Pointer ZkDaedalusScript_getSymbolByIndex(Pointer slf, int i);
+
+	Pointer ZkDaedalusScript_getSymbolByAddress(Pointer slf, long i);
+
+	Pointer ZkDaedalusScript_getSymbolByName(Pointer slf, String i);
+
+	String ZkDaedalusSymbol_getString(Pointer slf, short index, Pointer context);
+
+	float ZkDaedalusSymbol_getFloat(Pointer slf, short index, Pointer context);
+
+	int ZkDaedalusSymbol_getInt(Pointer slf, short index, Pointer context);
+
+	void ZkDaedalusSymbol_setString(Pointer slf, String value, short index, Pointer context);
+
+	void ZkDaedalusSymbol_setFloat(Pointer slf, float value, short index, Pointer context);
+
+	void ZkDaedalusSymbol_setInt(Pointer slf, int value, short index, Pointer context);
+
+	boolean ZkDaedalusSymbol_getIsConst(Pointer slf);
+
+	boolean ZkDaedalusSymbol_getIsMember(Pointer slf);
+
+	boolean ZkDaedalusSymbol_getIsExternal(Pointer slf);
+
+	boolean ZkDaedalusSymbol_getIsMerged(Pointer slf);
+
+	boolean ZkDaedalusSymbol_getIsGenerated(Pointer slf);
+
+	boolean ZkDaedalusSymbol_getHasReturn(Pointer slf);
+
+	String ZkDaedalusSymbol_getName(Pointer slf);
+
+	int ZkDaedalusSymbol_getAddress(Pointer slf);
+
+	int ZkDaedalusSymbol_getParent(Pointer slf);
+
+	int ZkDaedalusSymbol_getSize(Pointer slf);
+
+	DaedalusDataType ZkDaedalusSymbol_getType(Pointer slf);
+
+	int ZkDaedalusSymbol_getIndex(Pointer slf);
+
+	DaedalusDataType ZkDaedalusSymbol_getReturnType(Pointer slf);
 
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
@@ -1576,6 +1642,10 @@ public interface ZenKitNative extends Library {
 
 	interface ZkTriggerListTargetEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer target);
+	}
+
+	interface ZkDaedalusSymbolEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer symbol);
 	}
 
 	final class ZkReadExt extends Structure {
