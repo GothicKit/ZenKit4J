@@ -1278,6 +1278,125 @@ public interface ZenKitNative extends Library {
 
 	String ZkSoundDaytime_getSoundNameDaytime(Pointer slf);
 
+	Pointer ZkTrigger_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTrigger_loadPath(String path, GameVersion version);
+
+	void ZkTrigger_del(Pointer slf);
+
+	String ZkTrigger_getTarget(Pointer slf);
+
+	byte ZkTrigger_getFlags(Pointer slf);
+
+	byte ZkTrigger_getFilterFlags(Pointer slf);
+
+	String ZkTrigger_getVobTarget(Pointer slf);
+
+	int ZkTrigger_getMaxActivationCount(Pointer slf);
+
+	float ZkTrigger_getRetriggerDelaySeconds(Pointer slf);
+
+	float ZkTrigger_getDamageThreshold(Pointer slf);
+
+	float ZkTrigger_getFireDelaySeconds(Pointer slf);
+
+	Pointer ZkMover_load(Pointer buf, GameVersion version);
+
+	Pointer ZkMover_loadPath(String path, GameVersion version);
+
+	void ZkMover_del(Pointer slf);
+
+	MoverBehavior ZkMover_getBehavior(Pointer slf);
+
+	float ZkMover_getTouchBlockerDamage(Pointer slf);
+
+	float ZkMover_getStayOpenTimeSeconds(Pointer slf);
+
+	boolean ZkMover_getIsLocked(Pointer slf);
+
+	boolean ZkMover_getAutoLink(Pointer slf);
+
+	boolean ZkMover_getAutoRotate(Pointer slf);
+
+	float ZkMover_getSpeed(Pointer slf);
+
+	MoverLerpType ZkMover_getLerpType(Pointer slf);
+
+	MoverSpeedType ZkMover_getSpeedType(Pointer slf);
+
+	AnimationSample ZkMover_getKeyframes(Pointer slf, IntByReference count);
+
+	String ZkMover_getSfxOpenStart(Pointer slf);
+
+	String ZkMover_getSfxOpenEnd(Pointer slf);
+
+	String ZkMover_getSfxTransitioning(Pointer slf);
+
+	String ZkMover_getSfxCloseStart(Pointer slf);
+
+	String ZkMover_getSfxCloseEnd(Pointer slf);
+
+	String ZkMover_getSfxLock(Pointer slf);
+
+	String ZkMover_getSfxUnlock(Pointer slf);
+
+	String ZkMover_getSfxUseLocked(Pointer slf);
+
+	Pointer ZkTriggerList_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTriggerList_loadPath(String path, GameVersion version);
+
+	void ZkTriggerList_del(Pointer slf);
+
+	TriggerBatchMode ZkTriggerList_getMode(Pointer slf);
+
+	long ZkTriggerList_getTargetCount(Pointer slf);
+
+	Pointer ZkTriggerList_getTarget(Pointer slf, long i);
+
+	void
+	ZkTriggerList_enumerateTargets(Pointer slf, ZkTriggerListTargetEnumerator cb, Pointer ctx);
+
+	String ZkTriggerListTarget_getName(Pointer slf);
+
+	float ZkTriggerListTarget_getDelaySeconds(Pointer slf);
+
+	Pointer ZkTriggerScript_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTriggerScript_loadPath(String path, GameVersion version);
+
+	void ZkTriggerScript_del(Pointer slf);
+
+	String ZkTriggerScript_getFunction(Pointer slf);
+
+	Pointer ZkTriggerChangeLevel_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTriggerChangeLevel_loadPath(String path, GameVersion version);
+
+	void ZkTriggerChangeLevel_del(Pointer slf);
+
+	String ZkTriggerChangeLevel_getLevelName(Pointer slf);
+
+	String ZkTriggerChangeLevel_getStartVob(Pointer slf);
+
+	Pointer ZkTriggerWorldStart_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTriggerWorldStart_loadPath(String path, GameVersion version);
+
+	void ZkTriggerWorldStart_del(Pointer slf);
+
+	String ZkTriggerWorldStart_getTarget(Pointer slf);
+
+	boolean ZkTriggerWorldStart_getFireOnce(Pointer slf);
+
+	Pointer ZkTriggerUntouch_load(Pointer buf, GameVersion version);
+
+	Pointer ZkTriggerUntouch_loadPath(String path, GameVersion version);
+
+	void ZkTriggerUntouch_del(Pointer slf);
+
+	String ZkTriggerUntouch_getTarget(Pointer slf);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -1408,6 +1527,10 @@ public interface ZenKitNative extends Library {
 
 	interface ZkCameraTrajectoryFrameEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer frame);
+	}
+
+	interface ZkTriggerListTargetEnumerator extends Callback {
+		boolean invoke(Pointer ctx, Pointer target);
 	}
 
 	final class ZkReadExt extends Structure {

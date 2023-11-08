@@ -56,6 +56,13 @@ public class VirtualObject {
 			case oCMOB -> new MovableObject(ptr);
 			case zCVobSound -> new Sound(ptr);
 			case zCVobSoundDaytime -> new SoundDaytime(ptr);
+			case zCTrigger, oCCSTrigger -> new Trigger(ptr);
+			case zCTriggerList -> new TriggerList(ptr);
+			case oCTriggerScript -> new TriggerScript(ptr);
+			case zCMover -> new Mover(ptr);
+			case oCTriggerChangeLevel -> new TriggerChangeLevel(ptr);
+			case zCTriggerWorldStart -> new TriggerWorldStart(ptr);
+			case zCTriggerUntouch -> new TriggerUntouch(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}
