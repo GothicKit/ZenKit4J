@@ -63,6 +63,9 @@ public class VirtualObject {
 			case oCTriggerChangeLevel -> new TriggerChangeLevel(ptr);
 			case zCTriggerWorldStart -> new TriggerWorldStart(ptr);
 			case zCTriggerUntouch -> new TriggerUntouch(ptr);
+			case oCZoneMusic, oCZoneMusicDefault -> new ZoneMusic(ptr);
+			case zCZoneZFog, zCZoneZFogDefault -> new ZoneFog(ptr);
+			case zCZoneVobFarPlane, zCZoneVobFarPlaneDefault -> new ZoneFarPlane(ptr);
 			default -> new VirtualObject(ptr);
 		};
 	}

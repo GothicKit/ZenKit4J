@@ -1397,6 +1397,51 @@ public interface ZenKitNative extends Library {
 
 	String ZkTriggerUntouch_getTarget(Pointer slf);
 
+	Pointer ZkZoneMusic_load(Pointer buf, GameVersion version);
+
+	Pointer ZkZoneMusic_loadPath(String path, GameVersion version);
+
+	void ZkZoneMusic_del(Pointer slf);
+
+	boolean ZkZoneMusic_getIsEnabled(Pointer slf);
+
+	int ZkZoneMusic_getPriority(Pointer slf);
+
+	boolean ZkZoneMusic_getIsEllipsoid(Pointer slf);
+
+	float ZkZoneMusic_getReverb(Pointer slf);
+
+	float ZkZoneMusic_getVolume(Pointer slf);
+
+	boolean ZkZoneMusic_getIsLoop(Pointer slf);
+
+	Pointer ZkZoneFarPlane_load(Pointer buf, GameVersion version);
+
+	Pointer ZkZoneFarPlane_loadPath(String path, GameVersion version);
+
+	void ZkZoneFarPlane_del(Pointer slf);
+
+	float ZkZoneFarPlane_getVobFarPlaneZ(Pointer slf);
+
+	float ZkZoneFarPlane_getInnerRangePercentage(Pointer slf);
+
+	Pointer ZkZoneFog_load(Pointer buf, GameVersion version);
+
+	Pointer ZkZoneFog_loadPath(String path, GameVersion version);
+
+	void ZkZoneFog_del(Pointer slf);
+
+	float ZkZoneFog_getRangeCenter(Pointer slf);
+
+	float ZkZoneFog_getInnerRangePercentage(Pointer slf);
+
+	Color.ByValue ZkZoneFog_getColor(Pointer slf);
+
+	boolean ZkZoneFog_getFadeOutSky(Pointer slf);
+
+	boolean ZkZoneFog_getOverrideColor(Pointer slf);
+
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
