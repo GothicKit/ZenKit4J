@@ -1,11 +1,9 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import java.util.*
 
 plugins {
-    id("java")
+    id("java-library")
     id("maven-publish")
     id("signing")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "dev.gothickit"
@@ -27,10 +25,10 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-tasks.withType<ShadowJar> {
+tasks.withType<Jar> {
     archiveBaseName.set("zenkit")
     archiveClassifier.set("")
-    archiveVersion.set("0.0.1")
+    archiveVersion.set(version.toString())
 }
 
 // Stub secrets to let the project sync and build without the publication values set up
@@ -58,8 +56,15 @@ if (secretPropsFile.exists()) {
     ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+val sourcesJar by tasks.creating(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
+val javadocJar by tasks.creating(Jar::class) {
+    dependsOn.add(JavaPlugin.JAVADOC_TASK_NAME)
     archiveClassifier.set("javadoc")
+    from(tasks["javadoc"])
 }
 
 fun getExtraString(name: String) = ext[name]?.toString()
@@ -67,42 +72,54 @@ fun getExtraString(name: String) = ext[name]?.toString()
 publishing {
     repositories {
         maven {
-            name = "sonatype"
+            name = "SonatypeRelease"
             setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username = getExtraString("ossrhUsername")
                 password = getExtraString("ossrhPassword")
             }
         }
+        maven {
+            name = "SonatypeSnapshot"
+            setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            credentials {
+                username = getExtraString("ossrhUsername")
+                password = getExtraString("ossrhPassword")
+            }
+        }
+        mavenLocal()
     }
 
-    publications.withType<MavenPublication> {
-        project.shadow.component(this)
-        artifact(javadocJar.get())
+    publications {
+        create<MavenPublication>("main") {
+            from(components.getByName("java"))
+            artifact(javadocJar)
+            artifact(sourcesJar)
 
-        pom {
-            name.set("ZenKit Java Bindings")
-            description.set("Java bindings for ZenKit, the ZenGin Asset Parser")
+            pom {
+                name.set("ZenKit Java Bindings")
+                description.set("Java bindings for ZenKit, the ZenGin Asset Parser")
 
-            licenses {
-                license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
                 }
-            }
 
-            developers {
-                developer {
-                    id.set("lmichaelis")
-                    name.set("Luis Michaelis")
-                    email.set("publishing@lmichaelis.de")
-                    organization.set("GothicKit")
-                    organizationUrl.set("https://github.com/GothicKit")
+                developers {
+                    developer {
+                        id.set("lmichaelis")
+                        name.set("Luis Michaelis")
+                        email.set("publishing@lmichaelis.de")
+                        organization.set("GothicKit")
+                        organizationUrl.set("https://github.com/GothicKit")
+                    }
                 }
-            }
 
-            scm {
-                url.set("https://github.com/GothicKit/ZenKit4J")
+                scm {
+                    url.set("https://github.com/GothicKit/ZenKit4J")
+                }
             }
         }
     }
