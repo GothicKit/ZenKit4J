@@ -10,7 +10,9 @@ import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.bsp.BspNode;
 import dev.gothickit.zenkit.bsp.BspTreeType;
 import dev.gothickit.zenkit.daedalus.DaedalusDataType;
+import dev.gothickit.zenkit.daedalus.DaedalusInstanceType;
 import dev.gothickit.zenkit.daedalus.DaedalusInstruction;
+import dev.gothickit.zenkit.daedalus.instance.*;
 import dev.gothickit.zenkit.fnt.FontGlyph;
 import dev.gothickit.zenkit.mat.*;
 import dev.gothickit.zenkit.mdh.ModelHierarchyNode;
@@ -1502,6 +1504,861 @@ public interface ZenKitNative extends Library {
 
 	int ZkDaedalusSymbol_getSize(Pointer slf);
 
+	DaedalusInstanceType ZkDaedalusInstance_getType(Pointer slf);
+
+	int ZkDaedalusInstance_getIndex(Pointer ptr);
+
+	Pointer ZkDaedalusVm_load(Pointer buf);
+
+	Pointer ZkDaedalusVm_loadPath(String path);
+
+	Pointer ZkDaedalusVm_loadVfs(Pointer vfs, String name);
+
+	void ZkDaedalusVm_del(Pointer slf);
+
+	void ZkDaedalusVm_pushInt(Pointer slf, int value);
+
+	void ZkDaedalusVm_pushFloat(Pointer slf, float value);
+
+	void ZkDaedalusVm_pushString(Pointer slf, String value);
+
+	void ZkDaedalusVm_pushInstance(Pointer slf, Pointer value);
+
+	int ZkDaedalusVm_popInt(Pointer slf);
+
+	float ZkDaedalusVm_popFloat(Pointer slf);
+
+	String ZkDaedalusVm_popString(Pointer slf);
+
+	Pointer ZkDaedalusVm_popInstance(Pointer slf);
+
+	Pointer ZkDaedalusVm_getGlobalSelf(Pointer slf);
+
+	Pointer ZkDaedalusVm_getGlobalOther(Pointer slf);
+
+	Pointer ZkDaedalusVm_getGlobalVictim(Pointer slf);
+
+	Pointer ZkDaedalusVm_getGlobalHero(Pointer slf);
+
+	Pointer ZkDaedalusVm_getGlobalItem(Pointer slf);
+
+	void ZkDaedalusVm_setGlobalSelf(Pointer slf, Pointer value);
+
+	void ZkDaedalusVm_setGlobalOther(Pointer slf, Pointer value);
+
+	void ZkDaedalusVm_setGlobalVictim(Pointer slf, Pointer value);
+
+	void ZkDaedalusVm_setGlobalHero(Pointer slf, Pointer value);
+
+	void ZkDaedalusVm_setGlobalItem(Pointer slf, Pointer value);
+
+	void ZkDaedalusVm_callFunction(Pointer slf, Pointer sym);
+
+	Pointer ZkDaedalusVm_initInstance(Pointer slf, Pointer sym, DaedalusInstanceType type);
+
+	void ZkDaedalusVm_registerExternal(Pointer slf, Pointer sym, ZkDaedalusVmExternalCallback cb, Pointer ctx);
+
+	void ZkDaedalusVm_registerExternalDefault(Pointer slf, ZkDaedalusVmExternalDefaultCallback cb, Pointer ctx);
+
+	void ZkDaedalusVm_printStackTrace(Pointer slf);
+
+	int ZkGuildValuesInstance_getWaterDepthKnee(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getWaterDepthChest(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getJumpUpHeight(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getSwimTime(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getDiveTime(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getStepHeight(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getJumpLowHeight(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getJumpMidHeight(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getSlideAngle(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getSlideAngle2(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getDisableAutoRoll(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getSurfaceAlign(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getClimbHeadingAngle(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getClimbHorizAngle(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getClimbGroundAngle(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRangeBase(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRangeFist(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRangeG(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRange1Hs(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRange1Ha(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRange2Hs(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFightRange2Ha(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFallDownHeight(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getFallDownDamage(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getBloodDisabled(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getBloodMaxDistance(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getBloodAmount(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getBloodFlow(Pointer slf, long i);
+
+	int ZkGuildValuesInstance_getTurnSpeed(Pointer slf, long i);
+
+	String ZkGuildValuesInstance_getBloodEmitter(Pointer slf, long i);
+
+	String ZkGuildValuesInstance_getBloodTexture(Pointer slf, long i);
+
+	int ZkNpcInstance_getId(Pointer slf);
+
+	String ZkNpcInstance_getSlot(Pointer slf);
+
+	String ZkNpcInstance_getEffect(Pointer slf);
+
+	NpcInstanceType ZkNpcInstance_getType(Pointer slf);
+
+	int ZkNpcInstance_getFlags(Pointer slf);
+
+	int ZkNpcInstance_getDamageType(Pointer slf);
+
+	int ZkNpcInstance_getGuild(Pointer slf);
+
+	int ZkNpcInstance_getLevel(Pointer slf);
+
+	int ZkNpcInstance_getFightTactic(Pointer slf);
+
+	int ZkNpcInstance_getWeapon(Pointer slf);
+
+	int ZkNpcInstance_getVoice(Pointer slf);
+
+	int ZkNpcInstance_getVoicePitch(Pointer slf);
+
+	int ZkNpcInstance_getBodyMass(Pointer slf);
+
+	int ZkNpcInstance_getDailyRoutine(Pointer slf);
+
+	int ZkNpcInstance_getStartAiState(Pointer slf);
+
+	String ZkNpcInstance_getSpawnPoint(Pointer slf);
+
+	int ZkNpcInstance_getSpawnDelay(Pointer slf);
+
+	int ZkNpcInstance_getSenses(Pointer slf);
+
+	int ZkNpcInstance_getSensesRange(Pointer slf);
+
+	String ZkNpcInstance_getWp(Pointer slf);
+
+	int ZkNpcInstance_getExp(Pointer slf);
+
+	int ZkNpcInstance_getExpNext(Pointer slf);
+
+	int ZkNpcInstance_getLp(Pointer slf);
+
+	int ZkNpcInstance_getBodyStateInterruptableOverride(Pointer slf);
+
+	int ZkNpcInstance_getNoFocus(Pointer slf);
+
+	String ZkNpcInstance_getName(Pointer slf, NpcInstanceNameSlot slot);
+
+	int ZkNpcInstance_getMission(Pointer slf, NpcInstanceMissionSlot slot);
+
+	int ZkNpcInstance_getAttribute(Pointer slf, NpcInstanceAttribute attribute);
+
+	int ZkNpcInstance_getHitChance(Pointer slf, NpcInstanceTalent talent);
+
+	int ZkNpcInstance_getProtection(Pointer slf, DamageType type);
+
+	int ZkNpcInstance_getDamage(Pointer slf, DamageType type);
+
+	int ZkNpcInstance_getAiVar(Pointer slf, long i);
+
+	String ZkMissionInstance_getName(Pointer slf);
+
+	String ZkMissionInstance_getDescription(Pointer slf);
+
+	int ZkMissionInstance_getDuration(Pointer slf);
+
+	int ZkMissionInstance_getImportant(Pointer slf);
+
+	int ZkMissionInstance_getOfferConditions(Pointer slf);
+
+	int ZkMissionInstance_getOffer(Pointer slf);
+
+	int ZkMissionInstance_getSuccessConditions(Pointer slf);
+
+	int ZkMissionInstance_getSuccess(Pointer slf);
+
+	int ZkMissionInstance_getFailureConditions(Pointer slf);
+
+	int ZkMissionInstance_getFailure(Pointer slf);
+
+	int ZkMissionInstance_getObsoleteConditions(Pointer slf);
+
+	int ZkMissionInstance_getObsolete(Pointer slf);
+
+	int ZkMissionInstance_getRunning(Pointer slf);
+
+	int ZkItemInstance_getId(Pointer slf);
+
+	String ZkItemInstance_getName(Pointer slf);
+
+	String ZkItemInstance_getNameId(Pointer slf);
+
+	int ZkItemInstance_getHp(Pointer slf);
+
+	int ZkItemInstance_getHpMax(Pointer slf);
+
+	int ZkItemInstance_getMainFlag(Pointer slf);
+
+	int ZkItemInstance_getFlags(Pointer slf);
+
+	int ZkItemInstance_getWeight(Pointer slf);
+
+	int ZkItemInstance_getValue(Pointer slf);
+
+	int ZkItemInstance_getDamageType(Pointer slf);
+
+	int ZkItemInstance_getDamageTotal(Pointer slf);
+
+	int ZkItemInstance_getWear(Pointer slf);
+
+	int ZkItemInstance_getNutrition(Pointer slf);
+
+	int ZkItemInstance_getMagic(Pointer slf);
+
+	int ZkItemInstance_getOnEquip(Pointer slf);
+
+	int ZkItemInstance_getOnUnequip(Pointer slf);
+
+	int ZkItemInstance_getOwner(Pointer slf);
+
+	int ZkItemInstance_getOwnerGuild(Pointer slf);
+
+	int ZkItemInstance_getDisguiseGuild(Pointer slf);
+
+	String ZkItemInstance_getVisual(Pointer slf);
+
+	String ZkItemInstance_getVisualChange(Pointer slf);
+
+	String ZkItemInstance_getEffect(Pointer slf);
+
+	int ZkItemInstance_getVisualSkin(Pointer slf);
+
+	String ZkItemInstance_getSchemeName(Pointer slf);
+
+	int ZkItemInstance_getMaterial(Pointer slf);
+
+	int ZkItemInstance_getMunition(Pointer slf);
+
+	int ZkItemInstance_getSpell(Pointer slf);
+
+	int ZkItemInstance_getRange(Pointer slf);
+
+	int ZkItemInstance_getMagCircle(Pointer slf);
+
+	String ZkItemInstance_getDescription(Pointer slf);
+
+	int ZkItemInstance_getInvZBias(Pointer slf);
+
+	int ZkItemInstance_getInvRotX(Pointer slf);
+
+	int ZkItemInstance_getInvRotY(Pointer slf);
+
+	int ZkItemInstance_getInvRotZ(Pointer slf);
+
+	int ZkItemInstance_getInvAnimate(Pointer slf);
+
+	int ZkItemInstance_getDamage(Pointer slf, DamageType type);
+
+	int ZkItemInstance_getProtection(Pointer slf, DamageType type);
+
+	int ZkItemInstance_getCondAtr(Pointer slf, ItemInstanceConditionSlot slot);
+
+	int ZkItemInstance_getCondValue(Pointer slf, ItemInstanceConditionSlot slot);
+
+	int ZkItemInstance_getChangeAtr(Pointer slf, ItemInstanceConditionSlot slot);
+
+	int ZkItemInstance_getChangeValue(Pointer slf, ItemInstanceConditionSlot slot);
+
+	int ZkItemInstance_getOnState(Pointer slf, ItemInstanceStateSlot slot);
+
+	String ZkItemInstance_getText(Pointer slf, ItemInstanceTextSlot slot);
+
+	int ZkItemInstance_getCount(Pointer slf, ItemInstanceTextSlot slot);
+
+	float ZkFocusInstance_getNpcLongrange(Pointer slf);
+
+	float ZkFocusInstance_getNpcRange1(Pointer slf);
+
+	float ZkFocusInstance_getNpcRange2(Pointer slf);
+
+	float ZkFocusInstance_getNpcAzi(Pointer slf);
+
+	float ZkFocusInstance_getNpcElevdo(Pointer slf);
+
+	float ZkFocusInstance_getNpcElevup(Pointer slf);
+
+	int ZkFocusInstance_getNpcPrio(Pointer slf);
+
+	float ZkFocusInstance_getItemRange1(Pointer slf);
+
+	float ZkFocusInstance_getItemRange2(Pointer slf);
+
+	float ZkFocusInstance_getItemAzi(Pointer slf);
+
+	float ZkFocusInstance_getItemElevdo(Pointer slf);
+
+	float ZkFocusInstance_getItemElevup(Pointer slf);
+
+	int ZkFocusInstance_getItemPrio(Pointer slf);
+
+	float ZkFocusInstance_getMobRange1(Pointer slf);
+
+	float ZkFocusInstance_getMobRange2(Pointer slf);
+
+	float ZkFocusInstance_getMobAzi(Pointer slf);
+
+	float ZkFocusInstance_getMobElevdo(Pointer slf);
+
+	float ZkFocusInstance_getMobElevup(Pointer slf);
+
+	int ZkFocusInstance_getMobPrio(Pointer slf);
+
+	int ZkInfoInstance_getNpc(Pointer slf);
+
+	int ZkInfoInstance_getNr(Pointer slf);
+
+	int ZkInfoInstance_getImportant(Pointer slf);
+
+	int ZkInfoInstance_getCondition(Pointer slf);
+
+	int ZkInfoInstance_getInformation(Pointer slf);
+
+	String ZkInfoInstance_getDescription(Pointer slf);
+
+	int ZkInfoInstance_getTrade(Pointer slf);
+
+	int ZkInfoInstance_getPermanent(Pointer slf);
+
+	int ZkItemReactInstance_getNpc(Pointer slf);
+
+	int ZkItemReactInstance_getTradeItem(Pointer slf);
+
+	int ZkItemReactInstance_getTradeAmount(Pointer slf);
+
+	int ZkItemReactInstance_getRequestedCategory(Pointer slf);
+
+	int ZkItemReactInstance_getRequestedItem(Pointer slf);
+
+	int ZkItemReactInstance_getRequestedAmount(Pointer slf);
+
+	int ZkItemReactInstance_getReaction(Pointer slf);
+
+	float ZkSpellInstance_getTimePerMana(Pointer slf);
+
+	int ZkSpellInstance_getDamagePerLevel(Pointer slf);
+
+	int ZkSpellInstance_getDamageType(Pointer slf);
+
+	int ZkSpellInstance_getSpellType(Pointer slf);
+
+	int ZkSpellInstance_getCanTurnDuringInvest(Pointer slf);
+
+	int ZkSpellInstance_getCanChangeTargetDuringInvest(Pointer slf);
+
+	int ZkSpellInstance_getIsMultiEffect(Pointer slf);
+
+	int ZkSpellInstance_getTargetCollectAlgo(Pointer slf);
+
+	int ZkSpellInstance_getTargetCollectType(Pointer slf);
+
+	int ZkSpellInstance_getTargetCollectRange(Pointer slf);
+
+	int ZkSpellInstance_getTargetCollectAzi(Pointer slf);
+
+	int ZkSpellInstance_getTargetCollectElevation(Pointer slf);
+
+	String ZkMenuInstance_getBackPic(Pointer slf);
+
+	String ZkMenuInstance_getBackWorld(Pointer slf);
+
+	int ZkMenuInstance_getPosX(Pointer slf);
+
+	int ZkMenuInstance_getPosY(Pointer slf);
+
+	int ZkMenuInstance_getDimX(Pointer slf);
+
+	int ZkMenuInstance_getDimY(Pointer slf);
+
+	int ZkMenuInstance_getAlpha(Pointer slf);
+
+	String ZkMenuInstance_getMusicTheme(Pointer slf);
+
+	int ZkMenuInstance_getEventTimerMsec(Pointer slf);
+
+	int ZkMenuInstance_getFlags(Pointer slf);
+
+	int ZkMenuInstance_getDefaultOutgame(Pointer slf);
+
+	int ZkMenuInstance_getDefaultIngame(Pointer slf);
+
+	String ZkMenuInstance_getItem(Pointer slf, long i);
+
+	String ZkMenuItemInstance_getFontName(Pointer slf);
+
+	String ZkMenuItemInstance_getBackpic(Pointer slf);
+
+	String ZkMenuItemInstance_getAlphaMode(Pointer slf);
+
+	int ZkMenuItemInstance_getAlpha(Pointer slf);
+
+	MenuItemType ZkMenuItemInstance_getType(Pointer slf);
+
+	String ZkMenuItemInstance_getOnChgSetOption(Pointer slf);
+
+	String ZkMenuItemInstance_getOnChgSetOptionSection(Pointer slf);
+
+	int ZkMenuItemInstance_getPosX(Pointer slf);
+
+	int ZkMenuItemInstance_getPosY(Pointer slf);
+
+	int ZkMenuItemInstance_getDimX(Pointer slf);
+
+	int ZkMenuItemInstance_getDimY(Pointer slf);
+
+	float ZkMenuItemInstance_getSizeStartScale(Pointer slf);
+
+	int ZkMenuItemInstance_getFlags(Pointer slf);
+
+	float ZkMenuItemInstance_getOpenDelayTime(Pointer slf);
+
+	float ZkMenuItemInstance_getOpenDuration(Pointer slf);
+
+	int ZkMenuItemInstance_getFramePosX(Pointer slf);
+
+	int ZkMenuItemInstance_getFramePosY(Pointer slf);
+
+	int ZkMenuItemInstance_getFrameSizeX(Pointer slf);
+
+	int ZkMenuItemInstance_getFrameSizeY(Pointer slf);
+
+	String ZkMenuItemInstance_getHideIfOptionSectionSet(Pointer slf);
+
+	String ZkMenuItemInstance_getHideIfOptionSet(Pointer slf);
+
+	int ZkMenuItemInstance_getHideOnValue(Pointer slf);
+
+	String ZkMenuItemInstance_getText(Pointer slf, long i);
+
+	int ZkMenuItemInstance_getOnSelAction(Pointer slf, long i);
+
+	String ZkMenuItemInstance_getOnSelActionS(Pointer slf, long i);
+
+	int ZkMenuItemInstance_getOnEventAction(Pointer slf, long i);
+
+	float ZkMenuItemInstance_getUserFloat(Pointer slf, long i);
+
+	String ZkMenuItemInstance_getUserString(Pointer slf, long i);
+
+	float ZkCameraInstance_getBestRange(Pointer slf);
+
+	float ZkCameraInstance_getMinRange(Pointer slf);
+
+	float ZkCameraInstance_getMaxRange(Pointer slf);
+
+	float ZkCameraInstance_getBestElevation(Pointer slf);
+
+	float ZkCameraInstance_getMinElevation(Pointer slf);
+
+	float ZkCameraInstance_getMaxElevation(Pointer slf);
+
+	float ZkCameraInstance_getBestAzimuth(Pointer slf);
+
+	float ZkCameraInstance_getMinAzimuth(Pointer slf);
+
+	float ZkCameraInstance_getMaxAzimuth(Pointer slf);
+
+	float ZkCameraInstance_getBestRotZ(Pointer slf);
+
+	float ZkCameraInstance_getMinRotZ(Pointer slf);
+
+	float ZkCameraInstance_getMaxRotZ(Pointer slf);
+
+	float ZkCameraInstance_getRotOffsetX(Pointer slf);
+
+	float ZkCameraInstance_getRotOffsetY(Pointer slf);
+
+	float ZkCameraInstance_getRotOffsetZ(Pointer slf);
+
+	float ZkCameraInstance_getTargetOffsetX(Pointer slf);
+
+	float ZkCameraInstance_getTargetOffsetY(Pointer slf);
+
+	float ZkCameraInstance_getTargetOffsetZ(Pointer slf);
+
+	float ZkCameraInstance_getVeloTrans(Pointer slf);
+
+	float ZkCameraInstance_getVeloRot(Pointer slf);
+
+	int ZkCameraInstance_getTranslate(Pointer slf);
+
+	int ZkCameraInstance_getRotate(Pointer slf);
+
+	int ZkCameraInstance_getCollision(Pointer slf);
+
+	float ZkMusicSystemInstance_getVolume(Pointer slf);
+
+	int ZkMusicSystemInstance_getBitResolution(Pointer slf);
+
+	int ZkMusicSystemInstance_getGlobalReverbEnabled(Pointer slf);
+
+	int ZkMusicSystemInstance_getSampleRate(Pointer slf);
+
+	int ZkMusicSystemInstance_getNumChannels(Pointer slf);
+
+	int ZkMusicSystemInstance_getReverbBufferSize(Pointer slf);
+
+	String ZkMusicThemeInstance_getFile(Pointer slf);
+
+	float ZkMusicThemeInstance_getVol(Pointer slf);
+
+	int ZkMusicThemeInstance_getLoop(Pointer slf);
+
+	float ZkMusicThemeInstance_getReverbmix(Pointer slf);
+
+	float ZkMusicThemeInstance_getReverbtime(Pointer slf);
+
+	MusicTransitionEffect ZkMusicThemeInstance_getTranstype(Pointer slf);
+
+	MusicTransitionType ZkMusicThemeInstance_getTranssubtype(Pointer slf);
+
+	String ZkMusicJingleInstance_getName(Pointer slf);
+
+	int ZkMusicJingleInstance_getLoop(Pointer slf);
+
+	float ZkMusicJingleInstance_getVol(Pointer slf);
+
+	int ZkMusicJingleInstance_getTranssubtype(Pointer slf);
+
+	float ZkParticleEffectInstance_getPpsValue(Pointer slf);
+
+	String ZkParticleEffectInstance_getPpsScaleKeysS(Pointer slf);
+
+	int ZkParticleEffectInstance_getPpsIsLooping(Pointer slf);
+
+	int ZkParticleEffectInstance_getPpsIsSmooth(Pointer slf);
+
+	float ZkParticleEffectInstance_getPpsFps(Pointer slf);
+
+	String ZkParticleEffectInstance_getPpsCreateEmS(Pointer slf);
+
+	float ZkParticleEffectInstance_getPpsCreateEmDelay(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpTypeS(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpForS(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpOffsetVecS(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpDistribTypeS(Pointer slf);
+
+	float ZkParticleEffectInstance_getShpDistribWalkSpeed(Pointer slf);
+
+	int ZkParticleEffectInstance_getShpIsVolume(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpDimS(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpMeshS(Pointer slf);
+
+	int ZkParticleEffectInstance_getShpMeshRenderB(Pointer slf);
+
+	String ZkParticleEffectInstance_getShpScaleKeysS(Pointer slf);
+
+	int ZkParticleEffectInstance_getShpScaleIsLooping(Pointer slf);
+
+	int ZkParticleEffectInstance_getShpScaleIsSmooth(Pointer slf);
+
+	float ZkParticleEffectInstance_getShpScaleFps(Pointer slf);
+
+	String ZkParticleEffectInstance_getDirModeS(Pointer slf);
+
+	String ZkParticleEffectInstance_getDirForS(Pointer slf);
+
+	String ZkParticleEffectInstance_getDirModeTargetForS(Pointer slf);
+
+	String ZkParticleEffectInstance_getDirModeTargetPosS(Pointer slf);
+
+	float ZkParticleEffectInstance_getDirAngleHead(Pointer slf);
+
+	float ZkParticleEffectInstance_getDirAngleHeadVar(Pointer slf);
+
+	float ZkParticleEffectInstance_getDirAngleElev(Pointer slf);
+
+	float ZkParticleEffectInstance_getDirAngleElevVar(Pointer slf);
+
+	float ZkParticleEffectInstance_getVelAvg(Pointer slf);
+
+	float ZkParticleEffectInstance_getVelVar(Pointer slf);
+
+	float ZkParticleEffectInstance_getLspPartAvg(Pointer slf);
+
+	float ZkParticleEffectInstance_getLspPartVar(Pointer slf);
+
+	String ZkParticleEffectInstance_getFlyGravityS(Pointer slf);
+
+	int ZkParticleEffectInstance_getFlyColldetB(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisNameS(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisOrientationS(Pointer slf);
+
+	int ZkParticleEffectInstance_getVisTexIsQuadpoly(Pointer slf);
+
+	float ZkParticleEffectInstance_getVisTexAniFps(Pointer slf);
+
+	int ZkParticleEffectInstance_getVisTexAniIsLooping(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisTexColorStartS(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisTexColorEndS(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisSizeStartS(Pointer slf);
+
+	float ZkParticleEffectInstance_getVisSizeEndScale(Pointer slf);
+
+	String ZkParticleEffectInstance_getVisAlphaFuncS(Pointer slf);
+
+	float ZkParticleEffectInstance_getVisAlphaStart(Pointer slf);
+
+	float ZkParticleEffectInstance_getVisAlphaEnd(Pointer slf);
+
+	float ZkParticleEffectInstance_getTrlFadeSpeed(Pointer slf);
+
+	String ZkParticleEffectInstance_getTrlTextureS(Pointer slf);
+
+	float ZkParticleEffectInstance_getTrlWidth(Pointer slf);
+
+	float ZkParticleEffectInstance_getMrkFadesPeed(Pointer slf);
+
+	String ZkParticleEffectInstance_getMrktExtureS(Pointer slf);
+
+	float ZkParticleEffectInstance_getMrkSize(Pointer slf);
+
+	String ZkParticleEffectInstance_getFlockMode(Pointer slf);
+
+	float ZkParticleEffectInstance_getFlockStrength(Pointer slf);
+
+	int ZkParticleEffectInstance_getUseEmittersFor(Pointer slf);
+
+	String ZkParticleEffectInstance_getTimeStartEndS(Pointer slf);
+
+	int ZkParticleEffectInstance_getMBiasAmbientPfx(Pointer slf);
+
+	String ZkEffectBaseInstance_getVisNameS(Pointer slf);
+
+	String ZkEffectBaseInstance_getVisSizeS(Pointer slf);
+
+	float ZkEffectBaseInstance_getVisAlpha(Pointer slf);
+
+	String ZkEffectBaseInstance_getVisAlphaBlendFuncS(Pointer slf);
+
+	float ZkEffectBaseInstance_getVisTexAniFps(Pointer slf);
+
+	int ZkEffectBaseInstance_getVisTexAniIsLooping(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmTrjModeS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmTrjOriginNode(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmTrjTargetNode(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjTargetRange(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjTargetAzi(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjTargetElev(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmTrjNumKeys(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmTrjNumKeysVar(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjAngleElevVar(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjAngleHeadVar(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjKeyDistVar(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmTrjLoopModeS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmTrjEaseFuncS(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjEaseVel(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmTrjDynUpdateDelay(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmTrjDynUpdateTargetOnly(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCreateS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxInvestOriginS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxInvestTargetS(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmFxTriggerDelay(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmFxCreateDownTrj(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmActionCollDynS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmActionCollStatS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCollStatS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCollDynS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCollStatAlignS(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCollDynAlignS(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmFxLifespan(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmCheckCollision(Pointer slf);
+
+	int ZkEffectBaseInstance_getEmAdjustShpToOrigin(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmInvestNextKeyDuration(Pointer slf);
+
+	float ZkEffectBaseInstance_getEmFlyGravity(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmSelfRotVelS(Pointer slf);
+
+	String ZkEffectBaseInstance_getLightPresetName(Pointer slf);
+
+	String ZkEffectBaseInstance_getSfxId(Pointer slf);
+
+	int ZkEffectBaseInstance_getSfxIsAmbient(Pointer slf);
+
+	int ZkEffectBaseInstance_getSendAssessMagic(Pointer slf);
+
+	float ZkEffectBaseInstance_getSecsPerDamage(Pointer slf);
+
+	String ZkEffectBaseInstance_getEmFxCollDynPercS(Pointer slf);
+
+	String ZkEffectBaseInstance_getUserString(Pointer slf, long i);
+
+	String ZkParticleEffectEmitKeyInstance_getVisNameS(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getVisSizeScale(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getScaleDuration(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxPpsValue(Pointer slf);
+
+	int ZkParticleEffectEmitKeyInstance_getPfxPpsIsSmoothChg(Pointer slf);
+
+	int ZkParticleEffectEmitKeyInstance_getPfxPpsIsLoopingChg(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxScTime(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxFlyGravityS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxShpDimS(Pointer slf);
+
+	int ZkParticleEffectEmitKeyInstance_getPfxShpIsVolumeChg(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxShpScaleFps(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxShpDistribWalksPeed(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxShpOffsetVecS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxShpDistribTypeS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxDirModeS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxDirForS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxDirModeTargetForS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getPfxDirModeTargetPosS(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxVelAvg(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxLspPartAvg(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getPfxVisAlphaStart(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getLightPresetName(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getLightRange(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getSfxId(Pointer slf);
+
+	int ZkParticleEffectEmitKeyInstance_getSfxIsAmbient(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getEmCreateFxId(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getEmFlyGravity(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getEmSelfRotVelS(Pointer slf);
+
+	String ZkParticleEffectEmitKeyInstance_getEmTrjModeS(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getEmTrjEaseVel(Pointer slf);
+
+	int ZkParticleEffectEmitKeyInstance_getEmCheckCollision(Pointer slf);
+
+	float ZkParticleEffectEmitKeyInstance_getEmFxLifespan(Pointer slf);
+
+	FightAiMove ZkFightAiInstance_getMove(Pointer slf, long i);
+
+	String ZkSoundEffectInstance_getFile(Pointer slf);
+
+	int ZkSoundEffectInstance_getPitchOff(Pointer slf);
+
+	int ZkSoundEffectInstance_getPitchVar(Pointer slf);
+
+	int ZkSoundEffectInstance_getVolume(Pointer slf);
+
+	int ZkSoundEffectInstance_getLoop(Pointer slf);
+
+	int ZkSoundEffectInstance_getLoopStartOffset(Pointer slf);
+
+	int ZkSoundEffectInstance_getLoopEndOffset(Pointer slf);
+
+	float ZkSoundEffectInstance_getReverbLevel(Pointer slf);
+
+	String ZkSoundEffectInstance_getPfxName(Pointer slf);
+
+	float ZkSoundSystemInstance_getVolume(Pointer slf);
+
+	int ZkSoundSystemInstance_getBitResolution(Pointer slf);
+
+	int ZkSoundSystemInstance_getSampleRate(Pointer slf);
+
+	int ZkSoundSystemInstance_getUseStereo(Pointer slf);
+
+	int ZkSoundSystemInstance_getNumSfxChannels(Pointer slf);
+
+	String ZkSoundSystemInstance_getUsed3DProviderName(Pointer slf);
+
+
 	DaedalusDataType ZkDaedalusSymbol_getType(Pointer slf);
 
 	int ZkDaedalusSymbol_getIndex(Pointer slf);
@@ -1646,6 +2503,14 @@ public interface ZenKitNative extends Library {
 
 	interface ZkDaedalusSymbolEnumerator extends Callback {
 		boolean invoke(Pointer ctx, Pointer symbol);
+	}
+
+	interface ZkDaedalusVmExternalDefaultCallback extends Callback {
+		void invoke(Pointer ctx, Pointer vm, Pointer sym);
+	}
+
+	interface ZkDaedalusVmExternalCallback extends Callback {
+		void invoke(Pointer ctx, Pointer vm);
 	}
 
 	final class ZkReadExt extends Structure {

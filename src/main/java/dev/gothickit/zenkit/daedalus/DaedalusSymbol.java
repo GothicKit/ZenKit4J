@@ -12,6 +12,10 @@ public class DaedalusSymbol {
 		this.handle = handle;
 	}
 
+	public Pointer getHandle() {
+		return handle;
+	}
+
 	public String getString(short index, @Nullable DaedalusInstance context) {
 		return ZenKit.API.ZkDaedalusSymbol_getString(
 				handle,
@@ -54,27 +58,27 @@ public class DaedalusSymbol {
 		ZenKit.API.ZkDaedalusSymbol_setInt(handle, value, index, context == null ? Pointer.NULL : context.getHandle());
 	}
 
-	public boolean getIsConst() {
+	public boolean isConst() {
 		return ZenKit.API.ZkDaedalusSymbol_getIsConst(handle);
 	}
 
-	public boolean getIsMember() {
+	public boolean isMember() {
 		return ZenKit.API.ZkDaedalusSymbol_getIsMember(handle);
 	}
 
-	public boolean getIsExternal() {
+	public boolean isExternal() {
 		return ZenKit.API.ZkDaedalusSymbol_getIsExternal(handle);
 	}
 
-	public boolean getIsMerged() {
+	public boolean isMerged() {
 		return ZenKit.API.ZkDaedalusSymbol_getIsMerged(handle);
 	}
 
-	public boolean getIsGenerated() {
+	public boolean isGenerated() {
 		return ZenKit.API.ZkDaedalusSymbol_getIsGenerated(handle);
 	}
 
-	public boolean getHasReturn() {
+	public boolean hasReturn() {
 		return ZenKit.API.ZkDaedalusSymbol_getHasReturn(handle);
 	}
 

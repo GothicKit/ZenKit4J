@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaedalusScript {
-	private final Handle handle;
+	protected final Handle handle;
 
 	public DaedalusScript(@NotNull Read buf) {
 		this.handle = new Handle(ZenKit.API.ZkDaedalusScript_load(buf.getHandle()), ZenKit.API::ZkDaedalusScript_del);
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusScript");
+		ZenKit.CLEANER.register(this, handle);
 	}
 
 	public DaedalusScript(String path) {
 		this.handle = new Handle(ZenKit.API.ZkDaedalusScript_loadPath(path), ZenKit.API::ZkDaedalusScript_del);
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusScript");
+		ZenKit.CLEANER.register(this, handle);
 	}
 
 	public DaedalusScript(@NotNull Vfs vfs, String name) {
@@ -29,6 +31,12 @@ public class DaedalusScript {
 				ZenKit.API::ZkDaedalusScript_del
 		);
 		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusScript");
+		ZenKit.CLEANER.register(this, handle);
+	}
+
+	protected DaedalusScript(Handle handle) {
+		this.handle = handle;
+		ZenKit.CLEANER.register(this, handle);
 	}
 
 	public Pointer getHandle() {

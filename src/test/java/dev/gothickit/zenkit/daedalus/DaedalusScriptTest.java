@@ -48,13 +48,13 @@ class DaedalusScriptTest {
 		assertEquals("C_MENU", classSymbol.getName());
 		assertEquals(13, classSymbol.getSize());
 		assertEquals(DaedalusDataType.CLASS, classSymbol.getType());
-		assertFalse(classSymbol.getHasReturn());
+		assertFalse(classSymbol.hasReturn());
 
 		assertEquals("SHOWINTRO", functionSymbol.getName());
 		assertEquals(0, functionSymbol.getSize());
 		assertEquals(1877, functionSymbol.getAddress());
 		assertEquals(DaedalusDataType.FUNCTION, functionSymbol.getType());
 		assertEquals(DaedalusDataType.INT, functionSymbol.getReturnType());
-		assertTrue(functionSymbol.getHasReturn());
+		assertTrue(functionSymbol.hasReturn());
 	}
 }

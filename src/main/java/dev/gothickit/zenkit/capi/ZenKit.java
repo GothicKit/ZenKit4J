@@ -17,7 +17,7 @@ public final class ZenKit {
 	}
 
 	public static ZenKitNative load() {
-		if (API == null) API = load("czenkit");
+		if (API == null) API = load("zenkitcapi");
 		return API;
 	}
 }
