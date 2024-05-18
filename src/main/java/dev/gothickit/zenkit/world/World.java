@@ -50,7 +50,6 @@ public class World {
 
 	public long getRootObjectCount() {
 		return ZenKit.API.ZkWorld_getRootObjectCount(getHandle());
-
 	}
 
 	public VirtualObject getRootObject(long i) {

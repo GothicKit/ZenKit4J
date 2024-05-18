@@ -32,4 +32,32 @@ class SoundTest {
 		assertEquals(3000.0f, vob.getRadius());
 		assertEquals("OW_CROW", vob.getSoundName());
 	}
+
+	@Test
+	void set() {
+		var vob = new Sound(Util.getResource("G2/VOb/zCVobSound.zen"), GameVersion.GOTHIC_2);
+		vob.setVolume(0);
+		vob.setMode(SoundMode.LOOP);
+		vob.setRandomDelay(0);
+		vob.setRandomDelayVar(0);
+		vob.setInitiallyPlaying(false);
+		vob.setAmbient3d(true);
+		vob.setObstruction(true);
+		vob.setConeAngle(1);
+		vob.setVolumeType(SoundTriggerVolumeType.ELLIPSOIDAL);
+		vob.setRadius(0);
+		vob.setSoundName("test");
+
+		assertEquals(0.0f, vob.getVolume());
+		assertEquals(SoundMode.LOOP, vob.getMode());
+		assertEquals(0.0f, vob.getRandomDelay());
+		assertEquals(0.0f, vob.getRandomDelayVar());
+		assertFalse(vob.getInitiallyPlaying());
+		assertTrue(vob.isAmbient3d());
+		assertTrue(vob.getObstruction());
+		assertEquals(1.0f, vob.getConeAngle());
+		assertEquals(SoundTriggerVolumeType.ELLIPSOIDAL, vob.getVolumeType());
+		assertEquals(0.0f, vob.getRadius());
+		assertEquals("test", vob.getSoundName());
+	}
 }

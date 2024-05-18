@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class TriggerUntouch extends VirtualObject {
+	public TriggerUntouch() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCTriggerUntouch));
+	}
+
 	public TriggerUntouch(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkTriggerUntouch_load(buf.getHandle(), version), ZenKit.API::ZkTriggerUntouch_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load TriggerUntouch vob");
@@ -24,10 +28,14 @@ public class TriggerUntouch extends VirtualObject {
 	}
 
 	public TriggerUntouch(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkTriggerUntouch_del);
 	}
 
 	public String getTarget() {
 		return ZenKit.API.ZkTriggerUntouch_getTarget(getHandle());
+	}
+
+	public void setTarget(String val) {
+		ZenKit.API.ZkTriggerUntouch_setTarget(getHandle(), val);
 	}
 }

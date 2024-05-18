@@ -46,8 +46,17 @@ public class CutsceneLibrary {
 		return this.handle.get();
 	}
 
+	public long getBlockCount() {
+		return ZenKit.API.ZkCutsceneLibrary_getBlockCount(this.getHandle());
+	}
+
 	public @Nullable CutsceneBlock getBlock(String name) {
 		var handle = ZenKit.API.ZkCutsceneLibrary_getBlock(this.getHandle(), name);
+		return handle == Pointer.NULL ? null : new CutsceneBlock(handle);
+	}
+
+	public @Nullable CutsceneBlock getBlock(long i) {
+		var handle = ZenKit.API.ZkCutsceneLibrary_getBlockByIndex(this.getHandle(), i);
 		return handle == Pointer.NULL ? null : new CutsceneBlock(handle);
 	}
 

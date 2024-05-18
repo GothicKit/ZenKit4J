@@ -46,28 +46,36 @@ public class SoftSkinMesh {
 	}
 
 	public SoftSkinWeightEntry[] getWeights(long node) {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkSoftSkinMesh_getWeights(handle, node, count);
-		if (ptr == null || count.getValue() == 0) return new SoftSkinWeightEntry[0];
-		return (SoftSkinWeightEntry[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkSoftSkinMesh_getWeightCount(handle, node);
+		var weights = new SoftSkinWeightEntry[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkSoftSkinMesh_getWeight(handle, node, i);
+		}
+
+		return weights;
 	}
 
 	public List<SoftSkinWeightEntry[]> getWeights() {
 		var weights = new ArrayList<SoftSkinWeightEntry[]>();
+		var count = ZenKit.API.ZkSoftSkinMesh_getWeightTotal(getHandle());
 
-		ZenKit.API.ZkSoftSkinMesh_enumerateWeights(handle, (ctx, entry, count) -> {
-			weights.add((SoftSkinWeightEntry[]) entry.toArray((int) count));
-			return false;
-		}, Pointer.NULL);
+		for (int i = 0; i < count; i++) {
+			weights.add(getWeights(i));
+		}
 
 		return weights;
 	}
 
 	public SoftSkinWedgeNormal[] getWedgeNormals() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkSoftSkinMesh_getWedgeNormals(handle, count);
-		if (ptr == null || count.getValue() == 0) return new SoftSkinWedgeNormal[0];
-		return (SoftSkinWedgeNormal[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkSoftSkinMesh_getWedgeNormalCount(handle);
+		var weights = new SoftSkinWedgeNormal[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkSoftSkinMesh_getWedgeNormal(handle, i);
+		}
+
+		return weights;
 	}
 
 	public int[] getNodes() {

@@ -5,8 +5,12 @@ import dev.gothickit.zenkit.Mat4x4;
 import dev.gothickit.zenkit.capi.ZenKit;
 
 public class CameraTrajectoryFrame extends VirtualObject {
+	public CameraTrajectoryFrame() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCCamTrj_KeyFrame));
+	}
+
 	protected CameraTrajectoryFrame(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkCameraTrajectoryFrame_del);
 	}
 
 	public float getTime() {
@@ -59,5 +63,57 @@ public class CameraTrajectoryFrame extends VirtualObject {
 
 	public Mat4x4 getOriginalPose() {
 		return ZenKit.API.ZkCameraTrajectoryFrame_getOriginalPose(getHandle());
+	}
+
+	public void setTime(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setTime(getHandle(), val);
+	}
+
+	public void setRollAngle(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setRollAngle(getHandle(), val);
+	}
+
+	public void setFovScale(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setFovScale(getHandle(), val);
+	}
+
+	public void setMotionType(CameraMotion val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionType(getHandle(), val);
+	}
+
+	public void setMotionTypeFov(CameraMotion val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeFov(getHandle(), val);
+	}
+
+	public void setMotionTypeRoll(CameraMotion val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeRoll(getHandle(), val);
+	}
+
+	public void setMotionTypeTimeScale(CameraMotion val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeTimeScale(getHandle(), val);
+	}
+
+	public void setTension(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setTension(getHandle(), val);
+	}
+
+	public void setCamBias(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setCamBias(getHandle(), val);
+	}
+
+	public void setContinuity(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setContinuity(getHandle(), val);
+	}
+
+	public void setTimeScale(float val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setTimeScale(getHandle(), val);
+	}
+
+	public void setTimeFixed(boolean val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setTimeFixed(getHandle(), val);
+	}
+
+	public void setOriginalPose(Mat4x4 val) {
+		ZenKit.API.ZkCameraTrajectoryFrame_setOriginalPose(getHandle(), new Mat4x4.ByValue(val));
 	}
 }

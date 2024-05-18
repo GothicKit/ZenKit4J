@@ -24,4 +24,12 @@ class MessageFilterTest {
 		assertEquals(MessageFilterAction.UNTRIGGER, vob.getOnTrigger());
 		assertEquals(MessageFilterAction.UNTRIGGER, vob.getOnUntrigger());
 	}
+
+	@Test
+	void set() {
+		var vob = new MessageFilter(Util.getResource("G2/VOb/zCMessageFilter.zen"), GameVersion.GOTHIC_2);
+		vob.setTarget("Test");
+		vob.setOnTrigger(MessageFilterAction.NONE);
+		vob.setOnUntrigger(MessageFilterAction.NONE);
+	}
 }

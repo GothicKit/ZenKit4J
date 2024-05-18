@@ -33,4 +33,20 @@ class MovableObjectTest {
 		assertEquals("", vob.getOwnerGuild());
 		assertFalse(vob.isDestroyed());
 	}
+
+	@Test
+	void set() {
+		var vob = new MovableObject(Util.getResource("G2/VOb/oCMOB.zen"), GameVersion.GOTHIC_2);
+		vob.setFocusName("test");
+		vob.setHp(0);
+		vob.setDamage(0);
+		vob.setMovable(true);
+		vob.setTakable(false);
+		vob.setFocusOverride(true);
+		vob.setMaterial(SoundMaterialType.WOOD);
+		vob.setVisualDestroyed("test");
+		vob.setOwner("test");
+		vob.setOwnerGuild("test");
+		vob.setDestroyed(true);
+	}
 }

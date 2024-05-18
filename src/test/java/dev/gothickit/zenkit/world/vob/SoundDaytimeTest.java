@@ -24,4 +24,16 @@ class SoundDaytimeTest {
 		assertEquals(21, vob.getEndTime());
 		assertEquals("InsectsFrogs_Night", vob.getSoundNameDaytime());
 	}
+
+	@Test
+	void set() {
+		var vob = new SoundDaytime(Util.getResource("G2/VOb/zCVobSoundDaytime.zen"), GameVersion.GOTHIC_2);
+		vob.setStartTime(0);
+		vob.setEndTime(0);
+		vob.setSoundNameDaytime("test");
+
+		assertEquals(0, vob.getStartTime());
+		assertEquals(0, vob.getEndTime());
+		assertEquals("test", vob.getSoundNameDaytime());
+	}
 }

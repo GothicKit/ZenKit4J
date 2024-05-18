@@ -8,8 +8,9 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class MoverTest {
 	@BeforeAll
@@ -46,5 +47,46 @@ class MoverTest {
 		assertFalse(vob.isLocked());
 		assertFalse(vob.getAutoLink());
 		assertFalse(vob.getAutoRotate());
+	}
+
+	@Test
+	void set() {
+		var vob = new Mover(Util.getResource("G2/VOb/zCMover.zen"), GameVersion.GOTHIC_2);
+		vob.setBehavior(MoverBehavior.LOOP);
+		vob.setTouchBlockerDamage(1);
+		vob.setStayOpenTime(Duration.ZERO);
+		vob.setSpeed(0);
+		vob.setLerpType(MoverLerpType.LINEAR);
+		vob.setSpeedType(MoverSpeedType.CONSTANT);
+
+		vob.setSfxOpenStart("a");
+		vob.setSfxOpenEnd("b");
+		vob.setSfxTransitioning("c");
+		vob.setSfxCloseStart("d");
+		vob.setSfxCloseEnd("e");
+		vob.setSfxLock("f");
+		vob.setSfxUnlock("g");
+		vob.setSfxUseLocked("h");
+		vob.setLocked(true);
+		vob.setAutoLink(true);
+		vob.setAutoRotate(true);
+
+		assertEquals(MoverBehavior.LOOP, vob.getBehavior());
+		assertEquals(1, vob.getTouchBlockerDamage());
+		assertEquals(0, vob.getStayOpenTime().getSeconds());
+		assertEquals(0, vob.getSpeed());
+		assertEquals(MoverLerpType.LINEAR, vob.getLerpType());
+		assertEquals(MoverSpeedType.CONSTANT, vob.getSpeedType());
+		assertEquals("a", vob.getSfxOpenStart());
+		assertEquals("b", vob.getSfxOpenEnd());
+		assertEquals("c", vob.getSfxTransitioning());
+		assertEquals("d", vob.getSfxCloseStart());
+		assertEquals("e", vob.getSfxCloseEnd());
+		assertEquals("f", vob.getSfxLock());
+		assertEquals("g", vob.getSfxUnlock());
+		assertEquals("h", vob.getSfxUseLocked());
+		assertTrue(vob.isLocked());
+		assertTrue(vob.getAutoLink());
+		assertTrue(vob.getAutoRotate());
 	}
 }

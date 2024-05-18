@@ -25,6 +25,12 @@ public class Vec2f extends Structure {
 	}
 
 	public static class ByValue extends Vec2f implements Structure.ByValue {
+		public ByValue(Vec2f vec) {
+			super(vec.x, vec.y);
+		}
+
+		public ByValue() {
+		}
 	}
 
 	public static class ByReference extends Vec2f implements Structure.ByReference {

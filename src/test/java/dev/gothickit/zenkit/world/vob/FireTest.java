@@ -23,4 +23,14 @@ class FireTest {
 		assertEquals("BIP01 FIRE", vob.getSlot());
 		assertEquals("FIRETREE_LAMP.ZEN", vob.getVobTree());
 	}
+
+	@Test
+	void set() {
+		var vob = new Fire(Util.getResource("G2/VOb/oCMobFire.zen"), GameVersion.GOTHIC_2);
+		vob.setSlot("test");
+		vob.setVobTree("test");
+
+		assertEquals("test", vob.getSlot());
+		assertEquals("test", vob.getVobTree());
+	}
 }

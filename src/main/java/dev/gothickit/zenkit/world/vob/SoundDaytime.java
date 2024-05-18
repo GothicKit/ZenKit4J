@@ -7,6 +7,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class SoundDaytime extends Sound {
+	public SoundDaytime() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCVobSoundDaytime));
+	}
+
 	public SoundDaytime(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkSoundDaytime_load(buf.getHandle(), version), ZenKit.API::ZkSoundDaytime_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load SoundDaytime vob");
@@ -18,7 +22,7 @@ public class SoundDaytime extends Sound {
 	}
 
 	public SoundDaytime(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkSoundDaytime_del);
 	}
 
 	public float getStartTime() {
@@ -31,5 +35,17 @@ public class SoundDaytime extends Sound {
 
 	public String getSoundNameDaytime() {
 		return ZenKit.API.ZkSoundDaytime_getSoundNameDaytime(getHandle());
+	}
+
+	public void setStartTime(float val) {
+		ZenKit.API.ZkSoundDaytime_setStartTime(getHandle(), val);
+	}
+
+	public void setEndTime(float val) {
+		ZenKit.API.ZkSoundDaytime_setEndTime(getHandle(), val);
+	}
+
+	public void setSoundNameDaytime(String val) {
+		ZenKit.API.ZkSoundDaytime_setSoundNameDaytime(getHandle(), val);
 	}
 }

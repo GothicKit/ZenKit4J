@@ -8,6 +8,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class ZoneFog extends VirtualObject {
+	public ZoneFog() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCZoneZFog));
+	}
+
 	public ZoneFog(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkZoneFog_load(buf.getHandle(), version), ZenKit.API::ZkZoneFog_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFog vob");
@@ -19,7 +23,7 @@ public class ZoneFog extends VirtualObject {
 	}
 
 	public ZoneFog(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkZoneFog_del);
 	}
 
 	public float getRangeCenter() {
@@ -42,4 +46,23 @@ public class ZoneFog extends VirtualObject {
 		return ZenKit.API.ZkZoneFog_getOverrideColor(getHandle());
 	}
 
+	public void setRangeCenter(float val) {
+		ZenKit.API.ZkZoneFog_setRangeCenter(getHandle(), val);
+	}
+
+	public void setInnerRangePercentage(float val) {
+		ZenKit.API.ZkZoneFog_setInnerRangePercentage(getHandle(), val);
+	}
+
+	public void setColor(Color val) {
+		ZenKit.API.ZkZoneFog_setColor(getHandle(), new Color.ByValue(val));
+	}
+
+	public void setFadeOutSky(boolean val) {
+		ZenKit.API.ZkZoneFog_setFadeOutSky(getHandle(), val);
+	}
+
+	public void setOverrideColor(boolean val) {
+		ZenKit.API.ZkZoneFog_setOverrideColor(getHandle(), val);
+	}
 }

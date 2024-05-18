@@ -8,8 +8,7 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DoorTest {
 	@BeforeAll
@@ -24,5 +23,17 @@ class DoorTest {
 		assertFalse(vob.isLocked());
 		assertEquals("", vob.getKey());
 		assertEquals("", vob.getPickString());
+	}
+
+	@Test
+	void set() {
+		var vob = new Door(Util.getResource("G2/VOb/oCMobDoor.zen"), GameVersion.GOTHIC_2);
+		vob.setLocked(true);
+		vob.setKey("test");
+		vob.setPickString("test");
+
+		assertTrue(vob.isLocked());
+		assertEquals("test", vob.getKey());
+		assertEquals("test", vob.getPickString());
 	}
 }

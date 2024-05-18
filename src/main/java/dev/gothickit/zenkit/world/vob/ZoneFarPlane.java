@@ -7,6 +7,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class ZoneFarPlane extends VirtualObject {
+	public ZoneFarPlane() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCZoneVobFarPlane));
+	}
+
 	public ZoneFarPlane(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkZoneFarPlane_load(buf.getHandle(), version), ZenKit.API::ZkZoneFarPlane_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFarPlane vob");
@@ -18,7 +22,7 @@ public class ZoneFarPlane extends VirtualObject {
 	}
 
 	public ZoneFarPlane(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkZoneFarPlane_del);
 	}
 
 	public float getVobFarPlaneZ() {
@@ -27,5 +31,13 @@ public class ZoneFarPlane extends VirtualObject {
 
 	public float getInnerRangePercentage() {
 		return ZenKit.API.ZkZoneFarPlane_getInnerRangePercentage(getHandle());
+	}
+
+	public void setVobFarPlaneZ(float val) {
+		ZenKit.API.ZkZoneFarPlane_setVobFarPlaneZ(getHandle(), val);
+	}
+
+	public void setInnerRangePercentage(float val) {
+		ZenKit.API.ZkZoneFarPlane_setInnerRangePercentage(getHandle(), val);
 	}
 }

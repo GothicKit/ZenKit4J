@@ -27,4 +27,22 @@ class ZoneMusicTest {
 		assertEquals(1.0f, vob.getVolume());
 		assertTrue(vob.isLoop());
 	}
+
+	@Test
+	void set() {
+		var vob = new ZoneMusic(Util.getResource("G2/VOb/oCZoneMusic.zen"), GameVersion.GOTHIC_2);
+		vob.setEnabled(false);
+		vob.setPriority(0);
+		vob.setEllipsoid(true);
+		vob.setReverb(0);
+		vob.setVolume(0);
+		vob.setLoop(false);
+
+		assertFalse(vob.isEnabled());
+		assertEquals(0, vob.getPriority());
+		assertTrue(vob.isEllipsoid());
+		assertEquals(0, vob.getReverb());
+		assertEquals(0f, vob.getVolume());
+		assertFalse(vob.isLoop());
+	}
 }

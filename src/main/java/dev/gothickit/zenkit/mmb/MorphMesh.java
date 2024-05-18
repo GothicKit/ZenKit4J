@@ -1,7 +1,6 @@
 package dev.gothickit.zenkit.mmb;
 
 import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.Read;
 import dev.gothickit.zenkit.Vec3f;
 import dev.gothickit.zenkit.capi.ZenKit;
@@ -44,10 +43,14 @@ public class MorphMesh {
 	}
 
 	public Vec3f[] getMorphPositions() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkMorphMesh_getMorphPositions(this.getHandle(), count);
-		if (ptr == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkMorphMesh_getMorphPositionCount(getHandle());
+		var weights = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkMorphMesh_getMorphPosition(getHandle(), i);
+		}
+
+		return weights;
 	}
 
 	public long getAnimationCount() {

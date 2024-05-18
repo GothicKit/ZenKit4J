@@ -1,7 +1,6 @@
 package dev.gothickit.zenkit.mrm;
 
 import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.AxisAlignedBoundingBox;
 import dev.gothickit.zenkit.OrientedBoundingBox;
 import dev.gothickit.zenkit.Read;
@@ -61,17 +60,25 @@ public class MultiResolutionMesh {
 	}
 
 	public Vec3f[] getPositions() {
-		var count = new IntByReference();
-		var positions = ZenKit.API.ZkMultiResolutionMesh_getPositions(this.getHandle(), count);
-		if (positions == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) positions.toArray(count.getValue());
+		var count = ZenKit.API.ZkMultiResolutionMesh_getPositionCount(this.getHandle());
+		Vec3f[] positions = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			positions[i] = ZenKit.API.ZkMultiResolutionMesh_getPosition(this.getHandle(), i);
+		}
+
+		return positions;
 	}
 
 	public Vec3f[] getNormals() {
-		var count = new IntByReference();
-		var normals = ZenKit.API.ZkMultiResolutionMesh_getNormals(this.getHandle(), count);
-		if (normals == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) normals.toArray(count.getValue());
+		var count = ZenKit.API.ZkMultiResolutionMesh_getNormalCount(this.getHandle());
+		Vec3f[] normals = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			normals[i] = ZenKit.API.ZkMultiResolutionMesh_getNormal(this.getHandle(), i);
+		}
+
+		return normals;
 	}
 
 	public long getSubMeshCount() {

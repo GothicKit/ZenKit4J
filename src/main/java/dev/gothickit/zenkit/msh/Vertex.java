@@ -9,4 +9,7 @@ public class Vertex extends Structure {
 	public Vec2f texture;
 	public int light;
 	public Vec3f normal;
+
+	public static class ByValue extends Vertex implements Structure.ByValue {
+	}
 }

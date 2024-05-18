@@ -1,7 +1,6 @@
 package dev.gothickit.zenkit.msh;
 
 import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 import dev.gothickit.zenkit.AxisAlignedBoundingBox;
 import dev.gothickit.zenkit.OrientedBoundingBox;
 import dev.gothickit.zenkit.Read;
@@ -81,17 +80,25 @@ public class Mesh {
 	}
 
 	public Vec3f[] getPositions() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkMesh_getPositions(getHandle(), count);
-		if (ptr == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkMesh_getPositionCount(getHandle());
+		var weights = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkMesh_getPosition(getHandle(), i);
+		}
+
+		return weights;
 	}
 
 	public Vertex[] getVertices() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkMesh_getVertices(getHandle(), count);
-		if (ptr == null || count.getValue() == 0) return new Vertex[0];
-		return (Vertex[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkMesh_getVertexCount(getHandle());
+		var weights = new Vertex[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkMesh_getVertex(getHandle(), i);
+		}
+
+		return weights;
 	}
 
 	public long getLightMapCount() {

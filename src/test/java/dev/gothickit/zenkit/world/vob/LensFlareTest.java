@@ -22,4 +22,10 @@ class LensFlareTest {
 		var vob = new LensFlare(Util.getResource("G1/VOb/zCVobLensFlare.zen"), GameVersion.GOTHIC_1);
 		assertEquals("TORCHFX01", vob.getEffect());
 	}
+
+	@Test
+	void set() {
+		var vob = new LensFlare(Util.getResource("G1/VOb/zCVobLensFlare.zen"), GameVersion.GOTHIC_1);
+		vob.setEffect("test");
+	}
 }

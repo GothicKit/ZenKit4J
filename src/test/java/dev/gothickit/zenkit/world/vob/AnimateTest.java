@@ -22,4 +22,10 @@ class AnimateTest {
 		var vob = new Animate(Util.getResource("G2/VOb/zCVobAnimate.zen"), GameVersion.GOTHIC_2);
 		assertTrue(vob.getStartOn());
 	}
+
+	@Test
+	void set() {
+		var vob = new Animate(Util.getResource("G2/VOb/zCVobAnimate.zen"), GameVersion.GOTHIC_2);
+		vob.setStartOn(false);
+	}
 }

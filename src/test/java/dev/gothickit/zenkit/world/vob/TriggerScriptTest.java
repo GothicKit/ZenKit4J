@@ -22,4 +22,11 @@ class TriggerScriptTest {
 		var vob = new TriggerScript(Util.getResource("G2/VOb/oCTriggerScript.zen"), GameVersion.GOTHIC_2);
 		assertEquals("EVT_CAVALORNSGOBBOS_FUNC", vob.getFunction());
 	}
+
+	@Test
+	void set() {
+		var vob = new TriggerScript(Util.getResource("G2/VOb/oCTriggerScript.zen"), GameVersion.GOTHIC_2);
+		vob.setFunction("test");
+		assertEquals("test", vob.getFunction());
+	}
 }

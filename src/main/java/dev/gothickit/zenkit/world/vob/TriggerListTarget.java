@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.capi.ZenKit;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
@@ -18,5 +19,13 @@ public class TriggerListTarget {
 
 	public Duration getDelay() {
 		return Duration.ofSeconds((long) ZenKit.API.ZkTriggerListTarget_getDelaySeconds(handle));
+	}
+
+	public void setName(String val) {
+		ZenKit.API.ZkTriggerListTarget_setName(handle, val);
+	}
+
+	public void setDelay(@NotNull Duration val) {
+		ZenKit.API.ZkTriggerListTarget_setDelaySeconds(handle, val.getSeconds());
 	}
 }

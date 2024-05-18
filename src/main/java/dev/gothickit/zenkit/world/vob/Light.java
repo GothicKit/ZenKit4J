@@ -9,6 +9,9 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class Light extends VirtualObject {
+	public Light() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCVobLight));
+	}
 
 	public Light(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkLight_load(buf.getHandle(), version), ZenKit.API::ZkLight_del);
@@ -21,7 +24,7 @@ public class Light extends VirtualObject {
 	}
 
 	public Light(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkLight_del);
 	}
 
 	public String getPreset() {
@@ -65,7 +68,6 @@ public class Light extends VirtualObject {
 		var ptr = ZenKit.API.ZkLight_getRangeAnimationScale(getHandle(), count);
 		if (ptr == null || count.getValue() == 0) return new float[0];
 		return ptr.getFloatArray(0, count.getValue());
-
 	}
 
 	public float getRangeAnimationFps() {
@@ -77,10 +79,14 @@ public class Light extends VirtualObject {
 	}
 
 	public Color[] getColorAnimationList() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkLight_getColorAnimationList(getHandle(), count);
-		if (ptr == null || count.getValue() == 0) return new Color[0];
-		return (Color[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkLight_getColorAnimationCount(getHandle());
+		var colors = new Color[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			colors[i] = ZenKit.API.ZkLight_getColorAnimationItem(getHandle(), i);
+		}
+
+		return colors;
 	}
 
 	public float getColorAnimationFps() {
@@ -93,5 +99,65 @@ public class Light extends VirtualObject {
 
 	public boolean getCanMove() {
 		return ZenKit.API.ZkLight_getCanMove(getHandle());
+	}
+
+	public void setPreset(String val) {
+		ZenKit.API.ZkLight_setPreset(getHandle(), val);
+	}
+
+	public void setLightType(LightType val) {
+		ZenKit.API.ZkLight_setLightType(getHandle(), val);
+	}
+
+	public void setRange(float val) {
+		ZenKit.API.ZkLight_setRange(getHandle(), val);
+	}
+
+	public void setColor(Color val) {
+		ZenKit.API.ZkLight_setColor(getHandle(), val);
+	}
+
+	public void setConeAngle(float val) {
+		ZenKit.API.ZkLight_setConeAngle(getHandle(), val);
+	}
+
+	public void setStatic(boolean val) {
+		ZenKit.API.ZkLight_setIsStatic(getHandle(), val);
+	}
+
+	public void setQuality(LightQuality val) {
+		ZenKit.API.ZkLight_setQuality(getHandle(), val);
+	}
+
+	public void setLensflareFx(String val) {
+		ZenKit.API.ZkLight_setLensflareFx(getHandle(), val);
+	}
+
+	public void setOn(boolean val) {
+		ZenKit.API.ZkLight_setOn(getHandle(), val);
+	}
+
+	public void setRangeAnimationScale(float[] val) {
+		ZenKit.API.ZkLight_setRangeAnimationScale(getHandle(), val, val.length);
+	}
+
+	public void setRangeAnimationFps(float val) {
+		ZenKit.API.ZkLight_setRangeAnimationFps(getHandle(), val);
+	}
+
+	public void setRangeAnimationSmooth(boolean val) {
+		ZenKit.API.ZkLight_setRangeAnimationSmooth(getHandle(), val);
+	}
+
+	public void setColorAnimationFps(float val) {
+		ZenKit.API.ZkLight_setColorAnimationFps(getHandle(), val);
+	}
+
+	public void setColorAnimationSmooth(boolean val) {
+		ZenKit.API.ZkLight_setColorAnimationSmooth(getHandle(), val);
+	}
+
+	public void setCanMove(boolean val) {
+		ZenKit.API.ZkLight_setCanMove(getHandle(), val);
 	}
 }

@@ -64,6 +64,17 @@ public class DaedalusVm extends DaedalusScript {
 		ZenKit.API.ZkDaedalusVm_setGlobalItem(getHandle(), value == null ? null : value.getHandle());
 	}
 
+	public DaedalusInstance allocInstance(String name, DaedalusInstanceType type) {
+		var sym = getSymbolByName(name);
+		if (sym == null || sym.getType() != DaedalusDataType.INSTANCE || !sym.isConst())
+			throw new RuntimeException("Symbol not found");
+		return allocInstance(sym, type);
+	}
+
+	public DaedalusInstance allocInstance(@NotNull DaedalusSymbol sym, DaedalusInstanceType type) {
+		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_allocInstance(getHandle(), sym.getHandle(), type));
+	}
+
 	public DaedalusInstance initInstance(String name, DaedalusInstanceType type) {
 		var sym = getSymbolByName(name);
 		if (sym == null || sym.getType() != DaedalusDataType.INSTANCE || !sym.isConst())
@@ -73,6 +84,10 @@ public class DaedalusVm extends DaedalusScript {
 
 	public DaedalusInstance initInstance(@NotNull DaedalusSymbol sym, DaedalusInstanceType type) {
 		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_initInstance(getHandle(), sym.getHandle(), type));
+	}
+
+	public void initInstanceDirect(DaedalusInstance instance) {
+		ZenKit.API.ZkDaedalusVm_initInstanceDirect(getHandle(), instance.getHandle());
 	}
 
 	public void call(String name) {

@@ -5,6 +5,7 @@ import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.ptr.LongByReference;
 import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.ani.AnimationSample;
 import dev.gothickit.zenkit.bsp.BspNode;
@@ -26,6 +27,8 @@ import dev.gothickit.zenkit.ssm.SoftSkinWeightEntry;
 import dev.gothickit.zenkit.tex.TextureFormat;
 import dev.gothickit.zenkit.vfs.VfsOverwriteBehavior;
 import dev.gothickit.zenkit.way.WayEdge;
+import dev.gothickit.zenkit.world.AiType;
+import dev.gothickit.zenkit.world.visual.VisualType;
 import dev.gothickit.zenkit.world.vob.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,9 +71,11 @@ public interface ZenKitNative extends Library {
 
 	void ZkVfs_mountDiskHost(Pointer slf, String path, VfsOverwriteBehavior overwrite);
 
-	@Nullable Pointer ZkVfs_resolvePath(Pointer slf, String path);
+	@Nullable
+	Pointer ZkVfs_resolvePath(Pointer slf, String path);
 
-	@Nullable Pointer ZkVfs_findNode(Pointer slf, String path);
+	@Nullable
+	Pointer ZkVfs_findNode(Pointer slf, String path);
 
 	Pointer ZkVfsNode_newFile(String name, byte[] buf, long size, long ts);
 
@@ -86,7 +91,8 @@ public interface ZenKitNative extends Library {
 
 	String ZkVfsNode_getName(Pointer slf);
 
-	@Nullable Pointer ZkVfsNode_getChild(Pointer slf, String name);
+	@Nullable
+	Pointer ZkVfsNode_getChild(Pointer slf, String name);
 
 	Pointer ZkVfsNode_create(Pointer slf, Pointer node);
 
@@ -104,7 +110,11 @@ public interface ZenKitNative extends Library {
 
 	void ZkCutsceneLibrary_del(Pointer slf);
 
+	long ZkCutsceneLibrary_getBlockCount(Pointer slf);
+
 	Pointer ZkCutsceneLibrary_getBlock(Pointer slf, String name);
+
+	Pointer ZkCutsceneLibrary_getBlockByIndex(Pointer slf, long i);
 
 	void ZkCutsceneLibrary_enumerateBlocks(Pointer slf, ZkCutsceneBlockEnumerator cb, Pointer ctx);
 
@@ -279,9 +289,13 @@ public interface ZenKitNative extends Library {
 
 	void ZkMultiResolutionMesh_del(Pointer slf);
 
-	Vec3f ZkMultiResolutionMesh_getPositions(Pointer slf, IntByReference count);
+	long ZkMultiResolutionMesh_getPositionCount(Pointer slf);
 
-	Vec3f ZkMultiResolutionMesh_getNormals(Pointer slf, IntByReference count);
+	Vec3f.ByValue ZkMultiResolutionMesh_getPosition(Pointer slf, long i);
+
+	long ZkMultiResolutionMesh_getNormalCount(Pointer slf);
+
+	Vec3f.ByValue ZkMultiResolutionMesh_getNormal(Pointer slf, long i);
 
 	long ZkMultiResolutionMesh_getSubMeshCount(Pointer slf);
 
@@ -305,13 +319,17 @@ public interface ZenKitNative extends Library {
 
 	MeshTriangle ZkSubMesh_getTriangles(Pointer slf, IntByReference count);
 
-	MeshWedge ZkSubMesh_getWedges(Pointer slf, IntByReference count);
+	long ZkSubMesh_getWedgeCount(Pointer slf);
+
+	MeshWedge.ByValue ZkSubMesh_getWedge(Pointer slf, long i);
 
 	Pointer ZkSubMesh_getColors(Pointer slf, IntByReference count);
 
 	Pointer ZkSubMesh_getTrianglePlaneIndices(Pointer slf, IntByReference count);
 
-	MeshPlane ZkSubMesh_getTrianglePlanes(Pointer slf, IntByReference count);
+	long ZkSubMesh_getTrianglePlaneCount(Pointer slf);
+
+	MeshPlane.ByValue ZkSubMesh_getTrianglePlane(Pointer slf, long i);
 
 	MeshTriangleEdge ZkSubMesh_getTriangleEdges(Pointer slf, IntByReference count);
 
@@ -329,11 +347,15 @@ public interface ZenKitNative extends Library {
 
 	void ZkSoftSkinMesh_enumerateBoundingBoxes(Pointer slf, ZkOrientedBoundingBoxEnumerator cb, Pointer ctx);
 
-	SoftSkinWeightEntry ZkSoftSkinMesh_getWeights(Pointer slf, long node, IntByReference count);
+	long ZkSoftSkinMesh_getWeightTotal(Pointer slf);
 
-	void ZkSoftSkinMesh_enumerateWeights(Pointer slf, ZkSoftSkinWeightEnumerator cb, Pointer ctx);
+	long ZkSoftSkinMesh_getWeightCount(Pointer slf, long node);
 
-	SoftSkinWedgeNormal ZkSoftSkinMesh_getWedgeNormals(Pointer slf, IntByReference count);
+	SoftSkinWeightEntry.ByValue ZkSoftSkinMesh_getWeight(Pointer slf, long node, long i);
+
+	long ZkSoftSkinMesh_getWedgeNormalCount(Pointer slf);
+
+	SoftSkinWedgeNormal ZkSoftSkinMesh_getWedgeNormal(Pointer slf, long i);
 
 	Pointer ZkSoftSkinMesh_getNodes(Pointer slf, IntByReference count);
 
@@ -419,7 +441,9 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkMorphMesh_getMesh(Pointer slf);
 
-	Vec3f ZkMorphMesh_getMorphPositions(Pointer slf, IntByReference count);
+	long ZkMorphMesh_getMorphPositionCount(Pointer slf);
+
+	Vec3f.ByValue ZkMorphMesh_getMorphPosition(Pointer slf, long i);
 
 	long ZkMorphMesh_getAnimationCount(Pointer slf);
 
@@ -451,7 +475,9 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkMorphAnimation_getVertices(Pointer slf, IntByReference count);
 
-	Vec3f ZkMorphAnimation_getSamples(Pointer slf, IntByReference count);
+	long ZkMorphAnimation_getSampleCount(Pointer slf);
+
+	Vec3f.ByValue ZkMorphAnimation_getSample(Pointer slf, long i);
 
 	String ZkMorphSource_getFileName(Pointer slf);
 
@@ -480,9 +506,13 @@ public interface ZenKitNative extends Library {
 
 	void ZkMesh_enumerateMaterials(Pointer slf, ZkMaterialEnumerator cb, Pointer ctx);
 
-	Vec3f ZkMesh_getPositions(Pointer slf, IntByReference count);
+	long ZkMesh_getPositionCount(Pointer slf);
 
-	Vertex ZkMesh_getVertices(Pointer slf, IntByReference count);
+	Vec3f.ByValue ZkMesh_getPosition(Pointer slf, long i);
+
+	long ZkMesh_getVertexCount(Pointer slf);
+
+	Vertex.ByValue ZkMesh_getVertex(Pointer slf, long i);
 
 	long ZkMesh_getLightMapCount(Pointer slf);
 
@@ -508,7 +538,7 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkPolygon_getPositionIndices(Pointer slf, IntByReference count);
 
-	Pointer ZkPolygon_getPolygonIndices(Pointer slf, IntByReference count);
+	Pointer ZkPolygon_getFeatureIndices(Pointer slf, IntByReference count);
 
 	boolean ZkPolygon_getIsPortal(Pointer slf);
 
@@ -760,11 +790,15 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkBspTree_getPortalPolygonIndices(Pointer slf, IntByReference count);
 
-	Vec3f ZkBspTree_getLightPoints(Pointer slf, IntByReference count);
+	long ZkBspTree_getLightPointCount(Pointer slf);
+
+	Vec3f.ByValue ZkBspTree_getLightPoint(Pointer slf, long i);
 
 	Pointer ZkBspTree_getLeafNodeIndices(Pointer slf, IntByReference count);
 
-	BspNode ZkBspTree_getNodes(Pointer slf, IntByReference count);
+	long ZkBspTree_getNodeCount(Pointer slf);
+
+	BspNode.ByValue ZkBspTree_getNode(Pointer slf, long i);
 
 	long ZkBspTree_getSectorCount(Pointer slf);
 
@@ -818,9 +852,13 @@ public interface ZenKitNative extends Library {
 
 	void ZkWorld_enumerateRootObjects(Pointer slf, ZkVirtualObjectEnumerator cb, Pointer ctx);
 
+	Pointer ZkObject_takeRef(Pointer obj);
+
 	Pointer ZkVirtualObject_load(Pointer buf, GameVersion version);
 
 	Pointer ZkVirtualObject_loadPath(String path, GameVersion version);
+
+	Pointer ZkVirtualObject_new(VirtualObjectType type);
 
 	void ZkVirtualObject_del(Pointer slf);
 
@@ -862,11 +900,25 @@ public interface ZenKitNative extends Library {
 
 	String ZkVirtualObject_getName(Pointer slf);
 
-	String ZkVirtualObject_getVisualName(Pointer slf);
+	Pointer ZkVirtualObject_getVisual(Pointer slf);
 
-	VisualType ZkVirtualObject_getVisualType(Pointer slf);
+	void ZkVirtualObject_setVisual(Pointer slf, Pointer visual);
 
-	Pointer ZkVirtualObject_getVisualDecal(Pointer slf);
+	byte ZkVirtualObject_getSleepMode(Pointer slf);
+
+	void ZkVirtualObject_setSleepMode(Pointer slf, byte sleepMode);
+
+	float ZkVirtualObject_getNextOnTimer(Pointer slf);
+
+	void ZkVirtualObject_setNextOnTimer(Pointer slf, float nextOnTimer);
+
+	Pointer ZkVirtualObject_getAi(Pointer slf);
+
+	void ZkVirtualObject_setAi(Pointer slf, Pointer ai);
+
+	Pointer ZkVirtualObject_getEventManager(Pointer slf);
+
+	void ZkVirtualObject_setEventManager(Pointer slf, Pointer em);
 
 	long ZkVirtualObject_getChildCount(Pointer slf);
 
@@ -874,21 +926,163 @@ public interface ZenKitNative extends Library {
 
 	void ZkVirtualObject_enumerateChildren(Pointer slf, ZkVirtualObjectEnumerator cb, Pointer ctx);
 
-	String ZkDecal_getName(Pointer slf);
+	void ZkVirtualObject_addChild(Pointer slf, Pointer child);
 
-	Vec2f ZkDecal_getDimension(Pointer slf);
+	void ZkVirtualObject_setBbox(Pointer slf, AxisAlignedBoundingBox.ByValue val);
 
-	Vec2f ZkDecal_getOffset(Pointer slf);
+	void ZkVirtualObject_setPosition(Pointer slf, Vec3f.ByValue val);
 
-	boolean ZkDecal_getTwoSided(Pointer slf);
+	void ZkVirtualObject_setRotation(Pointer slf, Mat3x3.ByValue val);
 
-	AlphaFunction ZkDecal_getAlphaFunc(Pointer slf);
+	void ZkVirtualObject_setShowVisual(Pointer slf, boolean val);
 
-	float ZkDecal_getTextureAnimFps(Pointer slf);
+	void ZkVirtualObject_setSpriteCameraFacingMode(Pointer slf, SpriteAlignment val);
 
-	byte ZkDecal_getAlphaWeight(Pointer slf);
+	void ZkVirtualObject_setCdStatic(Pointer slf, boolean val);
 
-	boolean ZkDecal_getIgnoreDaylight(Pointer slf);
+	void ZkVirtualObject_setCdDynamic(Pointer slf, boolean val);
+
+	void ZkVirtualObject_setVobStatic(Pointer slf, boolean val);
+
+	void ZkVirtualObject_setDynamicShadows(Pointer slf, ShadowType val);
+
+	void ZkVirtualObject_setPhysicsEnabled(Pointer slf, boolean val);
+
+	void ZkVirtualObject_setAnimMode(Pointer slf, AnimationType val);
+
+	void ZkVirtualObject_setBias(Pointer slf, int val);
+
+	void ZkVirtualObject_setAmbient(Pointer slf, boolean val);
+
+	void ZkVirtualObject_setAnimStrength(Pointer slf, float val);
+
+	void ZkVirtualObject_setFarClipScale(Pointer slf, float val);
+
+	void ZkVirtualObject_setPresetName(Pointer slf, String val);
+
+	void ZkVirtualObject_setName(Pointer slf, String val);
+
+	Pointer ZkVisual_new(VisualType type);
+
+	void ZkVisual_del(Pointer slf);
+
+	String ZkVisual_getName(Pointer slf);
+
+	VisualType ZkVisual_getType(Pointer slf);
+
+	void ZkVisual_setName(Pointer slf, String val);
+
+	Vec2f.ByValue ZkVisualDecal_getDimension(Pointer slf);
+
+	Vec2f.ByValue ZkVisualDecal_getOffset(Pointer slf);
+
+	boolean ZkVisualDecal_getTwoSided(Pointer slf);
+
+	AlphaFunction ZkVisualDecal_getAlphaFunc(Pointer slf);
+
+	float ZkVisualDecal_getTextureAnimFps(Pointer slf);
+
+	byte ZkVisualDecal_getAlphaWeight(Pointer slf);
+
+	boolean ZkVisualDecal_getIgnoreDaylight(Pointer slf);
+
+	void ZkVisualDecal_setDimension(Pointer slf, Vec2f.ByValue val);
+
+	void ZkVisualDecal_setOffset(Pointer slf, Vec2f.ByValue val);
+
+	void ZkVisualDecal_setTwoSided(Pointer slf, boolean val);
+
+	void ZkVisualDecal_setAlphaFunc(Pointer slf, AlphaFunction val);
+
+	void ZkVisualDecal_setTextureAnimFps(Pointer slf, float val);
+
+	void ZkVisualDecal_setAlphaWeight(Pointer slf, byte val);
+
+	void ZkVisualDecal_setIgnoreDaylight(Pointer slf, boolean val);
+
+	Pointer ZkAi_new(AiType type);
+
+	void ZkAi_del(Pointer slf);
+
+	AiType ZkAi_getType(Pointer slf);
+
+	float ZkAiHuman_getFloorY(Pointer slf);
+
+	float ZkAiHuman_getWaterY(Pointer slf);
+
+	float ZkAiHuman_getCeilY(Pointer slf);
+
+	float ZkAiHuman_getFeetY(Pointer slf);
+
+	float ZkAiHuman_getHeadY(Pointer slf);
+
+	float ZkAiHuman_getFallDistY(Pointer slf);
+
+	float ZkAiHuman_getFallStartY(Pointer slf);
+
+	Pointer ZkAiHuman_getNpc(Pointer slf);
+
+	int ZkAiHuman_getWalkMode(Pointer slf);
+
+	int ZkAiHuman_getWeaponMode(Pointer slf);
+
+	int ZkAiHuman_getWmodeAst(Pointer slf);
+
+	int ZkAiHuman_getWmodeSelect(Pointer slf);
+
+	boolean ZkAiHuman_getChangeWeapon(Pointer slf);
+
+	int ZkAiHuman_getActionMode(Pointer slf);
+
+	void ZkAiHuman_setWaterLevel(Pointer slf, int water_level);
+
+	void ZkAiHuman_setFloorY(Pointer slf, float floor_y);
+
+	void ZkAiHuman_setWaterY(Pointer slf, float water_y);
+
+	void ZkAiHuman_setCeilY(Pointer slf, float ceil_y);
+
+	void ZkAiHuman_setFeetY(Pointer slf, float feet_y);
+
+	void ZkAiHuman_setHeadY(Pointer slf, float head_y);
+
+	void ZkAiHuman_setFallDistY(Pointer slf, float fall_dist_y);
+
+	void ZkAiHuman_setFallStartY(Pointer slf, float fall_start_y);
+
+	void ZkAiHuman_setNpc(Pointer slf, Pointer npc);
+
+	void ZkAiHuman_setWalkMode(Pointer slf, int walk_mode);
+
+	void ZkAiHuman_setWeaponMode(Pointer slf, int weapon_mode);
+
+	void ZkAiHuman_setWmodeAst(Pointer slf, int wmode_ast);
+
+	void ZkAiHuman_setWmodeSelect(Pointer slf, int wmode_select);
+
+	void ZkAiHuman_setChangeWeapon(Pointer slf, boolean change_weapon);
+
+	void ZkAiHuman_setActionMode(Pointer slf, int action_mode);
+
+	Pointer ZkAiMove_getVob(Pointer slf);
+
+	Pointer ZkAiMove_getOwner(Pointer slf);
+
+	void ZkAiMove_setVob(Pointer slf, Pointer vob);
+
+	void ZkAiMove_setOwner(Pointer slf, Pointer owner);
+
+	Pointer ZkEventManager_new();
+
+	void ZkEventManager_del(Pointer slf);
+
+	boolean ZkEventManager_getCleared(Pointer slf);
+
+	void ZkEventManager_setCleared(Pointer slf, boolean cleared);
+
+	boolean ZkEventManager_getActive(Pointer slf);
+
+	void ZkEventManager_setActive(Pointer slf, boolean active);
 
 	Pointer ZkCutsceneCamera_load(Pointer buf, GameVersion version);
 
@@ -930,9 +1124,55 @@ public interface ZenKitNative extends Library {
 
 	long ZkCutsceneCamera_getFrameCount(Pointer slf);
 
+	void ZkCutsceneCamera_setTrajectoryFOR(Pointer slf, CameraTrajectory val);
+
+	void ZkCutsceneCamera_setTargetTrajectoryFOR(Pointer slf, CameraTrajectory val);
+
+	void ZkCutsceneCamera_setLoopMode(Pointer slf, CameraLoopType val);
+
+	void ZkCutsceneCamera_setLerpMode(Pointer slf, CameraLerpType val);
+
+	void ZkCutsceneCamera_setIgnoreFORVobRotation(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setIgnoreFORVobRotationTarget(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setAdapt(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setEaseFirst(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setEaseLast(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setTotalDuration(Pointer slf, float val);
+
+	void ZkCutsceneCamera_setAutoFocusVob(Pointer slf, String val);
+
+	void ZkCutsceneCamera_setAutoPlayerMovable(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setAutoUntriggerLast(Pointer slf, boolean val);
+
+	void ZkCutsceneCamera_setAutoUntriggerLastDelay(Pointer slf, float val);
+
+	boolean ZkCutsceneCamera_getIsPaused(Pointer slf);
+
+	void ZkCutsceneCamera_setIsPaused(Pointer slf, boolean isPaused);
+
+	boolean ZkCutsceneCamera_getIsStarted(Pointer slf);
+
+	void ZkCutsceneCamera_setIsStarted(Pointer slf, boolean isStarted);
+
+	boolean ZkCutsceneCamera_getGotoTimeMode(Pointer slf);
+
+	void ZkCutsceneCamera_setGotoTimeMode(Pointer slf, boolean gotoTimeMode);
+
+	float ZkCutsceneCamera_getTime(Pointer slf);
+
+	void ZkCutsceneCamera_setTime(Pointer slf, float time);
+
 	Pointer ZkCutsceneCamera_getFrame(Pointer slf, long i);
 
 	void ZkCutsceneCamera_enumerateFrames(Pointer slf, ZkCameraTrajectoryFrameEnumerator cb, Pointer ctx);
+
+	void ZkCameraTrajectoryFrame_del(Pointer slf);
 
 	float ZkCameraTrajectoryFrame_getTime(Pointer slf);
 
@@ -959,6 +1199,32 @@ public interface ZenKitNative extends Library {
 	boolean ZkCameraTrajectoryFrame_getTimeFixed(Pointer slf);
 
 	Mat4x4.ByValue ZkCameraTrajectoryFrame_getOriginalPose(Pointer slf);
+
+	void ZkCameraTrajectoryFrame_setTime(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setRollAngle(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setFovScale(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setMotionType(Pointer slf, CameraMotion val);
+
+	void ZkCameraTrajectoryFrame_setMotionTypeFov(Pointer slf, CameraMotion val);
+
+	void ZkCameraTrajectoryFrame_setMotionTypeRoll(Pointer slf, CameraMotion val);
+
+	void ZkCameraTrajectoryFrame_setMotionTypeTimeScale(Pointer slf, CameraMotion val);
+
+	void ZkCameraTrajectoryFrame_setTension(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setCamBias(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setContinuity(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setTimeScale(Pointer slf, float val);
+
+	void ZkCameraTrajectoryFrame_setTimeFixed(Pointer slf, boolean val);
+
+	void ZkCameraTrajectoryFrame_setOriginalPose(Pointer slf, Mat4x4.ByValue val);
 
 	Pointer ZkLightPreset_load(Pointer buf, GameVersion version);
 
@@ -996,13 +1262,45 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkLightPreset_getRangeAnimationSmooth(Pointer slf);
 
-	Color ZkLightPreset_getColorAnimationList(Pointer slf, IntByReference count);
+	long ZkLightPreset_getColorAnimationCount(Pointer slf);
+
+	Color.ByValue ZkLightPreset_getColorAnimationItem(Pointer slf, long i);
 
 	float ZkLightPreset_getColorAnimationFps(Pointer slf);
 
 	boolean ZkLightPreset_getColorAnimationSmooth(Pointer slf);
 
 	boolean ZkLightPreset_getCanMove(Pointer slf);
+
+	void ZkLightPreset_setPreset(Pointer slf, String val);
+
+	void ZkLightPreset_setLightType(Pointer slf, LightType val);
+
+	void ZkLightPreset_setRange(Pointer slf, float val);
+
+	void ZkLightPreset_setColor(Pointer slf, Color val);
+
+	void ZkLightPreset_setConeAngle(Pointer slf, float val);
+
+	void ZkLightPreset_setIsStatic(Pointer slf, boolean val);
+
+	void ZkLightPreset_setQuality(Pointer slf, LightQuality val);
+
+	void ZkLightPreset_setLensflareFx(Pointer slf, String val);
+
+	void ZkLightPreset_setOn(Pointer slf, boolean val);
+
+	void ZkLightPreset_setRangeAnimationScale(Pointer slf, float[] val, long count);
+
+	void ZkLightPreset_setRangeAnimationFps(Pointer slf, float val);
+
+	void ZkLightPreset_setRangeAnimationSmooth(Pointer slf, boolean val);
+
+	void ZkLightPreset_setColorAnimationFps(Pointer slf, float val);
+
+	void ZkLightPreset_setColorAnimationSmooth(Pointer slf, boolean val);
+
+	void ZkLightPreset_setCanMove(Pointer slf, boolean val);
 
 	String ZkLight_getPreset(Pointer slf);
 
@@ -1028,13 +1326,45 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkLight_getRangeAnimationSmooth(Pointer slf);
 
-	Color ZkLight_getColorAnimationList(Pointer slf, IntByReference count);
+	long ZkLight_getColorAnimationCount(Pointer slf);
+
+	Color.ByValue ZkLight_getColorAnimationItem(Pointer slf, long i);
 
 	float ZkLight_getColorAnimationFps(Pointer slf);
 
 	boolean ZkLight_getColorAnimationSmooth(Pointer slf);
 
 	boolean ZkLight_getCanMove(Pointer slf);
+
+	void ZkLight_setPreset(Pointer slf, String val);
+
+	void ZkLight_setLightType(Pointer slf, LightType val);
+
+	void ZkLight_setRange(Pointer slf, float val);
+
+	void ZkLight_setColor(Pointer slf, Color val);
+
+	void ZkLight_setConeAngle(Pointer slf, float val);
+
+	void ZkLight_setIsStatic(Pointer slf, boolean val);
+
+	void ZkLight_setQuality(Pointer slf, LightQuality val);
+
+	void ZkLight_setLensflareFx(Pointer slf, String val);
+
+	void ZkLight_setOn(Pointer slf, boolean val);
+
+	void ZkLight_setRangeAnimationScale(Pointer slf, float[] val, long count);
+
+	void ZkLight_setRangeAnimationFps(Pointer slf, float val);
+
+	void ZkLight_setRangeAnimationSmooth(Pointer slf, boolean val);
+
+	void ZkLight_setColorAnimationFps(Pointer slf, float val);
+
+	void ZkLight_setColorAnimationSmooth(Pointer slf, boolean val);
+
+	void ZkLight_setCanMove(Pointer slf, boolean val);
 
 	Pointer ZkAnimate_load(Pointer buf, GameVersion version);
 
@@ -1044,6 +1374,12 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkAnimate_getStartOn(Pointer slf);
 
+	boolean ZkAnimate_getIsRunning(Pointer slf);
+
+	void ZkAnimate_setStartOn(Pointer slf, boolean val);
+
+	void ZkAnimate_setIsRunning(Pointer slf, boolean val);
+
 	Pointer ZkItem_load(Pointer buf, GameVersion version);
 
 	Pointer ZkItem_loadPath(String path, GameVersion version);
@@ -1052,6 +1388,16 @@ public interface ZenKitNative extends Library {
 
 	String ZkItem_getInstance(Pointer slf);
 
+	int ZkItem_getAmount(Pointer slf);
+
+	int ZkItem_getFlags(Pointer slf);
+
+	void ZkItem_setInstance(Pointer slf, String val);
+
+	void ZkItem_setAmount(Pointer slf, int val);
+
+	void ZkItem_setFlags(Pointer slf, int val);
+
 	Pointer ZkLensFlare_load(Pointer buf, GameVersion version);
 
 	Pointer ZkLensFlare_loadPath(String path, GameVersion version);
@@ -1059,6 +1405,8 @@ public interface ZenKitNative extends Library {
 	void ZkLensFlare_del(Pointer slf);
 
 	String ZkLensFlare_getEffect(Pointer slf);
+
+	void ZkLensFlare_setEffect(Pointer slf, String val);
 
 	Pointer ZkParticleEffectController_load(Pointer buf, GameVersion version);
 
@@ -1072,6 +1420,12 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkParticleEffectController_getInitiallyRunning(Pointer slf);
 
+	void ZkParticleEffectController_setEffectName(Pointer slf, String val);
+
+	void ZkParticleEffectController_setKillWhenDone(Pointer slf, boolean val);
+
+	void ZkParticleEffectController_setInitiallyRunning(Pointer slf, boolean val);
+
 	Pointer ZkMessageFilter_load(Pointer buf, GameVersion version);
 
 	Pointer ZkMessageFilter_loadPath(String path, GameVersion version);
@@ -1083,6 +1437,12 @@ public interface ZenKitNative extends Library {
 	MessageFilterAction ZkMessageFilter_getOnTrigger(Pointer slf);
 
 	MessageFilterAction ZkMessageFilter_getOnUntrigger(Pointer slf);
+
+	void ZkMessageFilter_setTarget(Pointer slf, String val);
+
+	void ZkMessageFilter_setOnTrigger(Pointer slf, MessageFilterAction val);
+
+	void ZkMessageFilter_setOnUntrigger(Pointer slf, MessageFilterAction val);
 
 	Pointer ZkCodeMaster_load(Pointer buf, GameVersion version);
 
@@ -1100,11 +1460,25 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkCodeMaster_getUntriggeredCancels(Pointer slf);
 
+	void ZkCodeMaster_setTarget(Pointer slf, String val);
+
+	void ZkCodeMaster_setOrdered(Pointer slf, boolean val);
+
+	void ZkCodeMaster_setFirstFalseIsFailure(Pointer slf, boolean val);
+
+	void ZkCodeMaster_setFailureTarget(Pointer slf, String val);
+
+	void ZkCodeMaster_setUntriggeredCancels(Pointer slf, boolean val);
+
 	long ZkCodeMaster_getSlaveCount(Pointer slf);
 
 	String ZkCodeMaster_getSlave(Pointer slf, long i);
 
 	void ZkCodeMaster_enumerateSlaves(Pointer slf, ZkStringEnumerator cb, Pointer ctx);
+
+	void ZkCodeMaster_addSlave(Pointer slf, String val);
+
+	void ZkCodeMaster_removeSlave(Pointer slf, long i);
 
 	Pointer ZkMoverController_load(Pointer buf, GameVersion version);
 
@@ -1117,6 +1491,12 @@ public interface ZenKitNative extends Library {
 	MoverMessageType ZkMoverController_getMessage(Pointer slf);
 
 	int ZkMoverController_getKey(Pointer slf);
+
+	void ZkMoverController_setTarget(Pointer slf, String val);
+
+	void ZkMoverController_setMessage(Pointer slf, MoverMessageType val);
+
+	void ZkMoverController_setKey(Pointer slf, int val);
 
 	Pointer ZkTouchDamage_load(Pointer buf, GameVersion version);
 
@@ -1148,6 +1528,30 @@ public interface ZenKitNative extends Library {
 
 	TouchCollisionType ZkTouchDamage_getCollisionType(Pointer slf);
 
+	void ZkTouchDamage_setDamage(Pointer slf, float val);
+
+	void ZkTouchDamage_setIsBarrier(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsBlunt(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsEdge(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsFire(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsFly(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsMagic(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsPoint(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setIsFall(Pointer slf, boolean val);
+
+	void ZkTouchDamage_setRepeatDelaySeconds(Pointer slf, float val);
+
+	void ZkTouchDamage_setVolumeScale(Pointer slf, float val);
+
+	void ZkTouchDamage_setCollisionType(Pointer slf, TouchCollisionType val);
+
 	Pointer ZkEarthquake_load(Pointer buf, GameVersion version);
 
 	Pointer ZkEarthquake_loadPath(String path, GameVersion version);
@@ -1159,6 +1563,12 @@ public interface ZenKitNative extends Library {
 	float ZkEarthquake_getDuration(Pointer slf);
 
 	Vec3f.ByValue ZkEarthquake_getAmplitude(Pointer slf);
+
+	void ZkEarthquake_setRadius(Pointer slf, float val);
+
+	void ZkEarthquake_setDuration(Pointer slf, float val);
+
+	void ZkEarthquake_setAmplitude(Pointer slf, Vec3f.ByValue val);
 
 	Pointer ZkMovableObject_load(Pointer buf, GameVersion version);
 
@@ -1188,6 +1598,28 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkMovableObject_getDestroyed(Pointer slf);
 
+	void ZkMovableObject_setName(Pointer slf, String val);
+
+	void ZkMovableObject_setHp(Pointer slf, int val);
+
+	void ZkMovableObject_setDamage(Pointer slf, int val);
+
+	void ZkMovableObject_setMovable(Pointer slf, boolean val);
+
+	void ZkMovableObject_setTakable(Pointer slf, boolean val);
+
+	void ZkMovableObject_setFocusOverride(Pointer slf, boolean val);
+
+	void ZkMovableObject_setMaterial(Pointer slf, SoundMaterialType val);
+
+	void ZkMovableObject_setVisualDestroyed(Pointer slf, String val);
+
+	void ZkMovableObject_setOwner(Pointer slf, String val);
+
+	void ZkMovableObject_setOwnerGuild(Pointer slf, String val);
+
+	void ZkMovableObject_setDestroyed(Pointer slf, boolean val);
+
 	Pointer ZkInteractiveObject_load(Pointer buf, GameVersion version);
 
 	Pointer ZkInteractiveObject_loadPath(String path, GameVersion version);
@@ -1206,6 +1638,18 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkInteractiveObject_getRewind(Pointer slf);
 
+	void ZkInteractiveObject_setState(Pointer slf, int val);
+
+	void ZkInteractiveObject_setTarget(Pointer slf, String val);
+
+	void ZkInteractiveObject_setItem(Pointer slf, String val);
+
+	void ZkInteractiveObject_setConditionFunction(Pointer slf, String val);
+
+	void ZkInteractiveObject_setOnStateChangeFunction(Pointer slf, String val);
+
+	void ZkInteractiveObject_setRewind(Pointer slf, boolean val);
+
 	Pointer ZkFire_load(Pointer buf, GameVersion version);
 
 	Pointer ZkFire_loadPath(String path, GameVersion version);
@@ -1215,6 +1659,10 @@ public interface ZenKitNative extends Library {
 	String ZkFire_getSlot(Pointer slf);
 
 	String ZkFire_getVobTree(Pointer slf);
+
+	void ZkFire_setSlot(Pointer slf, String val);
+
+	void ZkFire_setVobTree(Pointer slf, String val);
 
 	Pointer ZkContainer_load(Pointer buf, GameVersion version);
 
@@ -1230,6 +1678,22 @@ public interface ZenKitNative extends Library {
 
 	String ZkContainer_getContents(Pointer slf);
 
+	void ZkContainer_setIsLocked(Pointer slf, boolean val);
+
+	void ZkContainer_setKey(Pointer slf, String val);
+
+	void ZkContainer_setPickString(Pointer slf, String val);
+
+	void ZkContainer_setContents(Pointer slf, String val);
+
+	long ZkContainer_getItemCount(Pointer slf);
+
+	Pointer ZkContainer_getItem(Pointer slf, long i);
+
+	void ZkContainer_addItem(Pointer slf, Pointer item);
+
+	void ZkContainer_removeItem(Pointer slf, long i);
+
 	Pointer ZkDoor_load(Pointer buf, GameVersion version);
 
 	Pointer ZkDoor_loadPath(String path, GameVersion version);
@@ -1241,6 +1705,12 @@ public interface ZenKitNative extends Library {
 	String ZkDoor_getKey(Pointer slf);
 
 	String ZkDoor_getPickString(Pointer slf);
+
+	void ZkDoor_setIsLocked(Pointer slf, boolean val);
+
+	void ZkDoor_setKey(Pointer slf, String val);
+
+	void ZkDoor_setPickString(Pointer slf, String val);
 
 	Pointer ZkSound_load(Pointer buf, GameVersion version);
 
@@ -1270,6 +1740,36 @@ public interface ZenKitNative extends Library {
 
 	String ZkSound_getSoundName(Pointer slf);
 
+	boolean ZkSound_getIsRunning(Pointer slf);
+
+	boolean ZkSound_getIsAllowedToRun(Pointer slf);
+
+	void ZkSound_setVolume(Pointer slf, float val);
+
+	void ZkSound_setMode(Pointer slf, SoundMode val);
+
+	void ZkSound_setRandomDelay(Pointer slf, float val);
+
+	void ZkSound_setRandomDelayVar(Pointer slf, float val);
+
+	void ZkSound_setInitiallyPlaying(Pointer slf, boolean val);
+
+	void ZkSound_setAmbient3d(Pointer slf, boolean val);
+
+	void ZkSound_setObstruction(Pointer slf, boolean val);
+
+	void ZkSound_setConeAngle(Pointer slf, float val);
+
+	void ZkSound_setVolumeType(Pointer slf, SoundTriggerVolumeType val);
+
+	void ZkSound_setRadius(Pointer slf, float val);
+
+	void ZkSound_setSoundName(Pointer slf, String val);
+
+	void ZkSound_setIsRunning(Pointer slf, boolean val);
+
+	void ZkSound_setIsAllowedToRun(Pointer slf, boolean val);
+
 	Pointer ZkSoundDaytime_load(Pointer buf, GameVersion version);
 
 	Pointer ZkSoundDaytime_loadPath(String path, GameVersion version);
@@ -1282,6 +1782,12 @@ public interface ZenKitNative extends Library {
 
 	String ZkSoundDaytime_getSoundNameDaytime(Pointer slf);
 
+	void ZkSoundDaytime_setStartTime(Pointer slf, float val);
+
+	void ZkSoundDaytime_setEndTime(Pointer slf, float val);
+
+	void ZkSoundDaytime_setSoundNameDaytime(Pointer slf, String val);
+
 	Pointer ZkTrigger_load(Pointer buf, GameVersion version);
 
 	Pointer ZkTrigger_loadPath(String path, GameVersion version);
@@ -1289,10 +1795,6 @@ public interface ZenKitNative extends Library {
 	void ZkTrigger_del(Pointer slf);
 
 	String ZkTrigger_getTarget(Pointer slf);
-
-	byte ZkTrigger_getFlags(Pointer slf);
-
-	byte ZkTrigger_getFilterFlags(Pointer slf);
 
 	String ZkTrigger_getVobTarget(Pointer slf);
 
@@ -1303,6 +1805,66 @@ public interface ZenKitNative extends Library {
 	float ZkTrigger_getDamageThreshold(Pointer slf);
 
 	float ZkTrigger_getFireDelaySeconds(Pointer slf);
+
+	void ZkTrigger_setTarget(Pointer slf, String val);
+
+	boolean ZkTrigger_getStartEnabled(Pointer slf);
+
+	boolean ZkTrigger_getSendUntrigger(Pointer slf);
+
+	boolean ZkTrigger_getReactToOnTrigger(Pointer slf);
+
+	boolean ZkTrigger_getReactToOnTouch(Pointer slf);
+
+	boolean ZkTrigger_getReactToOnDamage(Pointer slf);
+
+	boolean ZkTrigger_getRespondToObject(Pointer slf);
+
+	boolean ZkTrigger_getRespondToPC(Pointer slf);
+
+	boolean ZkTrigger_getRespondToNPC(Pointer slf);
+
+	void ZkTrigger_setStartEnabled(Pointer slf, boolean b);
+
+	void ZkTrigger_setSendUntrigger(Pointer slf, boolean b);
+
+	void ZkTrigger_setReactToOnTrigger(Pointer slf, boolean b);
+
+	void ZkTrigger_setReactToOnTouch(Pointer slf, boolean b);
+
+	void ZkTrigger_setReactToOnDamage(Pointer slf, boolean b);
+
+	void ZkTrigger_setRespondToObject(Pointer slf, boolean b);
+
+	void ZkTrigger_setRespondToPC(Pointer slf, boolean b);
+
+	void ZkTrigger_setRespondToNPC(Pointer slf, boolean b);
+
+	void ZkTrigger_setVobTarget(Pointer slf, String val);
+
+	void ZkTrigger_setMaxActivationCount(Pointer slf, int val);
+
+	void ZkTrigger_setRetriggerDelaySeconds(Pointer slf, float val);
+
+	void ZkTrigger_setDamageThreshold(Pointer slf, float val);
+
+	void ZkTrigger_setFireDelaySeconds(Pointer slf, float val);
+
+	float ZkTrigger_getNextTimeTriggerable(Pointer slf);
+
+	Pointer ZkTrigger_getOtherVob(Pointer slf);
+
+	int ZkTrigger_getCountCanBeActivated(Pointer slf);
+
+	boolean ZkTrigger_getIsEnabled(Pointer slf);
+
+	void ZkTrigger_setNextTimeTriggerable(Pointer slf, float val);
+
+	void ZkTrigger_setOtherVob(Pointer slf, Pointer val);
+
+	void ZkTrigger_setCountCanBeActivated(Pointer slf, int val);
+
+	void ZkTrigger_setIsEnabled(Pointer slf, boolean val);
 
 	Pointer ZkMover_load(Pointer buf, GameVersion version);
 
@@ -1328,7 +1890,9 @@ public interface ZenKitNative extends Library {
 
 	MoverSpeedType ZkMover_getSpeedType(Pointer slf);
 
-	AnimationSample ZkMover_getKeyframes(Pointer slf, IntByReference count);
+	long ZkMover_getKeyframeCount(Pointer slf);
+
+	AnimationSample.ByValue ZkMover_getKeyframe(Pointer slf, long i);
 
 	String ZkMover_getSfxOpenStart(Pointer slf);
 
@@ -1346,6 +1910,76 @@ public interface ZenKitNative extends Library {
 
 	String ZkMover_getSfxUseLocked(Pointer slf);
 
+	void ZkMover_setBehavior(Pointer slf, MoverBehavior val);
+
+	void ZkMover_setTouchBlockerDamage(Pointer slf, float val);
+
+	void ZkMover_setStayOpenTimeSeconds(Pointer slf, float val);
+
+	void ZkMover_setIsLocked(Pointer slf, boolean val);
+
+	void ZkMover_setAutoLink(Pointer slf, boolean val);
+
+	void ZkMover_setAutoRotate(Pointer slf, boolean val);
+
+	void ZkMover_setSpeed(Pointer slf, float val);
+
+	void ZkMover_setLerpType(Pointer slf, MoverLerpType val);
+
+	void ZkMover_setSpeedType(Pointer slf, MoverSpeedType val);
+
+	void ZkMover_setSfxOpenStart(Pointer slf, String val);
+
+	void ZkMover_setSfxOpenEnd(Pointer slf, String val);
+
+	void ZkMover_setSfxTransitioning(Pointer slf, String val);
+
+	void ZkMover_setSfxCloseStart(Pointer slf, String val);
+
+	void ZkMover_setSfxCloseEnd(Pointer slf, String val);
+
+	void ZkMover_setSfxLock(Pointer slf, String val);
+
+	void ZkMover_setSfxUnlock(Pointer slf, String val);
+
+	void ZkMover_setSfxUseLocked(Pointer slf, String val);
+
+	Vec3f.ByValue ZkMover_getActKeyPosDelta(Pointer slf);
+
+	float ZkMover_getActKeyframeF(Pointer slf);
+
+	int ZkMover_getActKeyframe(Pointer slf);
+
+	int ZkMover_getNextKeyframe(Pointer slf);
+
+	float ZkMover_getMoveSpeedUnit(Pointer slf);
+
+	float ZkMover_getAdvanceDir(Pointer slf);
+
+	int ZkMover_getMoverState(Pointer slf);
+
+	int ZkMover_getTriggerEventCount(Pointer slf);
+
+	float ZkMover_getStayOpenTimeDest(Pointer slf);
+
+	void ZkMover_setActKeyPosDelta(Pointer slf, Vec3f.ByValue actKeyPosDelta);
+
+	void ZkMover_setActKeyframeF(Pointer slf, float actKeyframeF);
+
+	void ZkMover_setActKeyframe(Pointer slf, int actKeyframe);
+
+	void ZkMover_setNextKeyframe(Pointer slf, int nextKeyframe);
+
+	void ZkMover_setMoveSpeedUnit(Pointer slf, float moveSpeedUnit);
+
+	void ZkMover_setAdvanceDir(Pointer slf, float advanceDir);
+
+	void ZkMover_setMoverState(Pointer slf, int moverState);
+
+	void ZkMover_setTriggerEventCount(Pointer slf, int triggerEventCount);
+
+	void ZkMover_setStayOpenTimeDest(Pointer slf, float stayOpenTimeDest);
+
 	Pointer ZkTriggerList_load(Pointer buf, GameVersion version);
 
 	Pointer ZkTriggerList_loadPath(String path, GameVersion version);
@@ -1358,12 +1992,30 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkTriggerList_getTarget(Pointer slf, long i);
 
+	void ZkTriggerList_setMode(Pointer slf, TriggerBatchMode val);
+
 	void
 	ZkTriggerList_enumerateTargets(Pointer slf, ZkTriggerListTargetEnumerator cb, Pointer ctx);
+
+	Pointer ZkTriggerList_addTarget(Pointer slf);
+
+	void ZkTriggerList_removeTarget(Pointer slf, long i);
+
+	byte ZkTriggerList_getActTarget(Pointer slf);
+
+	boolean ZkTriggerList_getSendOnTrigger(Pointer slf);
+
+	void ZkTriggerList_setActTarget(Pointer slf, byte actTarget);
+
+	void ZkTriggerList_setSendOnTrigger(Pointer slf, boolean sendOnTrigger);
 
 	String ZkTriggerListTarget_getName(Pointer slf);
 
 	float ZkTriggerListTarget_getDelaySeconds(Pointer slf);
+
+	void ZkTriggerListTarget_setName(Pointer slf, String val);
+
+	void ZkTriggerListTarget_setDelaySeconds(Pointer slf, float val);
 
 	Pointer ZkTriggerScript_load(Pointer buf, GameVersion version);
 
@@ -1372,6 +2024,8 @@ public interface ZenKitNative extends Library {
 	void ZkTriggerScript_del(Pointer slf);
 
 	String ZkTriggerScript_getFunction(Pointer slf);
+
+	void ZkTriggerScript_setFunction(Pointer slf, String val);
 
 	Pointer ZkTriggerChangeLevel_load(Pointer buf, GameVersion version);
 
@@ -1383,6 +2037,10 @@ public interface ZenKitNative extends Library {
 
 	String ZkTriggerChangeLevel_getStartVob(Pointer slf);
 
+	void ZkTriggerChangeLevel_setLevelName(Pointer slf, String val);
+
+	void ZkTriggerChangeLevel_setStartVob(Pointer slf, String val);
+
 	Pointer ZkTriggerWorldStart_load(Pointer buf, GameVersion version);
 
 	Pointer ZkTriggerWorldStart_loadPath(String path, GameVersion version);
@@ -1393,6 +2051,14 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkTriggerWorldStart_getFireOnce(Pointer slf);
 
+	void ZkTriggerWorldStart_setTarget(Pointer slf, String val);
+
+	void ZkTriggerWorldStart_setFireOnce(Pointer slf, boolean val);
+
+	boolean ZkTriggerWorldStart_getHasFired(Pointer slf);
+
+	void ZkTriggerWorldStart_setHasFired(Pointer slf, boolean val);
+
 	Pointer ZkTriggerUntouch_load(Pointer buf, GameVersion version);
 
 	Pointer ZkTriggerUntouch_loadPath(String path, GameVersion version);
@@ -1400,6 +2066,8 @@ public interface ZenKitNative extends Library {
 	void ZkTriggerUntouch_del(Pointer slf);
 
 	String ZkTriggerUntouch_getTarget(Pointer slf);
+
+	void ZkTriggerUntouch_setTarget(Pointer slf, String val);
 
 	Pointer ZkZoneMusic_load(Pointer buf, GameVersion version);
 
@@ -1419,6 +2087,30 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkZoneMusic_getIsLoop(Pointer slf);
 
+	void ZkZoneMusic_setIsEnabled(Pointer slf, boolean val);
+
+	void ZkZoneMusic_setPriority(Pointer slf, int val);
+
+	void ZkZoneMusic_setIsEllipsoid(Pointer slf, boolean val);
+
+	void ZkZoneMusic_setReverb(Pointer slf, float val);
+
+	void ZkZoneMusic_setVolume(Pointer slf, float val);
+
+	void ZkZoneMusic_setIsLoop(Pointer slf, boolean val);
+
+	boolean ZkZoneMusic_getLocalEnabled(Pointer slf);
+
+	boolean ZkZoneMusic_getDayEntranceDone(Pointer slf);
+
+	boolean ZkZoneMusic_getNightEntranceDone(Pointer slf);
+
+	void ZkZoneMusic_setLocalEnabled(Pointer slf, boolean localEnabled);
+
+	void ZkZoneMusic_setDayEntranceDone(Pointer slf, boolean dayEntraceDone);
+
+	void ZkZoneMusic_setNightEntranceDone(Pointer slf, boolean nightEntranceDone);
+
 	Pointer ZkZoneFarPlane_load(Pointer buf, GameVersion version);
 
 	Pointer ZkZoneFarPlane_loadPath(String path, GameVersion version);
@@ -1428,6 +2120,10 @@ public interface ZenKitNative extends Library {
 	float ZkZoneFarPlane_getVobFarPlaneZ(Pointer slf);
 
 	float ZkZoneFarPlane_getInnerRangePercentage(Pointer slf);
+
+	void ZkZoneFarPlane_setVobFarPlaneZ(Pointer slf, float val);
+
+	void ZkZoneFarPlane_setInnerRangePercentage(Pointer slf, float val);
 
 	Pointer ZkZoneFog_load(Pointer buf, GameVersion version);
 
@@ -1444,6 +2140,16 @@ public interface ZenKitNative extends Library {
 	boolean ZkZoneFog_getFadeOutSky(Pointer slf);
 
 	boolean ZkZoneFog_getOverrideColor(Pointer slf);
+
+	void ZkZoneFog_setRangeCenter(Pointer slf, float val);
+
+	void ZkZoneFog_setInnerRangePercentage(Pointer slf, float val);
+
+	void ZkZoneFog_setColor(Pointer slf, Color.ByValue val);
+
+	void ZkZoneFog_setFadeOutSky(Pointer slf, boolean val);
+
+	void ZkZoneFog_setOverrideColor(Pointer slf, boolean val);
 
 	Pointer ZkDaedalusScript_load(Pointer buf);
 
@@ -1554,7 +2260,11 @@ public interface ZenKitNative extends Library {
 
 	void ZkDaedalusVm_callFunction(Pointer slf, Pointer sym);
 
+	Pointer ZkDaedalusVm_allocInstance(Pointer slf, Pointer sym, DaedalusInstanceType type);
+
 	Pointer ZkDaedalusVm_initInstance(Pointer slf, Pointer sym, DaedalusInstanceType type);
+
+	void ZkDaedalusVm_initInstanceDirect(Pointer slf, Pointer instance);
 
 	void ZkDaedalusVm_registerExternal(Pointer slf, Pointer sym, ZkDaedalusVmExternalCallback cb, Pointer ctx);
 
@@ -2365,6 +3075,300 @@ public interface ZenKitNative extends Library {
 
 	DaedalusDataType ZkDaedalusSymbol_getReturnType(Pointer slf);
 
+	String ZkNpc_getNpcInstance(Pointer slf);
+
+	Vec3f.ByValue ZkNpc_getModelScale(Pointer slf);
+
+	float ZkNpc_getModelFatness(Pointer slf);
+
+	int ZkNpc_getFlags(Pointer slf);
+
+	int ZkNpc_getGuild(Pointer slf);
+
+	int ZkNpc_getGuildTrue(Pointer slf);
+
+	int ZkNpc_getLevel(Pointer slf);
+
+	int ZkNpc_getXp(Pointer slf);
+
+	int ZkNpc_getXpNextLevel(Pointer slf);
+
+	int ZkNpc_getLp(Pointer slf);
+
+	int ZkNpc_getFightTactic(Pointer slf);
+
+	int ZkNpc_getFightMode(Pointer slf);
+
+	boolean ZkNpc_getWounded(Pointer slf);
+
+	boolean ZkNpc_getMad(Pointer slf);
+
+	int ZkNpc_getMadTime(Pointer slf);
+
+	boolean ZkNpc_getPlayer(Pointer slf);
+
+	String ZkNpc_getStartAiState(Pointer slf);
+
+	String ZkNpc_getScriptWaypoint(Pointer slf);
+
+	int ZkNpc_getAttitude(Pointer slf);
+
+	int ZkNpc_getAttitudeTemp(Pointer slf);
+
+	int ZkNpc_getNameNr(Pointer slf);
+
+	boolean ZkNpc_getMoveLock(Pointer slf);
+
+	boolean ZkNpc_getCurrentStateValid(Pointer slf);
+
+	String ZkNpc_getCurrentStateName(Pointer slf);
+
+	int ZkNpc_getCurrentStateIndex(Pointer slf);
+
+	boolean ZkNpc_getCurrentStateIsRoutine(Pointer slf);
+
+	boolean ZkNpc_getNextStateValid(Pointer slf);
+
+	String ZkNpc_getNextStateName(Pointer slf);
+
+	int ZkNpc_getNextStateIndex(Pointer slf);
+
+	boolean ZkNpc_getNextStateIsRoutine(Pointer slf);
+
+	int ZkNpc_getLastAiState(Pointer slf);
+
+	boolean ZkNpc_getHasRoutine(Pointer slf);
+
+	boolean ZkNpc_getRoutineChanged(Pointer slf);
+
+	boolean ZkNpc_getRoutineOverlay(Pointer slf);
+
+	int ZkNpc_getRoutineOverlayCount(Pointer slf);
+
+	int ZkNpc_getWalkmodeRoutine(Pointer slf);
+
+	boolean ZkNpc_getWeaponmodeRoutine(Pointer slf);
+
+	boolean ZkNpc_getStartNewRoutine(Pointer slf);
+
+	int ZkNpc_getAiStateDriven(Pointer slf);
+
+	Vec3f.ByValue ZkNpc_getAiStatePos(Pointer slf);
+
+	String ZkNpc_getCurrentRoutine(Pointer slf);
+
+	boolean ZkNpc_getRespawn(Pointer slf);
+
+	int ZkNpc_getRespawnTime(Pointer slf);
+
+	int ZkNpc_getBsInterruptableOverride(Pointer slf);
+
+	int ZkNpc_getNpcType(Pointer slf);
+
+	int ZkNpc_getSpellMana(Pointer slf);
+
+	Pointer ZkNpc_getCarryVob(Pointer slf);
+
+	Pointer ZkNpc_getEnemy(Pointer slf);
+
+	void ZkNpc_setNpcInstance(Pointer slf, String npcInstance);
+
+	void ZkNpc_setModelScale(Pointer slf, Vec3f.ByValue modelScale);
+
+	void ZkNpc_setModelFatness(Pointer slf, float modelFatness);
+
+	void ZkNpc_setFlags(Pointer slf, int flags);
+
+	void ZkNpc_setGuild(Pointer slf, int guild);
+
+	void ZkNpc_setGuildTrue(Pointer slf, int guildTrue);
+
+	void ZkNpc_setLevel(Pointer slf, int level);
+
+	void ZkNpc_setXp(Pointer slf, int xp);
+
+	void ZkNpc_setXpNextLevel(Pointer slf, int xpNextLevel);
+
+	void ZkNpc_setLp(Pointer slf, int lp);
+
+	void ZkNpc_setFightTactic(Pointer slf, int fightTactic);
+
+	void ZkNpc_setFightMode(Pointer slf, int fightMode);
+
+	void ZkNpc_setWounded(Pointer slf, boolean wounded);
+
+	void ZkNpc_setMad(Pointer slf, boolean mad);
+
+	void ZkNpc_setMadTime(Pointer slf, int madTime);
+
+	void ZkNpc_setPlayer(Pointer slf, boolean player);
+
+	void ZkNpc_setStartAiState(Pointer slf, String startAiState);
+
+	void ZkNpc_setScriptWaypoint(Pointer slf, String scriptWaypoint);
+
+	void ZkNpc_setAttitude(Pointer slf, int attitude);
+
+	void ZkNpc_setAttitudeTemp(Pointer slf, int attitudeTemp);
+
+	void ZkNpc_setNameNr(Pointer slf, int nameNr);
+
+	void ZkNpc_setMoveLock(Pointer slf, boolean moveLock);
+
+	void ZkNpc_setCurrentStateValid(Pointer slf, boolean currentStateValid);
+
+	void ZkNpc_setCurrentStateName(Pointer slf, String currentStateName);
+
+	void ZkNpc_setCurrentStateIndex(Pointer slf, int currentStateIndex);
+
+	void ZkNpc_setCurrentStateIsRoutine(Pointer slf, boolean currentStateIsRoutine);
+
+	void ZkNpc_setNextStateValid(Pointer slf, boolean nextStateValid);
+
+	void ZkNpc_setNextStateName(Pointer slf, String nextStateName);
+
+	void ZkNpc_setNextStateIndex(Pointer slf, int nextStateIndex);
+
+	void ZkNpc_setNextStateIsRoutine(Pointer slf, boolean nextStateIsRoutine);
+
+	void ZkNpc_setLastAiState(Pointer slf, int lastAiState);
+
+	void ZkNpc_setHasRoutine(Pointer slf, boolean hasRoutine);
+
+	void ZkNpc_setRoutineChanged(Pointer slf, boolean routineChanged);
+
+	void ZkNpc_setRoutineOverlay(Pointer slf, boolean routineOverlay);
+
+	void ZkNpc_setRoutineOverlayCount(Pointer slf, int routineOverlayCount);
+
+	void ZkNpc_setWalkmodeRoutine(Pointer slf, int walkmodeRoutine);
+
+	void ZkNpc_setWeaponmodeRoutine(Pointer slf, boolean weaponmodeRoutine);
+
+	void ZkNpc_setStartNewRoutine(Pointer slf, boolean startNewRoutine);
+
+	void ZkNpc_setAiStateDriven(Pointer slf, int aiStateDriven);
+
+	void ZkNpc_setAiStatePos(Pointer slf, Vec3f.ByValue aiStatePos);
+
+	void ZkNpc_setCurrentRoutine(Pointer slf, String currentRoutine);
+
+	void ZkNpc_setRespawn(Pointer slf, boolean respawn);
+
+	void ZkNpc_setRespawnTime(Pointer slf, int respawnTime);
+
+	void ZkNpc_setBsInterruptableOverride(Pointer slf, int bsInterruptableOverride);
+
+	void ZkNpc_setNpcType(Pointer slf, int npcType);
+
+	void ZkNpc_setSpellMana(Pointer slf, int spellMana);
+
+	void ZkNpc_setCarryVob(Pointer slf, Pointer carryVob);
+
+	void ZkNpc_setEnemy(Pointer slf, Pointer enemy);
+
+	long ZkNpc_getOverlayCount(Pointer slf);
+
+	String ZkNpc_getOverlay(Pointer slf, long i);
+
+	void ZkNpc_clearOverlays(Pointer slf);
+
+	void ZkNpc_removeOverlay(Pointer slf, long i);
+
+	void ZkNpc_setOverlay(Pointer slf, long i, String overlay);
+
+	void ZkNpc_addOverlay(Pointer slf, String overlay);
+
+	long ZkNpc_getTalentCount(Pointer slf);
+
+	Pointer ZkNpc_getTalent(Pointer slf, long i);
+
+	void ZkNpc_clearTalents(Pointer slf);
+
+	void ZkNpc_removeTalent(Pointer slf, long i);
+
+	void ZkNpc_setTalent(Pointer slf, long i, Pointer talent);
+
+	void ZkNpc_addTalent(Pointer slf, Pointer talent);
+
+	long ZkNpc_getItemCount(Pointer slf);
+
+	Pointer ZkNpc_getItem(Pointer slf, long i);
+
+	void ZkNpc_clearItems(Pointer slf);
+
+	void ZkNpc_removeItem(Pointer slf, long i);
+
+	void ZkNpc_setItem(Pointer slf, long i, Pointer item);
+
+	void ZkNpc_addItem(Pointer slf, Pointer item);
+
+	long ZkNpc_getSlotCount(Pointer slf);
+
+	Pointer ZkNpc_getSlot(Pointer slf, long i);
+
+	void ZkNpc_clearSlots(Pointer slf);
+
+	void ZkNpc_removeSlot(Pointer slf, long i);
+
+	Pointer ZkNpc_addSlot(Pointer slf);
+
+	int ZkNpc_getProtection(Pointer slf, long i);
+
+	void ZkNpc_setProtection(Pointer slf, long i, int v);
+
+	int ZkNpc_getAttribute(Pointer slf, long i);
+
+	void ZkNpc_setAttribute(Pointer slf, long i, int v);
+
+	int ZkNpc_getHitChance(Pointer slf, long i);
+
+	void ZkNpc_setHitChance(Pointer slf, long i, int v);
+
+	int ZkNpc_getMission(Pointer slf, long i);
+
+	void ZkNpc_setMission(Pointer slf, long i, int v);
+
+	Pointer ZkNpc_getAiVars(Pointer slf, LongByReference len);
+
+	void ZkNpc_setAiVars(Pointer slf, int[] vars, long len);
+
+	String ZkNpc_getPacked(Pointer slf, long i);
+
+	void ZkNpc_setPacked(Pointer slf, long i, String v);
+
+	Pointer ZkNpcTalent_new();
+
+	void ZkNpcTalent_del(Pointer slf);
+
+	int ZkNpcTalent_getTalent(Pointer slf);
+
+	int ZkNpcTalent_getValue(Pointer slf);
+
+	int ZkNpcTalent_getSkill(Pointer slf);
+
+	void ZkNpcTalent_setTalent(Pointer slf, int v);
+
+	void ZkNpcTalent_setValue(Pointer slf, int v);
+
+	void ZkNpcTalent_setSkill(Pointer slf, int v);
+
+	boolean ZkNpcSlot_getUsed(Pointer slf);
+
+	String ZkNpcSlot_getName(Pointer slf);
+
+	Pointer ZkNpcSlot_getItem(Pointer slf);
+
+	boolean ZkNpcSlot_getInInventory(Pointer slf);
+
+	void ZkNpcSlot_setUsed(Pointer slf, boolean used);
+
+	void ZkNpcSlot_setName(Pointer slf, String name);
+
+	void ZkNpcSlot_setItem(Pointer slf, Pointer item);
+
+	void ZkNpcSlot_setInInventory(Pointer slf, boolean inInventory);
+
 	interface ZkLogger extends Callback {
 		void invoke(Pointer ctx, LogLevel level, String name, String message);
 	}
@@ -2382,11 +3386,11 @@ public interface ZenKitNative extends Library {
 	}
 
 	interface ZkAnimationSampleEnumerator extends Callback {
-		boolean invoke(Pointer ctx, AnimationSample.ByReference sample);
+		boolean invoke(Pointer ctx, AnimationSample.ByValue sample);
 	}
 
 	interface ZkModelHierarchyNodeEnumerator extends Callback {
-		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReference node);
+		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReferenc node);
 	}
 
 	interface ZkOrientedBoundingBoxEnumerator extends Callback {

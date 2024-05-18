@@ -41,10 +41,14 @@ public class BspTree {
 	}
 
 	public Vec3f[] getLightPoints() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkBspTree_getLightPoints(handle, count);
-		if (ptr == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkBspTree_getLightPointCount(handle);
+		var weights = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkBspTree_getLightPoint(handle, i);
+		}
+
+		return weights;
 	}
 
 	public long[] getLeafNodeIndices() {
@@ -55,10 +59,14 @@ public class BspTree {
 	}
 
 	public BspNode[] getNodes() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkBspTree_getNodes(handle, count);
-		if (ptr == null || count.getValue() == 0) return new BspNode[0];
-		return (BspNode[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkBspTree_getNodeCount(handle);
+		var weights = new BspNode[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkBspTree_getNode(handle, i);
+		}
+
+		return weights;
 	}
 
 	public long getSectorCount() {

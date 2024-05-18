@@ -55,4 +55,24 @@ class LightTest {
 		assertFalse(vob.isLightStatic());
 		assertFalse(vob.getColorAnimationSmooth());
 	}
+
+	@Test
+	void set() {
+		var vob = new Light(Util.getResource("G1/VOb/zCVobLight.zen"), GameVersion.GOTHIC_1);
+		vob.setPreset("");
+		vob.setLightType(LightType.POINT);
+		vob.setRange(0);
+		vob.setColor(new Color(0, 0, 0, 0));
+		vob.setConeAngle(0.0f);
+		vob.setStatic(true);
+		vob.setQuality(LightQuality.HIGH);
+		vob.setLensflareFx("");
+		vob.setOn(true);
+		vob.setRangeAnimationScale(new float[]{1, 2, 3});
+		vob.setRangeAnimationFps(0);
+		vob.setRangeAnimationSmooth(false);
+		vob.setColorAnimationFps(0);
+		vob.setColorAnimationSmooth(false);
+		vob.setCanMove(true);
+	}
 }

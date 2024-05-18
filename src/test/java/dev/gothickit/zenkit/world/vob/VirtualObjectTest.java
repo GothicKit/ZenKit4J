@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.world.vob;
 
 import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.world.visual.VisualType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -54,12 +55,13 @@ class VirtualObjectTest {
 		assertEquals(0, vob.getBias());
 		assertFalse(vob.getAmbient());
 		assertEquals(0, vob.getAnimationStrength());
-		assertEquals(0, vob.getFarClipScale());
+		assertEquals(2.0, vob.getFarClipScale());
 		assertEquals("", vob.getPresetName());
 		assertEquals("", vob.getName());
-		assertEquals("FIRE.pfx", vob.getVisualName());
-		assertEquals(VisualType.PARTICLE_EFFECT, vob.getVisualType());
-		assertNull(vob.getVisualDecal());
+
+		var visual = vob.getVisual();
+		assertEquals("FIRE.pfx", visual.getName());
+		assertEquals(VisualType.PARTICLE_EFFECT, visual.getType());
 	}
 
 	@Test
@@ -93,8 +95,9 @@ class VirtualObjectTest {
 		assertEquals(1, vob.getFarClipScale());
 		assertEquals("", vob.getPresetName());
 		assertEquals("", vob.getName());
-		assertEquals("OW_MISC_WALL_TORCH_01.3DS", vob.getVisualName());
-		assertEquals(VisualType.MULTI_RESOLUTION_MESH, vob.getVisualType());
-		assertNull(vob.getVisualDecal());
+
+		var visual = vob.getVisual();
+		assertEquals("OW_MISC_WALL_TORCH_01.3DS", visual.getName());
+		assertEquals(VisualType.MULTI_RESOLUTION_MESH, visual.getType());
 	}
 }

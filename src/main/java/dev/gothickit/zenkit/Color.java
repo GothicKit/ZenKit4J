@@ -1,6 +1,7 @@
 package dev.gothickit.zenkit;
 
 import com.sun.jna.Structure;
+import org.jetbrains.annotations.NotNull;
 
 @Structure.FieldOrder({"r", "g", "b", "a"})
 public class Color extends Structure {
@@ -19,12 +20,17 @@ public class Color extends Structure {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Color color = (Color) o;
+		if (!(o instanceof Color color)) return false;
 		return r == color.r && g == color.g && b == color.b && a == color.a;
 	}
 
 	public static class ByValue extends Color implements Structure.ByValue {
+		public ByValue() {
+		}
+
+		public ByValue(@NotNull Color other) {
+			super(other.r, other.g, other.b, other.a);
+		}
 	}
 
 	public static class ByReference extends Color implements Structure.ByReference {

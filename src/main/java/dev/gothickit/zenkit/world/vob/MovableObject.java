@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class MovableObject extends VirtualObject {
+	public MovableObject() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.oCMOB));
+	}
+
 	public MovableObject(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkMovableObject_load(buf.getHandle(), version), ZenKit.API::ZkMovableObject_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load MovableObject vob");
@@ -24,7 +28,7 @@ public class MovableObject extends VirtualObject {
 	}
 
 	public MovableObject(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkMovableObject_del);
 	}
 
 	public String getFocusName() {
@@ -69,5 +73,49 @@ public class MovableObject extends VirtualObject {
 
 	public boolean isDestroyed() {
 		return ZenKit.API.ZkMovableObject_getDestroyed(getHandle());
+	}
+
+	public void setFocusName(String val) {
+		ZenKit.API.ZkMovableObject_setName(getHandle(), val);
+	}
+
+	public void setHp(int val) {
+		ZenKit.API.ZkMovableObject_setHp(getHandle(), val);
+	}
+
+	public void setDamage(int val) {
+		ZenKit.API.ZkMovableObject_setDamage(getHandle(), val);
+	}
+
+	public void setMovable(boolean val) {
+		ZenKit.API.ZkMovableObject_setMovable(getHandle(), val);
+	}
+
+	public void setTakable(boolean val) {
+		ZenKit.API.ZkMovableObject_setTakable(getHandle(), val);
+	}
+
+	public void setFocusOverride(boolean val) {
+		ZenKit.API.ZkMovableObject_setFocusOverride(getHandle(), val);
+	}
+
+	public void setMaterial(SoundMaterialType val) {
+		ZenKit.API.ZkMovableObject_setMaterial(getHandle(), val);
+	}
+
+	public void setVisualDestroyed(String val) {
+		ZenKit.API.ZkMovableObject_setVisualDestroyed(getHandle(), val);
+	}
+
+	public void setOwner(String val) {
+		ZenKit.API.ZkMovableObject_setOwner(getHandle(), val);
+	}
+
+	public void setOwnerGuild(String val) {
+		ZenKit.API.ZkMovableObject_setOwnerGuild(getHandle(), val);
+	}
+
+	public void setDestroyed(boolean val) {
+		ZenKit.API.ZkMovableObject_setDestroyed(getHandle(), val);
 	}
 }

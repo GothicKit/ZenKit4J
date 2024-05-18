@@ -7,6 +7,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class MessageFilter extends VirtualObject {
+	public MessageFilter() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCMessageFilter));
+	}
+
 	public MessageFilter(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkMessageFilter_load(buf.getHandle(), version), ZenKit.API::ZkMessageFilter_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Animate vob");
@@ -18,7 +22,7 @@ public class MessageFilter extends VirtualObject {
 	}
 
 	public MessageFilter(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkMessageFilter_del);
 	}
 
 	public String getTarget() {
@@ -31,5 +35,17 @@ public class MessageFilter extends VirtualObject {
 
 	public MessageFilterAction getOnUntrigger() {
 		return ZenKit.API.ZkMessageFilter_getOnUntrigger(getHandle());
+	}
+
+	public void setTarget(String val) {
+		ZenKit.API.ZkMessageFilter_setTarget(getHandle(), val);
+	}
+
+	public void setOnTrigger(MessageFilterAction val) {
+		ZenKit.API.ZkMessageFilter_setOnTrigger(getHandle(), val);
+	}
+
+	public void setOnUntrigger(MessageFilterAction val) {
+		ZenKit.API.ZkMessageFilter_setOnUntrigger(getHandle(), val);
 	}
 }

@@ -8,4 +8,7 @@ public class SoftSkinWeightEntry extends Structure {
 	public float weight;
 	public Vec3f position;
 	public byte nodeIndex;
+
+	public static class ByValue extends SoftSkinWeightEntry implements Structure.ByValue {
+	}
 }

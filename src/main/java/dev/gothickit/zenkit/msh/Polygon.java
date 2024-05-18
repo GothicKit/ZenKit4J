@@ -28,7 +28,7 @@ public class Polygon {
 
 	public int[] getPolygonIndices() {
 		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkPolygon_getPolygonIndices(handle, count);
+		var ptr = ZenKit.API.ZkPolygon_getFeatureIndices(handle, count);
 		if (ptr == Pointer.NULL || count.getValue() == 0) return null;
 		return ptr.getIntArray(0, count.getValue());
 	}

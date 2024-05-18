@@ -4,6 +4,11 @@ import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
+import dev.gothickit.zenkit.world.Ai;
+import dev.gothickit.zenkit.world.EventManager;
+import dev.gothickit.zenkit.world.visual.Visual;
+import dev.gothickit.zenkit.world.visual.VisualDecal;
+import dev.gothickit.zenkit.world.visual.VisualType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +18,10 @@ import java.util.function.Consumer;
 
 public class VirtualObject {
 	private final Handle handle;
+
+	public VirtualObject() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCVob));
+	}
 
 	public VirtualObject(@NotNull Read buf, GameVersion version) {
 		this.handle = new Handle(
@@ -28,15 +37,19 @@ public class VirtualObject {
 	}
 
 	protected VirtualObject(Pointer handle) {
-		this(handle, pointer -> {
-		});
+		this(handle, ZenKit.API::ZkVirtualObject_del);
 	}
 
 	protected VirtualObject(Pointer handle, Consumer<Pointer> delete) {
 		this.handle = new Handle(handle, delete);
 	}
 
-	public static VirtualObject fromNative(Pointer ptr) {
+	public static @Nullable VirtualObject fromNative(Pointer ptr) {
+		if (ptr == Pointer.NULL) {
+			return null;
+		}
+
+		ptr = ZenKit.API.ZkObject_takeRef(ptr);
 		return switch (ZenKit.API.ZkVirtualObject_getType(ptr)) {
 			case zCCSCamera -> new CutsceneCamera(ptr);
 			case zCVobLight -> new Light(ptr);
@@ -124,7 +137,6 @@ public class VirtualObject {
 
 	public AnimationType getAnimationType() {
 		return ZenKit.API.ZkVirtualObject_getAnimMode(getHandle());
-
 	}
 
 	public int getBias() {
@@ -151,18 +163,15 @@ public class VirtualObject {
 		return ZenKit.API.ZkVirtualObject_getName(getHandle());
 	}
 
-	public String getVisualName() {
-		return ZenKit.API.ZkVirtualObject_getVisualName(getHandle());
-	}
+	public Visual getVisual() {
+		var visual = ZenKit.API.ZkVirtualObject_getVisual(getHandle());
+		var type = ZenKit.API.ZkVisual_getType(visual);
 
-	public VisualType getVisualType() {
-		return ZenKit.API.ZkVirtualObject_getVisualType(getHandle());
-	}
+		if (type == VisualType.DECAL) {
+			return new VisualDecal(visual);
+		}
 
-	public @Nullable Decal getVisualDecal() {
-		var ptr = ZenKit.API.ZkVirtualObject_getVisualDecal(getHandle());
-		if (ptr == Pointer.NULL) return null;
-		return new Decal(ptr);
+		return new Visual(visual);
 	}
 
 	public long getChildCount() {
@@ -182,5 +191,115 @@ public class VirtualObject {
 		}, Pointer.NULL);
 
 		return children;
+	}
+
+	public void addChild(@NotNull VirtualObject child) {
+		ZenKit.API.ZkVirtualObject_addChild(getHandle(), child.getHandle());
+	}
+
+	public void setPosition(Vec3f val) {
+		ZenKit.API.ZkVirtualObject_setPosition(getHandle(), new Vec3f.ByValue(val));
+	}
+
+	public void setRotation(Mat3x3 val) {
+		ZenKit.API.ZkVirtualObject_setRotation(getHandle(), new Mat3x3.ByValue(val));
+	}
+
+	public void setBoundingBox(AxisAlignedBoundingBox val) {
+		ZenKit.API.ZkVirtualObject_setBbox(getHandle(), new AxisAlignedBoundingBox.ByValue(val));
+	}
+
+	public void setShowVisual(boolean val) {
+		ZenKit.API.ZkVirtualObject_setShowVisual(getHandle(), val);
+	}
+
+	public void setSpriteCameraFacingMode(SpriteAlignment val) {
+		ZenKit.API.ZkVirtualObject_setSpriteCameraFacingMode(getHandle(), val);
+	}
+
+	public void setCdStatic(boolean val) {
+		ZenKit.API.ZkVirtualObject_setCdStatic(getHandle(), val);
+	}
+
+	public void setCdDynamic(boolean val) {
+		ZenKit.API.ZkVirtualObject_setCdDynamic(getHandle(), val);
+	}
+
+	public void setStatic(boolean val) {
+		ZenKit.API.ZkVirtualObject_setVobStatic(getHandle(), val);
+	}
+
+	public void setDynamicShadows(ShadowType val) {
+		ZenKit.API.ZkVirtualObject_setDynamicShadows(getHandle(), val);
+	}
+
+	public void setPhysicsEnabled(boolean val) {
+		ZenKit.API.ZkVirtualObject_setPhysicsEnabled(getHandle(), val);
+	}
+
+	public void setAnimationType(AnimationType val) {
+		ZenKit.API.ZkVirtualObject_setAnimMode(getHandle(), val);
+	}
+
+	public void setBias(int val) {
+		ZenKit.API.ZkVirtualObject_setBias(getHandle(), val);
+	}
+
+	public void setAmbient(boolean val) {
+		ZenKit.API.ZkVirtualObject_setAmbient(getHandle(), val);
+	}
+
+	public void setAnimationStrength(float val) {
+		ZenKit.API.ZkVirtualObject_setAnimStrength(getHandle(), val);
+	}
+
+	public void setFarClipScale(float val) {
+		ZenKit.API.ZkVirtualObject_setFarClipScale(getHandle(), val);
+	}
+
+	public void setPresetName(String val) {
+		ZenKit.API.ZkVirtualObject_setPresetName(getHandle(), val);
+	}
+
+	public void setName(String val) {
+		ZenKit.API.ZkVirtualObject_setName(getHandle(), val);
+	}
+
+	public byte getSleepMode() {
+		return ZenKit.API.ZkVirtualObject_getSleepMode(getHandle());
+	}
+
+	public float getNextOnTimer() {
+		return ZenKit.API.ZkVirtualObject_getNextOnTimer(getHandle());
+	}
+
+	public void setSleepMode(byte val) {
+		ZenKit.API.ZkVirtualObject_setSleepMode(getHandle(), val);
+	}
+
+	public void setNextOnTimer(float val) {
+		ZenKit.API.ZkVirtualObject_setNextOnTimer(getHandle(), val);
+	}
+
+	public Ai getAi() {
+		var ptr = ZenKit.API.ZkVirtualObject_getAi(getHandle());
+		return Ai.fromNative(ptr);
+	}
+
+	public EventManager getEventManager() {
+		var ptr = ZenKit.API.ZkVirtualObject_getEventManager(getHandle());
+		return new EventManager(ZenKit.API.ZkObject_takeRef(ptr));
+	}
+
+	public void setVisual(Visual val) {
+		ZenKit.API.ZkVirtualObject_setVisual(getHandle(), val != null ? val.getHandle() : Pointer.NULL);
+	}
+
+	public void setAi(Ai val) {
+		ZenKit.API.ZkVirtualObject_setAi(getHandle(), val != null ? val.getHandle() : Pointer.NULL);
+	}
+
+	public void setEventManager(EventManager val) {
+		ZenKit.API.ZkVirtualObject_setEventManager(getHandle(), val != null ? val.getHandle() : Pointer.NULL);
 	}
 }

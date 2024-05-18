@@ -8,8 +8,7 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TriggerWorldStartTest {
 	@BeforeAll
@@ -23,5 +22,15 @@ class TriggerWorldStartTest {
 		var vob = new TriggerWorldStart(Util.getResource("G2/VOb/zCTriggerWorldStart.zen"), GameVersion.GOTHIC_2);
 		assertEquals("EVT_TROLL_GRAVE_MOVER_01", vob.getTarget());
 		assertTrue(vob.getFireOnce());
+	}
+
+	@Test
+	void set() {
+		var vob = new TriggerWorldStart(Util.getResource("G2/VOb/zCTriggerWorldStart.zen"), GameVersion.GOTHIC_2);
+		vob.setTarget("test");
+		vob.setFireOnce(false);
+
+		assertEquals("test", vob.getTarget());
+		assertFalse(vob.getFireOnce());
 	}
 }

@@ -25,4 +25,12 @@ class ParticleEffectControllerTest {
 		assertFalse(vob.getKillWhenDone());
 		assertFalse(vob.isInitiallyRunning());
 	}
+
+	@Test
+	void set() {
+		var vob = new ParticleEffectController(Util.getResource("G2/VOb/zCPFXControler.zen"), GameVersion.GOTHIC_2);
+		vob.setEffectName("test");
+		vob.setKillWhenDone(true);
+		vob.setInitiallyRunning(true);
+	}
 }

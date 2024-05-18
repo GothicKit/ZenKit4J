@@ -1,12 +1,12 @@
 package dev.gothickit.zenkit;
 
 import com.sun.jna.Structure;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class Vec3f extends Structure {
 	public float x;
-
 	public float y;
 	public float z;
 
@@ -28,6 +28,12 @@ public class Vec3f extends Structure {
 	}
 
 	public static class ByValue extends Vec3f implements Structure.ByValue {
+		public ByValue() {
+		}
+
+		public ByValue(@NotNull Vec3f v) {
+			super(v.x, v.y, v.z);
+		}
 	}
 
 	public static class ByReference extends Vec3f implements Structure.ByReference {

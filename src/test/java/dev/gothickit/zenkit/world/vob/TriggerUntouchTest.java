@@ -22,4 +22,11 @@ class TriggerUntouchTest {
 		var vob = new TriggerUntouch(Util.getResource("G2/VOb/zCTriggerUntouch.zen"), GameVersion.GOTHIC_2);
 		assertEquals("EVT_TROLL_GRAVE_TRIGGERLIST_01", vob.getTarget());
 	}
+
+	@Test
+	void set() {
+		var vob = new TriggerUntouch(Util.getResource("G2/VOb/zCTriggerUntouch.zen"), GameVersion.GOTHIC_2);
+		vob.setTarget("test");
+		assertEquals("test", vob.getTarget());
+	}
 }

@@ -52,9 +52,13 @@ public class MorphAnimation {
 	}
 
 	public Vec3f[] getSamples() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkMorphAnimation_getSamples(handle, count);
-		if (ptr == null || count.getValue() == 0) return new Vec3f[0];
-		return (Vec3f[]) ptr.toArray(count.getValue());
+		var count = ZenKit.API.ZkMorphAnimation_getSampleCount(handle);
+		var weights = new Vec3f[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkMorphAnimation_getSample(handle, i);
+		}
+
+		return weights;
 	}
 }

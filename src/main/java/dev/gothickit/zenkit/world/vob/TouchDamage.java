@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 
 public class TouchDamage extends VirtualObject {
+	public TouchDamage() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.oCTouchDamage));
+	}
+
 	public TouchDamage(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkTouchDamage_load(buf.getHandle(), version), ZenKit.API::ZkTouchDamage_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load TouchDamage vob");
@@ -20,7 +24,7 @@ public class TouchDamage extends VirtualObject {
 	}
 
 	public TouchDamage(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkTouchDamage_del);
 	}
 
 	public float getDamage() {
@@ -69,5 +73,53 @@ public class TouchDamage extends VirtualObject {
 
 	public TouchCollisionType getCollisionType() {
 		return ZenKit.API.ZkTouchDamage_getCollisionType(getHandle());
+	}
+
+	public void setDamage(float val) {
+		ZenKit.API.ZkTouchDamage_setDamage(getHandle(), val);
+	}
+
+	public void setIsBarrier(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsBarrier(getHandle(), val);
+	}
+
+	public void setIsBlunt(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsBlunt(getHandle(), val);
+	}
+
+	public void setIsEdge(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsEdge(getHandle(), val);
+	}
+
+	public void setIsFire(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsFire(getHandle(), val);
+	}
+
+	public void setIsFly(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsFly(getHandle(), val);
+	}
+
+	public void setIsMagic(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsMagic(getHandle(), val);
+	}
+
+	public void setIsPoint(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsPoint(getHandle(), val);
+	}
+
+	public void setIsFall(boolean val) {
+		ZenKit.API.ZkTouchDamage_setIsFall(getHandle(), val);
+	}
+
+	public void setRepeatDelay(@NotNull Duration val) {
+		ZenKit.API.ZkTouchDamage_setRepeatDelaySeconds(getHandle(), val.getSeconds());
+	}
+
+	public void setVolumeScale(float val) {
+		ZenKit.API.ZkTouchDamage_setVolumeScale(getHandle(), val);
+	}
+
+	public void setCollisionType(TouchCollisionType val) {
+		ZenKit.API.ZkTouchDamage_setCollisionType(getHandle(), val);
 	}
 }

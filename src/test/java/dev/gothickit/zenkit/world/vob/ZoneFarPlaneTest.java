@@ -23,4 +23,13 @@ class ZoneFarPlaneTest {
 		assertEquals(6500.0f, vob.getVobFarPlaneZ());
 		assertEquals(0.699999988f, vob.getInnerRangePercentage());
 	}
+
+	@Test
+	void set() {
+		var vob = new ZoneFarPlane(Util.getResource("G2/VOb/zCZoneVobFarPlane.zen"), GameVersion.GOTHIC_2);
+		vob.setVobFarPlaneZ(0);
+		vob.setInnerRangePercentage(0);
+		assertEquals(0, vob.getVobFarPlaneZ());
+		assertEquals(0, vob.getInnerRangePercentage());
+	}
 }

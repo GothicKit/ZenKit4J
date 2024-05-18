@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeMaster extends VirtualObject {
+	public CodeMaster() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCCodeMaster));
+	}
+
 	public CodeMaster(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkCodeMaster_load(buf.getHandle(), version), ZenKit.API::ZkCodeMaster_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load CodeMaster vob");
@@ -21,7 +25,7 @@ public class CodeMaster extends VirtualObject {
 	}
 
 	public CodeMaster(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkCodeMaster_del);
 	}
 
 	public String getTarget() {
@@ -44,6 +48,26 @@ public class CodeMaster extends VirtualObject {
 		return ZenKit.API.ZkCodeMaster_getUntriggeredCancels(getHandle());
 	}
 
+	public void setTarget(String val) {
+		ZenKit.API.ZkCodeMaster_setTarget(getHandle(), val);
+	}
+
+	public void setOrdered(boolean val) {
+		ZenKit.API.ZkCodeMaster_setOrdered(getHandle(), val);
+	}
+
+	public void setFirstFalseIsFailure(boolean val) {
+		ZenKit.API.ZkCodeMaster_setFirstFalseIsFailure(getHandle(), val);
+	}
+
+	public void setFailureTarget(String val) {
+		ZenKit.API.ZkCodeMaster_setFailureTarget(getHandle(), val);
+	}
+
+	public void setUntriggeredCancels(boolean val) {
+		ZenKit.API.ZkCodeMaster_setUntriggeredCancels(getHandle(), val);
+	}
+
 	public long getSlaveCount() {
 		return ZenKit.API.ZkCodeMaster_getSlaveCount(getHandle());
 	}
@@ -63,4 +87,29 @@ public class CodeMaster extends VirtualObject {
 		return slaves;
 	}
 
+	void addSlave(String value) {
+		ZenKit.API.ZkCodeMaster_addSlave(getHandle(), value);
+	}
+
+	void removeSlave(long i) {
+		ZenKit.API.ZkCodeMaster_removeSlave(getHandle(), i);
+	}
+
+	void setSlaves(Iterable<String> slaves) {
+		for (var i = 0; i < getSlaveCount(); ++i) {
+			removeSlave(i);
+		}
+
+		slaves.forEach(this::addSlave);
+	}
+
+	void setSlaves(String[] slaves) {
+		for (var i = 0; i < getSlaveCount(); ++i) {
+			removeSlave(i);
+		}
+
+		for (String slave : slaves) {
+			addSlave(slave);
+		}
+	}
 }

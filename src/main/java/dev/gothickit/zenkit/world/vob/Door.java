@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class Door extends InteractiveObject {
+	public Door() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.oCMobDoor));
+	}
+
 	public Door(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkDoor_load(buf.getHandle(), version), ZenKit.API::ZkDoor_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Door vob");
@@ -24,7 +28,7 @@ public class Door extends InteractiveObject {
 	}
 
 	public Door(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkDoor_del);
 	}
 
 	public boolean isLocked() {
@@ -37,5 +41,17 @@ public class Door extends InteractiveObject {
 
 	public String getPickString() {
 		return ZenKit.API.ZkDoor_getPickString(getHandle());
+	}
+
+	public void setLocked(boolean val) {
+		ZenKit.API.ZkDoor_setIsLocked(getHandle(), val);
+	}
+
+	public void setKey(String val) {
+		ZenKit.API.ZkDoor_setKey(getHandle(), val);
+	}
+
+	public void setPickString(String val) {
+		ZenKit.API.ZkDoor_setPickString(getHandle(), val);
 	}
 }

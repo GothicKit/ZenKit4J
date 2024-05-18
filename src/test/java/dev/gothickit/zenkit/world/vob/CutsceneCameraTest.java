@@ -1,9 +1,6 @@
 package dev.gothickit.zenkit.world.vob;
 
-import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.LogLevel;
-import dev.gothickit.zenkit.Logger;
-import dev.gothickit.zenkit.Util;
+import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -41,7 +38,7 @@ class CutsceneCameraTest {
 		assertEquals(1, vob.getTargetCount());
 
 		var frames = vob.getFrames();
-		assertEquals(3, frames.size());
+		assertEquals(2, frames.size());
 		assertEquals(0.0f, frames.get(0).getTime());
 		assertEquals(0.0f, frames.get(0).getRollAngle());
 		assertEquals(1.0f, frames.get(0).getFovScale());
@@ -76,5 +73,39 @@ class CutsceneCameraTest {
 		assertEquals(29227.1875f, pose.m32);
 		assertEquals(1.0f, pose.m33);
 
+	}
+
+	@Test
+	void set() {
+		var vob = new CutsceneCamera(Util.getResource("G2/VOb/zCCSCamera.zen"), GameVersion.GOTHIC_2);
+		vob.setTrajectoryFOR(CameraTrajectory.OBJECT);
+		vob.setTargetTrajectoryFOR(CameraTrajectory.OBJECT);
+		vob.setLoopMode(CameraLoopType.NONE);
+		vob.setLerpMode(CameraLerpType.PATH);
+		vob.setIgnoreFORVobRotation(true);
+		vob.setIgnoreFORVobRotationTarget(true);
+		vob.setAdapt(true);
+		vob.setEaseFirst(true);
+		vob.setEaseLast(true);
+		vob.setTotalDuration(0);
+		vob.setAutoFocusVob("");
+		vob.setAutoPlayerMovable(true);
+		vob.setAutoUntriggerLast(true);
+		vob.setAutoUntriggerLastDelay(10);
+
+		var frame = vob.getFrame(0);
+
+		frame.setTime(0);
+		frame.setRollAngle(0);
+		frame.setFovScale(0);
+		frame.setMotionType(CameraMotion.CUSTOM);
+		frame.setMotionTypeRoll(CameraMotion.CUSTOM);
+		frame.setMotionTypeTimeScale(CameraMotion.CUSTOM);
+		frame.setTension(0);
+		frame.setCamBias(0);
+		frame.setContinuity(0);
+		frame.setTimeScale(0);
+		frame.setTimeFixed(true);
+		frame.setOriginalPose(new Mat4x4());
 	}
 }

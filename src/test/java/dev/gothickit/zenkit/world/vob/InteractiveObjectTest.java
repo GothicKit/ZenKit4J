@@ -28,4 +28,15 @@ class InteractiveObjectTest {
 		assertEquals("PRAYIDOL", vob.getOnStateChangeFunction());
 		assertFalse(vob.getRewind());
 	}
+
+	@Test
+	void set() {
+		var vob = new InteractiveObject(Util.getResource("G2/VOb/oCMobInter.zen"), GameVersion.GOTHIC_2);
+		vob.setState(0);
+		vob.setTarget("test");
+		vob.setItem("test");
+		vob.setConditionFunction("test");
+		vob.setOnStateChangeFunction("test");
+		vob.setRewind(true);
+	}
 }

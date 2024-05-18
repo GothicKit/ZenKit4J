@@ -13,4 +13,7 @@ public class BspNode extends Structure {
 	public int frontIndex;
 	public int backIndex;
 	public int parentIndex;
+
+	public static class ByValue extends BspNode implements Structure.ByValue {
+	}
 }

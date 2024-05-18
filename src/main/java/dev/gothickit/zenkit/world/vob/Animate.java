@@ -17,12 +17,27 @@ public class Animate extends VirtualObject {
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Animate vob");
 	}
 
+	public Animate() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCVobAnimate));
+	}
+
 	public Animate(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkAnimate_del);
 	}
 
 	public boolean getStartOn() {
 		return ZenKit.API.ZkAnimate_getStartOn(getHandle());
 	}
 
+	public void setStartOn(boolean val) {
+		ZenKit.API.ZkAnimate_setStartOn(getHandle(), val);
+	}
+
+	public boolean getRunning() {
+		return ZenKit.API.ZkAnimate_getIsRunning(getHandle());
+	}
+
+	public void setRunning(boolean val) {
+		ZenKit.API.ZkAnimate_setIsRunning(getHandle(), val);
+	}
 }

@@ -21,16 +21,19 @@ class CutsceneLibraryTest {
 		var csl = new CutsceneLibrary(Util.getResource("ou.proprietary.bin"));
 
 		var cslBlocks = csl.getBlocks();
+		assertEquals(7360, csl.getBlockCount());
 		assertEquals(7360, cslBlocks.size());
 
 		var msg20 = csl.getBlock("DIA_ARTO_PERM_15_00");
 		var msg100 = csl.getBlock("DIA_BaalKagan_WasDrin_13_01");
 		var msg200 = cslBlocks.get(200);
+		var msg200_1 = csl.getBlock(200);
 		var msgNone = csl.getBlock("nonexistent");
 
 		assertNotNull(msg20);
 		assertNotNull(msg100);
 		assertNotNull(msg200);
+		assertNotNull(msg200_1);
 		assertNull(msgNone);
 
 		assertEquals(0, msg20.getMessage().getType());
@@ -44,5 +47,9 @@ class CutsceneLibraryTest {
 		assertEquals(0, msg200.getMessage().getType());
 		assertEquals("Stimmt genau.", msg200.getMessage().getText());
 		assertEquals("DIA_BAALTARAN_INTOCASTLE_EXACTLY_15_00.WAV", msg200.getMessage().getName());
+
+		assertEquals(0, msg200_1.getMessage().getType());
+		assertEquals("Stimmt genau.", msg200_1.getMessage().getText());
+		assertEquals("DIA_BAALTARAN_INTOCASTLE_EXACTLY_15_00.WAV", msg200_1.getMessage().getName());
 	}
 }

@@ -23,4 +23,13 @@ class TriggerChangeLevelTest {
 		assertEquals("ADDON\\ADDONWORLD.ZEN", vob.getLevelName());
 		assertEquals("START_ADDON", vob.getStartVob());
 	}
+
+	@Test
+	void set() {
+		var vob = new TriggerChangeLevel(Util.getResource("G2/VOb/oCTriggerChangeLevel.zen"), GameVersion.GOTHIC_2);
+		vob.setLevelName("test");
+		vob.setStartVob("test");
+		assertEquals("test", vob.getLevelName());
+		assertEquals("test", vob.getStartVob());
+	}
 }

@@ -1,4 +1,4 @@
-package dev.gothickit.zenkit.world.vob;
+package dev.gothickit.zenkit.world.visual;
 
 import dev.gothickit.zenkit.utils.EnumNative;
 
@@ -7,7 +7,7 @@ public enum VisualType implements EnumNative<VisualType> {
 	MESH(1),
 	MULTI_RESOLUTION_MESH(2),
 	PARTICLE_EFFECT(3),
-	AI_CAMERA(4),
+	CAMERA(4),
 	MODEL(5),
 	MORPH_MESH(6),
 	UNKNOWN(7),
@@ -31,7 +31,7 @@ public enum VisualType implements EnumNative<VisualType> {
 			case 1 -> MESH;
 			case 2 -> MULTI_RESOLUTION_MESH;
 			case 3 -> PARTICLE_EFFECT;
-			case 4 -> AI_CAMERA;
+			case 4 -> CAMERA;
 			case 5 -> MODEL;
 			case 6 -> MORPH_MESH;
 			case 7 -> UNKNOWN;

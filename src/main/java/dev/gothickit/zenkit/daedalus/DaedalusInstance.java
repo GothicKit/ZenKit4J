@@ -35,7 +35,7 @@ public class DaedalusInstance {
 			case FIGHT_AI -> new FightAiInstance(handle);
 			case SOUND_EFFECT -> new SoundEffectInstance(handle);
 			case SOUND_SYSTEM -> new SoundSystemInstance(handle);
-			case SVM -> throw new RuntimeException("Svm Instances are currently not supported");
+			case SVM -> new SvmInstance(handle);
 			default -> new DaedalusInstance(handle);
 		};
 	}

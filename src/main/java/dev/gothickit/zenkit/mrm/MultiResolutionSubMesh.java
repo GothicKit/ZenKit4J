@@ -28,10 +28,14 @@ public class MultiResolutionSubMesh {
 	}
 
 	public MeshWedge[] getWedges() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getWedges(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new MeshWedge[0];
-		return (MeshWedge[]) arr.toArray(count.getValue());
+		var count = ZenKit.API.ZkSubMesh_getWedgeCount(getHandle());
+		var weights = new MeshWedge[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkSubMesh_getWedge(getHandle(), i);
+		}
+
+		return weights;
 	}
 
 	public float[] getColors() {
@@ -49,10 +53,14 @@ public class MultiResolutionSubMesh {
 	}
 
 	public MeshPlane[] getTrianglePlanes() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getTrianglePlanes(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new MeshPlane[0];
-		return (MeshPlane[]) arr.toArray(count.getValue());
+		var count = ZenKit.API.ZkSubMesh_getTrianglePlaneCount(getHandle());
+		var weights = new MeshPlane[(int) count];
+
+		for (int i = 0; i < count; i++) {
+			weights[i] = ZenKit.API.ZkSubMesh_getTrianglePlane(getHandle(), i);
+		}
+
+		return weights;
 	}
 
 	public MeshTriangleEdge[] getTriangleEdges() {

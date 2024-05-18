@@ -7,6 +7,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class MoverController extends VirtualObject {
+	public MoverController() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCMoverController));
+	}
+
 	public MoverController(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkMoverController_load(buf.getHandle(), version), ZenKit.API::ZkMoverController_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load MoverController vob");
@@ -18,7 +22,7 @@ public class MoverController extends VirtualObject {
 	}
 
 	public MoverController(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkMoverController_del);
 	}
 
 	public String getTarget() {
@@ -31,5 +35,17 @@ public class MoverController extends VirtualObject {
 
 	public int getKey() {
 		return ZenKit.API.ZkMoverController_getKey(getHandle());
+	}
+
+	public void setTarget(String val) {
+		ZenKit.API.ZkMoverController_setTarget(getHandle(), val);
+	}
+
+	public void setMessage(MoverMessageType val) {
+		ZenKit.API.ZkMoverController_setMessage(getHandle(), val);
+	}
+
+	public void setKey(int val) {
+		ZenKit.API.ZkMoverController_setKey(getHandle(), val);
 	}
 }

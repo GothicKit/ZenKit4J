@@ -22,4 +22,10 @@ class ItemTest {
 		var vob = new Item(Util.getResource("G2/VOb/oCItem.zen"), GameVersion.GOTHIC_2);
 		assertEquals("ITPL_BLUEPLANT", vob.getInstance());
 	}
+
+	@Test
+	void set() {
+		var vob = new Item(Util.getResource("G2/VOb/oCItem.zen"), GameVersion.GOTHIC_2);
+		vob.setInstance("test");
+	}
 }

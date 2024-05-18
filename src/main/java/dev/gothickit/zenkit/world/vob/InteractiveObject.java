@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class InteractiveObject extends MovableObject {
+	public InteractiveObject() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.oCMobInter));
+	}
+
 	public InteractiveObject(@NotNull Read buf, GameVersion version) {
 		super(ZenKit.API.ZkInteractiveObject_load(buf.getHandle(), version), ZenKit.API::ZkInteractiveObject_del);
 		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load InteractiveObject vob");
@@ -24,7 +28,7 @@ public class InteractiveObject extends MovableObject {
 	}
 
 	public InteractiveObject(Pointer handle) {
-		super(handle);
+		super(handle, ZenKit.API::ZkInteractiveObject_del);
 	}
 
 	public int getState() {
@@ -49,5 +53,29 @@ public class InteractiveObject extends MovableObject {
 
 	public boolean getRewind() {
 		return ZenKit.API.ZkInteractiveObject_getRewind(getHandle());
+	}
+
+	public void setState(int val) {
+		ZenKit.API.ZkInteractiveObject_setState(getHandle(), val);
+	}
+
+	public void setTarget(String val) {
+		ZenKit.API.ZkInteractiveObject_setTarget(getHandle(), val);
+	}
+
+	public void setItem(String val) {
+		ZenKit.API.ZkInteractiveObject_setItem(getHandle(), val);
+	}
+
+	public void setConditionFunction(String val) {
+		ZenKit.API.ZkInteractiveObject_setConditionFunction(getHandle(), val);
+	}
+
+	public void setOnStateChangeFunction(String val) {
+		ZenKit.API.ZkInteractiveObject_setOnStateChangeFunction(getHandle(), val);
+	}
+
+	public void setRewind(boolean val) {
+		ZenKit.API.ZkInteractiveObject_setRewind(getHandle(), val);
 	}
 }

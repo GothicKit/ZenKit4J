@@ -7,6 +7,10 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 public class ParticleEffectController extends VirtualObject {
+	public ParticleEffectController() {
+		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCPFXController));
+	}
+
 	public ParticleEffectController(@NotNull Read buf, GameVersion version) {
 		super(
 				ZenKit.API.ZkParticleEffectController_load(buf.getHandle(), version),
@@ -16,7 +20,10 @@ public class ParticleEffectController extends VirtualObject {
 	}
 
 	public ParticleEffectController(Pointer handle) {
-		super(handle);
+		super(
+				handle,
+				ZenKit.API::ZkParticleEffectController_del
+		);
 	}
 
 	public ParticleEffectController(String path, GameVersion version) {
@@ -31,11 +38,23 @@ public class ParticleEffectController extends VirtualObject {
 		return ZenKit.API.ZkParticleEffectController_getEffectName(getHandle());
 	}
 
+	public void setEffectName(String val) {
+		ZenKit.API.ZkParticleEffectController_setEffectName(getHandle(), val);
+	}
+
 	public boolean getKillWhenDone() {
 		return ZenKit.API.ZkParticleEffectController_getKillWhenDone(getHandle());
 	}
 
+	public void setKillWhenDone(boolean val) {
+		ZenKit.API.ZkParticleEffectController_setKillWhenDone(getHandle(), val);
+	}
+
 	public boolean isInitiallyRunning() {
 		return ZenKit.API.ZkParticleEffectController_getInitiallyRunning(getHandle());
+	}
+
+	public void setInitiallyRunning(boolean val) {
+		ZenKit.API.ZkParticleEffectController_setInitiallyRunning(getHandle(), val);
 	}
 }
