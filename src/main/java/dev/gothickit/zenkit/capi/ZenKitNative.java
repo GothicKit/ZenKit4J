@@ -3390,7 +3390,7 @@ public interface ZenKitNative extends Library {
 	}
 
 	interface ZkModelHierarchyNodeEnumerator extends Callback {
-		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReferenc node);
+		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReference node);
 	}
 
 	interface ZkOrientedBoundingBoxEnumerator extends Callback {
