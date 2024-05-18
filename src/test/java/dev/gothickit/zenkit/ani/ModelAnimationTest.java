@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.ani;
 
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,10 +33,10 @@ class ModelAnimationTest {
 	}
 
 	@Test
-	void loadG1() {
-		var ani = new ModelAnimation(Util.getResource("G1/HUMANS-S_FISTRUN.MAN"));
+	void loadG1() throws ResourceIOException {
+		var ani = ModelAnimation.load(Util.getResource("G1/HUMANS-S_FISTRUN.MAN"));
 
-		var bbox = ani.getBbox();
+		var bbox = ani.bbox();
 		assertEquals(46.33139419555664f, bbox.max.x);
 		assertEquals(67.0935287475586f, bbox.max.y);
 		assertEquals(49.88602828979492f, bbox.max.z);
@@ -43,21 +44,21 @@ class ModelAnimationTest {
 		assertEquals(-94.02226257324219f, bbox.min.y);
 		assertEquals(-31.280731201171875f, bbox.min.z);
 
-		assertEquals(3325331650L, ani.getChecksum());
-		assertEquals(10.0f, ani.getFps());
-		assertEquals(25.0f, ani.getFpsSource());
-		assertEquals(20, ani.getFrameCount());
-		assertEquals(1, ani.getLayer());
-		assertEquals("S_FISTRUN", ani.getName());
-		assertEquals("S_FISTRUN", ani.getNext());
+		assertEquals(3325331650L, ani.checksum());
+		assertEquals(10.0f, ani.fps());
+		assertEquals(25.0f, ani.fpsSource());
+		assertEquals(20, ani.frameCount());
+		assertEquals(1, ani.layer());
+		assertEquals("S_FISTRUN", ani.name());
+		assertEquals("S_FISTRUN", ani.next());
 
-		var nodeIndices = ani.getNodeIndices();
-		assertEquals(25, ani.getNodeCount());
+		var nodeIndices = ani.nodeIndices();
+		assertEquals(25, ani.nodeCount());
 		assertEquals(25, nodeIndices.length);
 		assertArrayEquals(NODE_INDICES_G1, nodeIndices);
 
-		var aniSamples = ani.getSamples();
-		assertEquals(25 * 20, ani.getSampleCount());
+		var aniSamples = ani.samples();
+		assertEquals(25 * 20, ani.sampleCount());
 		assertEquals(25 * 20, aniSamples.size());
 
 		checkSample(
@@ -72,7 +73,7 @@ class ModelAnimationTest {
 		);
 
 		checkSample(
-				ani.getSample(249),
+				ani.sample(249),
 				12.626323699951172f,
 				-0.00145721435546875f,
 				22.643518447875977f,
@@ -93,18 +94,21 @@ class ModelAnimationTest {
 				0.7071319222450256f
 		);
 
-		assertEquals("\\_WORK\\DATA\\ANIMS\\HUM_AMB_FISTRUN_M01.ASC", ani.getSourcePath());
+		assertEquals("\\_WORK\\DATA\\ANIMS\\HUM_AMB_FISTRUN_M01.ASC", ani.sourcePath());
 		assertEquals(
 				"\t\t\tANI\t\t\t(\"S_FISTRUN\"\t\t\t\t1\t\"S_FISTRUN\"\t\t0.0 0.1 MI\t\"HUM_AMB_FISTRUN_M01.ASC\"\tF   1\t50\tFPS:10)",
-				ani.getSourceScript()
+				ani.sourceScript()
 		);
+
+		// Caching
+		ani.cache();
 	}
 
 	@Test
-	void loadG2() {
-		var ani = new ModelAnimation(Util.getResource("G2/HUMANS-S_FISTRUN.MAN"));
+	void loadG2() throws ResourceIOException {
+		var ani = ModelAnimation.load(Util.getResource("G2/HUMANS-S_FISTRUN.MAN"));
 
-		var bbox = ani.getBbox();
+		var bbox = ani.bbox();
 		assertEquals(46.33139419555664f, bbox.max.x);
 		assertEquals(67.0935287475586f, bbox.max.y);
 		assertEquals(49.88602828979492f, bbox.max.z);
@@ -112,21 +116,21 @@ class ModelAnimationTest {
 		assertEquals(-94.02226257324219f, bbox.min.y);
 		assertEquals(-31.280733108520508f, bbox.min.z);
 
-		assertEquals(3325331650L, ani.getChecksum());
-		assertEquals(10.0f, ani.getFps());
-		assertEquals(25.0f, ani.getFpsSource());
-		assertEquals(20, ani.getFrameCount());
-		assertEquals(1, ani.getLayer());
-		assertEquals("S_FISTRUN", ani.getName());
-		assertEquals("S_FISTRUN", ani.getNext());
+		assertEquals(3325331650L, ani.checksum());
+		assertEquals(10.0f, ani.fps());
+		assertEquals(25.0f, ani.fpsSource());
+		assertEquals(20, ani.frameCount());
+		assertEquals(1, ani.layer());
+		assertEquals("S_FISTRUN", ani.name());
+		assertEquals("S_FISTRUN", ani.next());
 
-		var nodeIndices = ani.getNodeIndices();
-		assertEquals(25, ani.getNodeCount());
+		var nodeIndices = ani.nodeIndices();
+		assertEquals(25, ani.nodeCount());
 		assertEquals(25, nodeIndices.length);
 		assertArrayEquals(NODE_INDICES_G1, nodeIndices);
 
-		var aniSamples = ani.getSamples();
-		assertEquals(25 * 20, ani.getSampleCount());
+		var aniSamples = ani.samples();
+		assertEquals(25 * 20, ani.sampleCount());
 		assertEquals(25 * 20, aniSamples.size());
 
 		checkSample(
@@ -141,7 +145,7 @@ class ModelAnimationTest {
 		);
 
 		checkSample(
-				ani.getSample(249),
+				ani.sample(249),
 				12.626323699951172f,
 				-0.00145721435546875f,
 				22.643518447875977f,
@@ -162,10 +166,13 @@ class ModelAnimationTest {
 				0.7071319222450256f
 		);
 
-		assertEquals("\\_WORK\\DATA\\ANIMS\\HUM_AMB_FISTRUN_M01.ASC", ani.getSourcePath());
+		assertEquals("\\_WORK\\DATA\\ANIMS\\HUM_AMB_FISTRUN_M01.ASC", ani.sourcePath());
 		assertEquals(
 				"\t\t\tANI\t\t\t(\"S_FISTRUN\"\t\t\t\t1\t\"S_FISTRUN\"\t\t0.0 0.1 MI\t\"HUM_AMB_FISTRUN_M01.ASC\"\tF   1\t50\tFPS:10)",
-				ani.getSourceScript()
+				ani.sourceScript()
 		);
+
+		// Caching
+		ani.cache();
 	}
 }

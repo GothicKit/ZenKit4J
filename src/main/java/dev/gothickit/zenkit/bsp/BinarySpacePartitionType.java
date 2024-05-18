@@ -1,14 +1,16 @@
 package dev.gothickit.zenkit.bsp;
 
 import dev.gothickit.zenkit.utils.EnumNative;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
-public enum BspTreeType implements EnumNative<BspTreeType> {
+public enum BinarySpacePartitionType implements EnumNative<BinarySpacePartitionType> {
 	INDOOR(0),
 	OUTDOOR(1);
 
 	public final int value;
 
-	BspTreeType(int value) {
+	BinarySpacePartitionType(int value) {
 		this.value = value;
 	}
 
@@ -17,8 +19,9 @@ public enum BspTreeType implements EnumNative<BspTreeType> {
 		return value;
 	}
 
+	@Contract(pure = true)
 	@Override
-	public BspTreeType getForValue(int i) {
+	public @Nullable BinarySpacePartitionType getForValue(int i) {
 		return switch (i) {
 			case 0 -> INDOOR;
 			case 1 -> OUTDOOR;

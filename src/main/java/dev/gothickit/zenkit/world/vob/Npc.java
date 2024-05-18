@@ -30,7 +30,7 @@ public class Npc extends VirtualObject {
 	}
 
 	public void setModelScale(Vec3f val) {
-		ZenKit.API.ZkNpc_setModelScale(getHandle(), new Vec3f.ByValue(val));
+		ZenKit.API.ZkNpc_setModelScale(getHandle(), val);
 	}
 
 	public float getModelFatness() {
@@ -334,7 +334,7 @@ public class Npc extends VirtualObject {
 	}
 
 	public void setAiStatePos(Vec3f val) {
-		ZenKit.API.ZkNpc_setAiStatePos(getHandle(), new Vec3f.ByValue(val));
+		ZenKit.API.ZkNpc_setAiStatePos(getHandle(), val);
 	}
 
 	public String getCurrentRoutine() {

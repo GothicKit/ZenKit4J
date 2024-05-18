@@ -1,6 +1,8 @@
 package dev.gothickit.zenkit.msh;
 
+import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 import dev.gothickit.zenkit.AxisAlignedBoundingBox;
 import dev.gothickit.zenkit.OrientedBoundingBox;
 import dev.gothickit.zenkit.Read;

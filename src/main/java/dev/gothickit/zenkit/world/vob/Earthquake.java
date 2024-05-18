@@ -49,6 +49,6 @@ public class Earthquake extends VirtualObject {
 	}
 
 	public void setAmplitude(Vec3f val) {
-		ZenKit.API.ZkEarthquake_setAmplitude(getHandle(), new Vec3f.ByValue(val));
+		ZenKit.API.ZkEarthquake_setAmplitude(getHandle(), val);
 	}
 }

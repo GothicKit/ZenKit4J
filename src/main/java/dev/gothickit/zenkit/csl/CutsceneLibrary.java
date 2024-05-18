@@ -1,73 +1,41 @@
 package dev.gothickit.zenkit.csl;
 
-import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.capi.ZenKit;
-import dev.gothickit.zenkit.utils.Handle;
+import dev.gothickit.zenkit.ResourceIOException;
+import dev.gothickit.zenkit.ani.ModelAnimation;
+import dev.gothickit.zenkit.ani.NativeModelAnimation;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CutsceneLibrary {
-	private final Handle handle;
+public interface CutsceneLibrary extends CacheableObject<CachedCutsceneLibrary> {
+	long blockCount();
 
-	public CutsceneLibrary(String path) {
-		var handle = new Handle(ZenKit.API.ZkCutsceneLibrary_loadPath(path), ZenKit.API::ZkCutsceneLibrary_del);
-		if (handle.isNull()) throw new RuntimeException("Failed to load cutscene library node");
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
+	@Nullable
+	CutsceneBlock block(String name);
+
+	@Nullable
+	CutsceneBlock block(long i);
+
+	@NotNull
+	List<@NotNull CutsceneBlock> blocks();
+
+	@Contract("_ -> new")
+	static @NotNull CutsceneLibrary load(@NotNull String path) throws ResourceIOException {
+		return new NativeCutsceneLibrary(path);
 	}
 
-	public CutsceneLibrary(@NotNull Read buf) {
-		var handle = new Handle(ZenKit.API.ZkCutsceneLibrary_load(buf.getHandle()), ZenKit.API::ZkCutsceneLibrary_del);
-		if (handle.isNull()) throw new RuntimeException("Failed to load cutscene library node");
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
+	@Contract("_ -> new")
+	static @NotNull CutsceneLibrary load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeCutsceneLibrary(buf);
 	}
 
-	public CutsceneLibrary(@NotNull Vfs vfs, String name) {
-		var handle = new Handle(
-				ZenKit.API.ZkCutsceneLibrary_loadVfs(vfs.getHandle(), name),
-				ZenKit.API::ZkCutsceneLibrary_del
-		);
-
-		if (handle.isNull()) {
-			throw new RuntimeException("Failed to load cutscene library node");
-		}
-
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
-	}
-
-	public Pointer getHandle() {
-		return this.handle.get();
-	}
-
-	public long getBlockCount() {
-		return ZenKit.API.ZkCutsceneLibrary_getBlockCount(this.getHandle());
-	}
-
-	public @Nullable CutsceneBlock getBlock(String name) {
-		var handle = ZenKit.API.ZkCutsceneLibrary_getBlock(this.getHandle(), name);
-		return handle == Pointer.NULL ? null : new CutsceneBlock(handle);
-	}
-
-	public @Nullable CutsceneBlock getBlock(long i) {
-		var handle = ZenKit.API.ZkCutsceneLibrary_getBlockByIndex(this.getHandle(), i);
-		return handle == Pointer.NULL ? null : new CutsceneBlock(handle);
-	}
-
-	public List<CutsceneBlock> getBlocks() {
-		var blocks = new ArrayList<CutsceneBlock>();
-
-		ZenKit.API.ZkCutsceneLibrary_enumerateBlocks(this.getHandle(), (ctx, block) -> {
-			blocks.add(new CutsceneBlock(block));
-			return false;
-		}, Pointer.NULL);
-
-		return blocks;
+	@Contract("_, _ -> new")
+	static @NotNull CutsceneLibrary load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeCutsceneLibrary(vfs, name);
 	}
 }

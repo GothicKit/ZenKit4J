@@ -8,8 +8,8 @@ import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
 import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.ani.AnimationSample;
-import dev.gothickit.zenkit.bsp.BspNode;
-import dev.gothickit.zenkit.bsp.BspTreeType;
+import dev.gothickit.zenkit.bsp.BinarySpacePartitionNode;
+import dev.gothickit.zenkit.bsp.BinarySpacePartitionType;
 import dev.gothickit.zenkit.daedalus.DaedalusDataType;
 import dev.gothickit.zenkit.daedalus.DaedalusInstanceType;
 import dev.gothickit.zenkit.daedalus.DaedalusInstruction;
@@ -142,7 +142,7 @@ public interface ZenKitNative extends Library {
 
 	long ZkFont_getGlyphCount(Pointer slf);
 
-	FontGlyph.ByValue ZkFont_getGlyph(Pointer slf, long i);
+	FontGlyph ZkFont_getGlyph(Pointer slf, long i);
 
 	void ZkFont_enumerateGlyphs(Pointer slf, ZkFontGlyphEnumerator cb, Pointer ctx);
 
@@ -180,11 +180,11 @@ public interface ZenKitNative extends Library {
 
 	long ZkModelAnimation_getSampleCount(Pointer slf);
 
-	AnimationSample.ByValue ZkModelAnimation_getSample(Pointer slf, long i);
+	AnimationSample ZkModelAnimation_getSample(Pointer slf, long i);
 
 	void ZkModelAnimation_enumerateSamples(Pointer slf, ZkAnimationSampleEnumerator cb, Pointer ctx);
 
-	Pointer ZkModelAnimation_getNodeIndices(Pointer slf, IntByReference size);
+	Pointer ZkModelAnimation_getNodeIndices(Pointer slf, LongByReference size);
 
 	Pointer ZkModelHierarchy_load(Pointer buf);
 
@@ -202,7 +202,7 @@ public interface ZenKitNative extends Library {
 
 	AxisAlignedBoundingBox.ByValue ZkModelHierarchy_getCollisionBbox(Pointer slf);
 
-	Vec3f.ByValue ZkModelHierarchy_getRootTranslation(Pointer slf);
+	Vec3f ZkModelHierarchy_getRootTranslation(Pointer slf);
 
 	long ZkModelHierarchy_getChecksum(Pointer slf);
 
@@ -212,11 +212,11 @@ public interface ZenKitNative extends Library {
 
 	void ZkModelHierarchy_enumerateNodes(Pointer slf, ZkModelHierarchyNodeEnumerator cb, Pointer ctx);
 
-	Vec3f.ByValue ZkOrientedBoundingBox_getCenter(Pointer slf);
+	Vec3f ZkOrientedBoundingBox_getCenter(Pointer slf);
 
-	Vec3f.ByValue ZkOrientedBoundingBox_getAxis(Pointer slf, long i);
+	Vec3f ZkOrientedBoundingBox_getAxis(Pointer slf, long i);
 
-	Vec3f.ByValue ZkOrientedBoundingBox_getHalfWidth(Pointer slf);
+	Vec3f ZkOrientedBoundingBox_getHalfWidth(Pointer slf);
 
 	long ZkOrientedBoundingBox_getChildCount(Pointer slf);
 
@@ -242,13 +242,13 @@ public interface ZenKitNative extends Library {
 
 	String ZkMaterial_getTexture(Pointer slf);
 
-	Vec2f.ByValue ZkMaterial_getTextureScale(Pointer slf);
+	Vec2f ZkMaterial_getTextureScale(Pointer slf);
 
 	float ZkMaterial_getTextureAnimationFps(Pointer slf);
 
 	AnimationMapping ZkMaterial_getTextureAnimationMapping(Pointer slf);
 
-	Vec2f.ByValue ZkMaterial_getTextureAnimationMappingDirection(Pointer slf);
+	Vec2f ZkMaterial_getTextureAnimationMappingDirection(Pointer slf);
 
 	boolean ZkMaterial_getDisableCollision(Pointer slf);
 
@@ -278,7 +278,7 @@ public interface ZenKitNative extends Library {
 
 	AlphaFunction ZkMaterial_getAlphaFunction(Pointer slf);
 
-	Vec2f.ByValue ZkMaterial_getDefaultMapping(Pointer slf);
+	Vec2f ZkMaterial_getDefaultMapping(Pointer slf);
 
 
 	Pointer ZkMultiResolutionMesh_load(Pointer buf);
@@ -291,11 +291,11 @@ public interface ZenKitNative extends Library {
 
 	long ZkMultiResolutionMesh_getPositionCount(Pointer slf);
 
-	Vec3f.ByValue ZkMultiResolutionMesh_getPosition(Pointer slf, long i);
+	Vec3f ZkMultiResolutionMesh_getPosition(Pointer slf, long i);
 
 	long ZkMultiResolutionMesh_getNormalCount(Pointer slf);
 
-	Vec3f.ByValue ZkMultiResolutionMesh_getNormal(Pointer slf, long i);
+	Vec3f ZkMultiResolutionMesh_getNormal(Pointer slf, long i);
 
 	long ZkMultiResolutionMesh_getSubMeshCount(Pointer slf);
 
@@ -443,7 +443,7 @@ public interface ZenKitNative extends Library {
 
 	long ZkMorphMesh_getMorphPositionCount(Pointer slf);
 
-	Vec3f.ByValue ZkMorphMesh_getMorphPosition(Pointer slf, long i);
+	Vec3f ZkMorphMesh_getMorphPosition(Pointer slf, long i);
 
 	long ZkMorphMesh_getAnimationCount(Pointer slf);
 
@@ -477,7 +477,7 @@ public interface ZenKitNative extends Library {
 
 	long ZkMorphAnimation_getSampleCount(Pointer slf);
 
-	Vec3f.ByValue ZkMorphAnimation_getSample(Pointer slf, long i);
+	Vec3f ZkMorphAnimation_getSample(Pointer slf, long i);
 
 	String ZkMorphSource_getFileName(Pointer slf);
 
@@ -508,11 +508,11 @@ public interface ZenKitNative extends Library {
 
 	long ZkMesh_getPositionCount(Pointer slf);
 
-	Vec3f.ByValue ZkMesh_getPosition(Pointer slf, long i);
+	Vec3f ZkMesh_getPosition(Pointer slf, long i);
 
 	long ZkMesh_getVertexCount(Pointer slf);
 
-	Vertex.ByValue ZkMesh_getVertex(Pointer slf, long i);
+	Vertex ZkMesh_getVertex(Pointer slf, long i);
 
 	long ZkMesh_getLightMapCount(Pointer slf);
 
@@ -528,9 +528,9 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkLightMap_getImage(Pointer slf);
 
-	Vec3f.ByValue ZkLightMap_getOrigin(Pointer slf);
+	Vec3f ZkLightMap_getOrigin(Pointer slf);
 
-	Vec3f.ByValue ZkLightMap_getNormal(Pointer slf, long i);
+	Vec3f ZkLightMap_getNormal(Pointer slf, long i);
 
 	int ZkPolygon_getMaterialIndex(Pointer slf);
 
@@ -782,7 +782,7 @@ public interface ZenKitNative extends Library {
 
 	AnimationDirection ZkAnimationAlias_getDirection(Pointer slf);
 
-	BspTreeType ZkBspTree_getType(Pointer slf);
+	BinarySpacePartitionType ZkBspTree_getType(Pointer slf);
 
 	Pointer ZkBspTree_getPolygonIndices(Pointer slf, IntByReference count);
 
@@ -792,13 +792,13 @@ public interface ZenKitNative extends Library {
 
 	long ZkBspTree_getLightPointCount(Pointer slf);
 
-	Vec3f.ByValue ZkBspTree_getLightPoint(Pointer slf, long i);
+	Vec3f ZkBspTree_getLightPoint(Pointer slf, long i);
 
 	Pointer ZkBspTree_getLeafNodeIndices(Pointer slf, IntByReference count);
 
 	long ZkBspTree_getNodeCount(Pointer slf);
 
-	BspNode.ByValue ZkBspTree_getNode(Pointer slf, long i);
+	BinarySpacePartitionNode ZkBspTree_getNode(Pointer slf, long i);
 
 	long ZkBspTree_getSectorCount(Pointer slf);
 
@@ -808,9 +808,9 @@ public interface ZenKitNative extends Library {
 
 	String ZkBspSector_getName(Pointer slf);
 
-	Pointer ZkBspSector_getNodeIndices(Pointer slf, IntByReference count);
+	Pointer ZkBspSector_getNodeIndices(Pointer slf, LongByReference count);
 
-	Pointer ZkBspSector_getPortalPolygonIndices(Pointer slf, IntByReference count);
+	Pointer ZkBspSector_getPortalPolygonIndices(Pointer slf, LongByReference count);
 
 	WayEdge ZkWayNet_getEdges(Pointer slf, IntByReference count);
 
@@ -826,9 +826,9 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkWayPoint_getUnderWater(Pointer slf);
 
-	Vec3f.ByValue ZkWayPoint_getPosition(Pointer slf);
+	Vec3f ZkWayPoint_getPosition(Pointer slf);
 
-	Vec3f.ByValue ZkWayPoint_getDirection(Pointer slf);
+	Vec3f ZkWayPoint_getDirection(Pointer slf);
 
 	boolean ZkWayPoint_getFreePoint(Pointer slf);
 
@@ -868,7 +868,7 @@ public interface ZenKitNative extends Library {
 
 	AxisAlignedBoundingBox.ByValue ZkVirtualObject_getBbox(Pointer slf);
 
-	Vec3f.ByValue ZkVirtualObject_getPosition(Pointer slf);
+	Vec3f ZkVirtualObject_getPosition(Pointer slf);
 
 	Mat3x3.ByValue ZkVirtualObject_getRotation(Pointer slf);
 
@@ -930,7 +930,7 @@ public interface ZenKitNative extends Library {
 
 	void ZkVirtualObject_setBbox(Pointer slf, AxisAlignedBoundingBox.ByValue val);
 
-	void ZkVirtualObject_setPosition(Pointer slf, Vec3f.ByValue val);
+	void ZkVirtualObject_setPosition(Pointer slf, Vec3f val);
 
 	void ZkVirtualObject_setRotation(Pointer slf, Mat3x3.ByValue val);
 
@@ -972,9 +972,9 @@ public interface ZenKitNative extends Library {
 
 	void ZkVisual_setName(Pointer slf, String val);
 
-	Vec2f.ByValue ZkVisualDecal_getDimension(Pointer slf);
+	Vec2f ZkVisualDecal_getDimension(Pointer slf);
 
-	Vec2f.ByValue ZkVisualDecal_getOffset(Pointer slf);
+	Vec2f ZkVisualDecal_getOffset(Pointer slf);
 
 	boolean ZkVisualDecal_getTwoSided(Pointer slf);
 
@@ -986,9 +986,9 @@ public interface ZenKitNative extends Library {
 
 	boolean ZkVisualDecal_getIgnoreDaylight(Pointer slf);
 
-	void ZkVisualDecal_setDimension(Pointer slf, Vec2f.ByValue val);
+	void ZkVisualDecal_setDimension(Pointer slf, Vec2f val);
 
-	void ZkVisualDecal_setOffset(Pointer slf, Vec2f.ByValue val);
+	void ZkVisualDecal_setOffset(Pointer slf, Vec2f val);
 
 	void ZkVisualDecal_setTwoSided(Pointer slf, boolean val);
 
@@ -1562,13 +1562,13 @@ public interface ZenKitNative extends Library {
 
 	float ZkEarthquake_getDuration(Pointer slf);
 
-	Vec3f.ByValue ZkEarthquake_getAmplitude(Pointer slf);
+	Vec3f ZkEarthquake_getAmplitude(Pointer slf);
 
 	void ZkEarthquake_setRadius(Pointer slf, float val);
 
 	void ZkEarthquake_setDuration(Pointer slf, float val);
 
-	void ZkEarthquake_setAmplitude(Pointer slf, Vec3f.ByValue val);
+	void ZkEarthquake_setAmplitude(Pointer slf, Vec3f val);
 
 	Pointer ZkMovableObject_load(Pointer buf, GameVersion version);
 
@@ -1892,7 +1892,7 @@ public interface ZenKitNative extends Library {
 
 	long ZkMover_getKeyframeCount(Pointer slf);
 
-	AnimationSample.ByValue ZkMover_getKeyframe(Pointer slf, long i);
+	AnimationSample ZkMover_getKeyframe(Pointer slf, long i);
 
 	String ZkMover_getSfxOpenStart(Pointer slf);
 
@@ -1944,7 +1944,7 @@ public interface ZenKitNative extends Library {
 
 	void ZkMover_setSfxUseLocked(Pointer slf, String val);
 
-	Vec3f.ByValue ZkMover_getActKeyPosDelta(Pointer slf);
+	Vec3f ZkMover_getActKeyPosDelta(Pointer slf);
 
 	float ZkMover_getActKeyframeF(Pointer slf);
 
@@ -1962,7 +1962,7 @@ public interface ZenKitNative extends Library {
 
 	float ZkMover_getStayOpenTimeDest(Pointer slf);
 
-	void ZkMover_setActKeyPosDelta(Pointer slf, Vec3f.ByValue actKeyPosDelta);
+	void ZkMover_setActKeyPosDelta(Pointer slf, Vec3f actKeyPosDelta);
 
 	void ZkMover_setActKeyframeF(Pointer slf, float actKeyframeF);
 
@@ -3077,7 +3077,7 @@ public interface ZenKitNative extends Library {
 
 	String ZkNpc_getNpcInstance(Pointer slf);
 
-	Vec3f.ByValue ZkNpc_getModelScale(Pointer slf);
+	Vec3f ZkNpc_getModelScale(Pointer slf);
 
 	float ZkNpc_getModelFatness(Pointer slf);
 
@@ -3153,7 +3153,7 @@ public interface ZenKitNative extends Library {
 
 	int ZkNpc_getAiStateDriven(Pointer slf);
 
-	Vec3f.ByValue ZkNpc_getAiStatePos(Pointer slf);
+	Vec3f ZkNpc_getAiStatePos(Pointer slf);
 
 	String ZkNpc_getCurrentRoutine(Pointer slf);
 
@@ -3173,7 +3173,7 @@ public interface ZenKitNative extends Library {
 
 	void ZkNpc_setNpcInstance(Pointer slf, String npcInstance);
 
-	void ZkNpc_setModelScale(Pointer slf, Vec3f.ByValue modelScale);
+	void ZkNpc_setModelScale(Pointer slf, Vec3f modelScale);
 
 	void ZkNpc_setModelFatness(Pointer slf, float modelFatness);
 
@@ -3249,7 +3249,7 @@ public interface ZenKitNative extends Library {
 
 	void ZkNpc_setAiStateDriven(Pointer slf, int aiStateDriven);
 
-	void ZkNpc_setAiStatePos(Pointer slf, Vec3f.ByValue aiStatePos);
+	void ZkNpc_setAiStatePos(Pointer slf, Vec3f aiStatePos);
 
 	void ZkNpc_setCurrentRoutine(Pointer slf, String currentRoutine);
 
@@ -3382,11 +3382,11 @@ public interface ZenKitNative extends Library {
 	}
 
 	interface ZkFontGlyphEnumerator extends Callback {
-		boolean invoke(Pointer ctx, FontGlyph.ByReference glyph);
+		boolean invoke(Pointer ctx, Pointer glyph);
 	}
 
 	interface ZkAnimationSampleEnumerator extends Callback {
-		boolean invoke(Pointer ctx, AnimationSample.ByValue sample);
+		boolean invoke(Pointer ctx, AnimationSample sample);
 	}
 
 	interface ZkModelHierarchyNodeEnumerator extends Callback {

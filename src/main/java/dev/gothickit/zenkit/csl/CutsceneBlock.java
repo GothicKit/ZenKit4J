@@ -1,20 +1,12 @@
 package dev.gothickit.zenkit.csl;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class CutsceneBlock {
-	private final Pointer handle;
+public interface CutsceneBlock extends CacheableObject<CachedCutsceneBlock> {
+	@NotNull
+	String name();
 
-	CutsceneBlock(Pointer handle) {
-		this.handle = handle;
-	}
-
-	public String getName() {
-		return ZenKit.API.ZkCutsceneBlock_getName(handle);
-	}
-
-	public CutsceneMessage getMessage() {
-		return new CutsceneMessage(ZenKit.API.ZkCutsceneBlock_getMessage(handle));
-	}
+	@NotNull
+	CutsceneMessage message();
 }

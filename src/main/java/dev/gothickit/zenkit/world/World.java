@@ -2,7 +2,7 @@ package dev.gothickit.zenkit.world;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.bsp.BspTree;
+import dev.gothickit.zenkit.bsp.NativeBinarySpacePartitionTree;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.msh.Mesh;
 import dev.gothickit.zenkit.utils.Handle;
@@ -44,8 +44,8 @@ public class World {
 		return new WayNet(ZenKit.API.ZkWorld_getWayNet(getHandle()));
 	}
 
-	public BspTree getBspTree() {
-		return new BspTree(ZenKit.API.ZkWorld_getBspTree(getHandle()));
+	public NativeBinarySpacePartitionTree getBspTree() {
+		return NativeBinarySpacePartitionTree.fromNativeHandle(ZenKit.API.ZkWorld_getBspTree(getHandle()));
 	}
 
 	public long getRootObjectCount() {

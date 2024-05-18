@@ -1,7 +1,7 @@
 package dev.gothickit.zenkit.world;
 
 import dev.gothickit.zenkit.*;
-import dev.gothickit.zenkit.bsp.BspTreeType;
+import dev.gothickit.zenkit.bsp.BinarySpacePartitionType;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.mat.MaterialGroup;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,8 +32,9 @@ class WorldTest {
 		var wld = new World(Util.getResource("world.proprietary.zen"));
 
 		var mesh = wld.getMesh();
+		var feats = mesh.getVertices();
 		assertEquals(mesh.getPositions().length, 55439);
-		assertEquals(mesh.getVertices().length, 419936);
+		assertEquals(feats.length, 419936);
 		assertEquals(mesh.getMaterials().size(), 2263);
 		assertEquals(mesh.getName(), "");
 
@@ -54,7 +55,6 @@ class WorldTest {
 		checkVec3(verts[500], 44263.8203f, 708.517822f, 6841.18262f);
 		checkVec3(verts[501], 45672.6094f, 640.436157f, 6877.81543f);
 
-		var feats = mesh.getVertices();
 		checkVec2(feats[0].texture, 1.11193848f, 2.64415169f);
 		checkVec3(feats[0].normal, 0.0000220107158f, 1, -0.000121058853f);
 		assertEquals(feats[0].light, -2039584);
@@ -85,9 +85,9 @@ class WorldTest {
 
 		// Check the BSP tree
 		var tree = wld.getBspTree();
-		assertEquals(tree.getType(), BspTreeType.OUTDOOR);
+		assertEquals(tree.type(), BinarySpacePartitionType.OUTDOOR);
 
-		var treePolys = tree.getPolygonIndices();
+		var treePolys = tree.polygonIndices();
 		assertEquals(treePolys.length, 480135);
 		assertEquals(treePolys[0], 0);
 		assertEquals(treePolys[1], 1);
@@ -96,7 +96,7 @@ class WorldTest {
 		assertEquals(treePolys[151], 103);
 		assertEquals(treePolys[152], 92);
 
-		var nodes = tree.getNodes();
+		var nodes = tree.nodes();
 		assertEquals(nodes.length, 6644);
 		assertEquals(nodes[0].plane.x, 1);
 		assertEquals(nodes[0].plane.y, 0);
@@ -122,27 +122,27 @@ class WorldTest {
 		checkVec3(nodes[1].bbox.min, 15499.999f, -12000, -59900);
 		checkVec3(nodes[1].bbox.max, 108999.992f, 19502.1973f, 67399.9921f);
 
-		var leaves = tree.getLeafNodeIndices();
+		var leaves = tree.leafNodeIndices();
 		assertEquals(leaves.length, 3318);
 		assertEquals(leaves[0], 5);
 		assertEquals(leaves[10], 26);
 
-		var sectors = tree.getSectors();
+		var sectors = tree.sectors();
 		assertEquals(sectors.size(), 299);
 
-		assertEquals(sectors.get(0).getName(), "WALD11");
-		assertEquals(sectors.get(0).getNodeIndices().length, 9);
-		assertEquals(sectors.get(0).getPortalPolygonIndices().length, 24);
+		assertEquals(sectors.get(0).name(), "WALD11");
+		assertEquals(sectors.get(0).nodeIndices().length, 9);
+		assertEquals(sectors.get(0).portalPolygonIndices().length, 24);
 
-		assertEquals(sectors.get(50).getName(), "OWCAVE01");
-		assertEquals(sectors.get(50).getNodeIndices().length, 4);
-		assertEquals(sectors.get(50).getPortalPolygonIndices().length, 2);
+		assertEquals(sectors.get(50).name(), "OWCAVE01");
+		assertEquals(sectors.get(50).nodeIndices().length, 4);
+		assertEquals(sectors.get(50).portalPolygonIndices().length, 2);
 
-		var portalPolys = tree.getPortalPolygonIndices();
+		var portalPolys = tree.portalPolygonIndices();
 		assertEquals(portalPolys.length, 0);
 
-		assertEquals(tree.getLightPoints().length, 3318);
-		checkVec3(tree.getLightPoints()[0], -99, -99, -99);
+		assertEquals(tree.lightPoints().length, 3318);
+		checkVec3(tree.lightPoints()[0], -99, -99, -99);
 
 		// TODO(lmichaelis): Check the VOb tree
 		/*

@@ -39,11 +39,11 @@ public class VisualDecal extends Visual {
 	}
 
 	public void setDimension(Vec2f val) {
-		ZenKit.API.ZkVisualDecal_setDimension(getHandle(), new Vec2f.ByValue(val));
+		ZenKit.API.ZkVisualDecal_setDimension(getHandle(), val);
 	}
 
 	public void setOffset(Vec2f val) {
-		ZenKit.API.ZkVisualDecal_setOffset(getHandle(), new Vec2f.ByValue(val));
+		ZenKit.API.ZkVisualDecal_setOffset(getHandle(), val);
 	}
 
 	public void ssTwoSided(boolean val) {

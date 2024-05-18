@@ -213,7 +213,7 @@ public class Mover extends Trigger {
 	}
 
 	public void setActKeyPosDelta(Vec3f val) {
-		ZenKit.API.ZkMover_setActKeyPosDelta(getHandle(), new Vec3f.ByValue(val));
+		ZenKit.API.ZkMover_setActKeyPosDelta(getHandle(), val);
 	}
 
 	public void setActKeyframeF(float val) {

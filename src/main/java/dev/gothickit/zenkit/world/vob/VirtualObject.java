@@ -198,7 +198,7 @@ public class VirtualObject {
 	}
 
 	public void setPosition(Vec3f val) {
-		ZenKit.API.ZkVirtualObject_setPosition(getHandle(), new Vec3f.ByValue(val));
+		ZenKit.API.ZkVirtualObject_setPosition(getHandle(), val);
 	}
 
 	public void setRotation(Mat3x3 val) {
