@@ -14,8 +14,16 @@ public class VisualDecal extends Visual {
 		return ZenKit.API.ZkVisualDecal_getDimension(getHandle());
 	}
 
+	public void setDimension(Vec2f val) {
+		ZenKit.API.ZkVisualDecal_setDimension(getHandle(), val);
+	}
+
 	public Vec2f getOffset() {
 		return ZenKit.API.ZkVisualDecal_getOffset(getHandle());
+	}
+
+	public void setOffset(Vec2f val) {
+		ZenKit.API.ZkVisualDecal_setOffset(getHandle(), val);
 	}
 
 	public boolean isTwoSided() {
@@ -26,43 +34,35 @@ public class VisualDecal extends Visual {
 		return ZenKit.API.ZkVisualDecal_getAlphaFunc(getHandle());
 	}
 
-	public float getTextureAnimationFps() {
-		return ZenKit.API.ZkVisualDecal_getTextureAnimFps(getHandle());
-	}
-
-	public byte getAlphaWeight() {
-		return ZenKit.API.ZkVisualDecal_getAlphaWeight(getHandle());
-	}
-
-	public boolean getIgnoreDaylight() {
-		return ZenKit.API.ZkVisualDecal_getIgnoreDaylight(getHandle());
-	}
-
-	public void setDimension(Vec2f val) {
-		ZenKit.API.ZkVisualDecal_setDimension(getHandle(), val);
-	}
-
-	public void setOffset(Vec2f val) {
-		ZenKit.API.ZkVisualDecal_setOffset(getHandle(), val);
-	}
-
-	public void ssTwoSided(boolean val) {
-		ZenKit.API.ZkVisualDecal_setTwoSided(getHandle(), val);
-	}
-
 	public void setAlphaFunction(AlphaFunction val) {
 		ZenKit.API.ZkVisualDecal_setAlphaFunc(getHandle(), val);
+	}
+
+	public float getTextureAnimationFps() {
+		return ZenKit.API.ZkVisualDecal_getTextureAnimFps(getHandle());
 	}
 
 	public void setTextureAnimationFps(float val) {
 		ZenKit.API.ZkVisualDecal_setTextureAnimFps(getHandle(), val);
 	}
 
+	public byte getAlphaWeight() {
+		return ZenKit.API.ZkVisualDecal_getAlphaWeight(getHandle());
+	}
+
 	public void setAlphaWeight(byte val) {
 		ZenKit.API.ZkVisualDecal_setAlphaWeight(getHandle(), val);
 	}
 
+	public boolean getIgnoreDaylight() {
+		return ZenKit.API.ZkVisualDecal_getIgnoreDaylight(getHandle());
+	}
+
 	public void setIgnoreDaylight(boolean val) {
 		ZenKit.API.ZkVisualDecal_setIgnoreDaylight(getHandle(), val);
+	}
+
+	public void ssTwoSided(boolean val) {
+		ZenKit.API.ZkVisualDecal_setTwoSided(getHandle(), val);
 	}
 }

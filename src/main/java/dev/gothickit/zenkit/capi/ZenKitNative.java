@@ -196,7 +196,7 @@ public interface ZenKitNative extends Library {
 
 	long ZkModelHierarchy_getNodeCount(Pointer slf);
 
-	ModelHierarchyNode.ByValue ZkModelHierarchy_getNode(Pointer slf, long i);
+	ModelHierarchyNode ZkModelHierarchy_getNode(Pointer slf, long i);
 
 	AxisAlignedBoundingBox.ByValue ZkModelHierarchy_getBbox(Pointer slf);
 
@@ -357,7 +357,7 @@ public interface ZenKitNative extends Library {
 
 	SoftSkinWedgeNormal ZkSoftSkinMesh_getWedgeNormal(Pointer slf, long i);
 
-	Pointer ZkSoftSkinMesh_getNodes(Pointer slf, IntByReference count);
+	Pointer ZkSoftSkinMesh_getNodes(Pointer slf, LongByReference count);
 
 	Pointer ZkModelMesh_load(Pointer buf);
 
@@ -473,7 +473,7 @@ public interface ZenKitNative extends Library {
 
 	int ZkMorphAnimation_getFrameCount(Pointer slf);
 
-	Pointer ZkMorphAnimation_getVertices(Pointer slf, IntByReference count);
+	Pointer ZkMorphAnimation_getVertices(Pointer slf, LongByReference count);
 
 	long ZkMorphAnimation_getSampleCount(Pointer slf);
 
@@ -536,9 +536,9 @@ public interface ZenKitNative extends Library {
 
 	int ZkPolygon_getLightMapIndex(Pointer slf);
 
-	Pointer ZkPolygon_getPositionIndices(Pointer slf, IntByReference count);
+	Pointer ZkPolygon_getPositionIndices(Pointer slf, LongByReference count);
 
-	Pointer ZkPolygon_getFeatureIndices(Pointer slf, IntByReference count);
+	Pointer ZkPolygon_getFeatureIndices(Pointer slf, LongByReference count);
 
 	boolean ZkPolygon_getIsPortal(Pointer slf);
 
@@ -812,7 +812,7 @@ public interface ZenKitNative extends Library {
 
 	Pointer ZkBspSector_getPortalPolygonIndices(Pointer slf, LongByReference count);
 
-	WayEdge ZkWayNet_getEdges(Pointer slf, IntByReference count);
+	WayEdge ZkWayNet_getEdges(Pointer slf, LongByReference count);
 
 	long ZkWayNet_getPointCount(Pointer slf);
 
@@ -3390,7 +3390,7 @@ public interface ZenKitNative extends Library {
 	}
 
 	interface ZkModelHierarchyNodeEnumerator extends Callback {
-		boolean invoke(Pointer ctx, ModelHierarchyNode.ByReference node);
+		boolean invoke(Pointer ctx, Pointer node);
 	}
 
 	interface ZkOrientedBoundingBoxEnumerator extends Callback {

@@ -67,12 +67,12 @@ public class TriggerList extends Trigger {
 		return ZenKit.API.ZkTriggerList_getActTarget(getHandle());
 	}
 
-	public boolean getSendOnTrigger() {
-		return ZenKit.API.ZkTriggerList_getSendOnTrigger(getHandle());
-	}
-
 	public void setActTarget(byte val) {
 		ZenKit.API.ZkTriggerList_setActTarget(getHandle(), val);
+	}
+
+	public boolean getSendOnTrigger() {
+		return ZenKit.API.ZkTriggerList_getSendOnTrigger(getHandle());
 	}
 
 	public void setSendOnTrigger(boolean val) {

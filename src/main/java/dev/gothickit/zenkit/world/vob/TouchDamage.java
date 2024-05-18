@@ -31,6 +31,10 @@ public class TouchDamage extends VirtualObject {
 		return ZenKit.API.ZkTouchDamage_getDamage(getHandle());
 	}
 
+	public void setDamage(float val) {
+		ZenKit.API.ZkTouchDamage_setDamage(getHandle(), val);
+	}
+
 	public boolean isBarrier() {
 		return ZenKit.API.ZkTouchDamage_getIsBarrier(getHandle());
 	}
@@ -67,16 +71,24 @@ public class TouchDamage extends VirtualObject {
 		return Duration.ofSeconds((long) ZenKit.API.ZkTouchDamage_getRepeatDelaySeconds(getHandle()));
 	}
 
+	public void setRepeatDelay(@NotNull Duration val) {
+		ZenKit.API.ZkTouchDamage_setRepeatDelaySeconds(getHandle(), val.getSeconds());
+	}
+
 	public float getVolumeScale() {
 		return ZenKit.API.ZkTouchDamage_getVolumeScale(getHandle());
+	}
+
+	public void setVolumeScale(float val) {
+		ZenKit.API.ZkTouchDamage_setVolumeScale(getHandle(), val);
 	}
 
 	public TouchCollisionType getCollisionType() {
 		return ZenKit.API.ZkTouchDamage_getCollisionType(getHandle());
 	}
 
-	public void setDamage(float val) {
-		ZenKit.API.ZkTouchDamage_setDamage(getHandle(), val);
+	public void setCollisionType(TouchCollisionType val) {
+		ZenKit.API.ZkTouchDamage_setCollisionType(getHandle(), val);
 	}
 
 	public void setIsBarrier(boolean val) {
@@ -109,17 +121,5 @@ public class TouchDamage extends VirtualObject {
 
 	public void setIsFall(boolean val) {
 		ZenKit.API.ZkTouchDamage_setIsFall(getHandle(), val);
-	}
-
-	public void setRepeatDelay(@NotNull Duration val) {
-		ZenKit.API.ZkTouchDamage_setRepeatDelaySeconds(getHandle(), val.getSeconds());
-	}
-
-	public void setVolumeScale(float val) {
-		ZenKit.API.ZkTouchDamage_setVolumeScale(getHandle(), val);
-	}
-
-	public void setCollisionType(TouchCollisionType val) {
-		ZenKit.API.ZkTouchDamage_setCollisionType(getHandle(), val);
 	}
 }

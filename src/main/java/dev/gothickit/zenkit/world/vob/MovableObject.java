@@ -35,84 +35,84 @@ public class MovableObject extends VirtualObject {
 		return ZenKit.API.ZkMovableObject_getName(getHandle());
 	}
 
-	public int getHp() {
-		return ZenKit.API.ZkMovableObject_getHp(getHandle());
-	}
-
-	public int getDamage() {
-		return ZenKit.API.ZkMovableObject_getDamage(getHandle());
-	}
-
-	public boolean isMovable() {
-		return ZenKit.API.ZkMovableObject_getMovable(getHandle());
-	}
-
-	public boolean isTakable() {
-		return ZenKit.API.ZkMovableObject_getTakable(getHandle());
-	}
-
-	public boolean getFocusOverride() {
-		return ZenKit.API.ZkMovableObject_getFocusOverride(getHandle());
-	}
-
-	public SoundMaterialType getMaterial() {
-		return ZenKit.API.ZkMovableObject_getMaterial(getHandle());
-	}
-
-	public String getVisualDestroyed() {
-		return ZenKit.API.ZkMovableObject_getVisualDestroyed(getHandle());
-	}
-
-	public String getOwner() {
-		return ZenKit.API.ZkMovableObject_getOwner(getHandle());
-	}
-
-	public String getOwnerGuild() {
-		return ZenKit.API.ZkMovableObject_getOwnerGuild(getHandle());
-	}
-
-	public boolean isDestroyed() {
-		return ZenKit.API.ZkMovableObject_getDestroyed(getHandle());
-	}
-
 	public void setFocusName(String val) {
 		ZenKit.API.ZkMovableObject_setName(getHandle(), val);
+	}
+
+	public int getHp() {
+		return ZenKit.API.ZkMovableObject_getHp(getHandle());
 	}
 
 	public void setHp(int val) {
 		ZenKit.API.ZkMovableObject_setHp(getHandle(), val);
 	}
 
+	public int getDamage() {
+		return ZenKit.API.ZkMovableObject_getDamage(getHandle());
+	}
+
 	public void setDamage(int val) {
 		ZenKit.API.ZkMovableObject_setDamage(getHandle(), val);
+	}
+
+	public boolean isMovable() {
+		return ZenKit.API.ZkMovableObject_getMovable(getHandle());
 	}
 
 	public void setMovable(boolean val) {
 		ZenKit.API.ZkMovableObject_setMovable(getHandle(), val);
 	}
 
+	public boolean isTakable() {
+		return ZenKit.API.ZkMovableObject_getTakable(getHandle());
+	}
+
 	public void setTakable(boolean val) {
 		ZenKit.API.ZkMovableObject_setTakable(getHandle(), val);
+	}
+
+	public boolean getFocusOverride() {
+		return ZenKit.API.ZkMovableObject_getFocusOverride(getHandle());
 	}
 
 	public void setFocusOverride(boolean val) {
 		ZenKit.API.ZkMovableObject_setFocusOverride(getHandle(), val);
 	}
 
+	public SoundMaterialType getMaterial() {
+		return ZenKit.API.ZkMovableObject_getMaterial(getHandle());
+	}
+
 	public void setMaterial(SoundMaterialType val) {
 		ZenKit.API.ZkMovableObject_setMaterial(getHandle(), val);
+	}
+
+	public String getVisualDestroyed() {
+		return ZenKit.API.ZkMovableObject_getVisualDestroyed(getHandle());
 	}
 
 	public void setVisualDestroyed(String val) {
 		ZenKit.API.ZkMovableObject_setVisualDestroyed(getHandle(), val);
 	}
 
+	public String getOwner() {
+		return ZenKit.API.ZkMovableObject_getOwner(getHandle());
+	}
+
 	public void setOwner(String val) {
 		ZenKit.API.ZkMovableObject_setOwner(getHandle(), val);
 	}
 
+	public String getOwnerGuild() {
+		return ZenKit.API.ZkMovableObject_getOwnerGuild(getHandle());
+	}
+
 	public void setOwnerGuild(String val) {
 		ZenKit.API.ZkMovableObject_setOwnerGuild(getHandle(), val);
+	}
+
+	public boolean isDestroyed() {
+		return ZenKit.API.ZkMovableObject_getDestroyed(getHandle());
 	}
 
 	public void setDestroyed(boolean val) {

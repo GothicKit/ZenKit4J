@@ -32,36 +32,36 @@ public class CodeMaster extends VirtualObject {
 		return ZenKit.API.ZkCodeMaster_getTarget(getHandle());
 	}
 
-	public boolean isOrdered() {
-		return ZenKit.API.ZkCodeMaster_getOrdered(getHandle());
-	}
-
-	public boolean getFirstFalseIsFailure() {
-		return ZenKit.API.ZkCodeMaster_getFirstFalseIsFailure(getHandle());
-	}
-
-	public String getFailureTarget() {
-		return ZenKit.API.ZkCodeMaster_getFailureTarget(getHandle());
-	}
-
-	public boolean getUntriggeredCancels() {
-		return ZenKit.API.ZkCodeMaster_getUntriggeredCancels(getHandle());
-	}
-
 	public void setTarget(String val) {
 		ZenKit.API.ZkCodeMaster_setTarget(getHandle(), val);
+	}
+
+	public boolean isOrdered() {
+		return ZenKit.API.ZkCodeMaster_getOrdered(getHandle());
 	}
 
 	public void setOrdered(boolean val) {
 		ZenKit.API.ZkCodeMaster_setOrdered(getHandle(), val);
 	}
 
+	public boolean getFirstFalseIsFailure() {
+		return ZenKit.API.ZkCodeMaster_getFirstFalseIsFailure(getHandle());
+	}
+
 	public void setFirstFalseIsFailure(boolean val) {
 		ZenKit.API.ZkCodeMaster_setFirstFalseIsFailure(getHandle(), val);
 	}
 
+	public String getFailureTarget() {
+		return ZenKit.API.ZkCodeMaster_getFailureTarget(getHandle());
+	}
+
 	public void setFailureTarget(String val) {
 		ZenKit.API.ZkCodeMaster_setFailureTarget(getHandle(), val);
+	}
+
+	public boolean getUntriggeredCancels() {
+		return ZenKit.API.ZkCodeMaster_getUntriggeredCancels(getHandle());
 	}
 
 	public void setUntriggeredCancels(boolean val) {
@@ -87,14 +87,6 @@ public class CodeMaster extends VirtualObject {
 		return slaves;
 	}
 
-	void addSlave(String value) {
-		ZenKit.API.ZkCodeMaster_addSlave(getHandle(), value);
-	}
-
-	void removeSlave(long i) {
-		ZenKit.API.ZkCodeMaster_removeSlave(getHandle(), i);
-	}
-
 	void setSlaves(Iterable<String> slaves) {
 		for (var i = 0; i < getSlaveCount(); ++i) {
 			removeSlave(i);
@@ -111,5 +103,13 @@ public class CodeMaster extends VirtualObject {
 		for (String slave : slaves) {
 			addSlave(slave);
 		}
+	}
+
+	void addSlave(String value) {
+		ZenKit.API.ZkCodeMaster_addSlave(getHandle(), value);
+	}
+
+	void removeSlave(long i) {
+		ZenKit.API.ZkCodeMaster_removeSlave(getHandle(), i);
 	}
 }

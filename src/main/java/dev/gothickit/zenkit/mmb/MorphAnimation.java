@@ -1,64 +1,29 @@
 package dev.gothickit.zenkit.mmb;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
+import org.jetbrains.annotations.NotNull;
 
-public class MorphAnimation {
-	private final Pointer handle;
+public interface MorphAnimation extends CacheableObject<CachedMorphAnimation> {
+	@NotNull
+	String name();
 
-	public MorphAnimation(Pointer handle) {
-		this.handle = handle;
-	}
+	int layer();
 
-	public String getName() {
-		return ZenKit.API.ZkMorphAnimation_getName(handle);
-	}
+	float blendIn();
 
-	public int getLayer() {
-		return ZenKit.API.ZkMorphAnimation_getLayer(handle);
-	}
+	float blendOut();
 
-	public float getBlendIn() {
-		return ZenKit.API.ZkMorphAnimation_getBlendIn(handle);
-	}
+	float duration();
 
-	public float getBlendOut() {
-		return ZenKit.API.ZkMorphAnimation_getBlendOut(handle);
-	}
+	float speed();
 
-	public float getDuration() {
-		return ZenKit.API.ZkMorphAnimation_getDuration(handle);
-	}
+	byte flags();
 
-	public float getSpeed() {
-		return ZenKit.API.ZkMorphAnimation_getSpeed(handle);
-	}
+	int frameCount();
 
-	public byte getFlags() {
-		return ZenKit.API.ZkMorphAnimation_getFlags(handle);
-	}
+	int @NotNull [] vertices();
 
-	public int getFrameCount() {
-		return ZenKit.API.ZkMorphAnimation_getFrameCount(handle);
-	}
-
-	public int[] getVertices() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkMorphAnimation_getVertices(handle, count);
-		if (ptr == Pointer.NULL || count.getValue() == 0) return new int[0];
-		return ptr.getIntArray(0, count.getValue());
-	}
-
-	public Vec3f[] getSamples() {
-		var count = ZenKit.API.ZkMorphAnimation_getSampleCount(handle);
-		var weights = new Vec3f[(int) count];
-
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkMorphAnimation_getSample(handle, i);
-		}
-
-		return weights;
-	}
+	@NotNull
+	Vec3f @NotNull [] samples();
 }

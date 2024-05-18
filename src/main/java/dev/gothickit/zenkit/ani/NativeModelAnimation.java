@@ -3,13 +3,11 @@ package dev.gothickit.zenkit.ani;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.LongByReference;
 import dev.gothickit.zenkit.*;
-import dev.gothickit.zenkit.bsp.NativeBinarySpacePartitionTree;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;

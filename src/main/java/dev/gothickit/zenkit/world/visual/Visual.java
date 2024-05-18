@@ -12,6 +12,14 @@ public class Visual {
 		this.handle = new Handle(handle, ZenKit.API::ZkVisual_del);
 	}
 
+	public static @NotNull Visual create(VisualType type) {
+		var ptr = ZenKit.API.ZkVisual_new(type);
+		return switch (type) {
+			case DECAL -> new VisualDecal(ptr);
+			default -> new Visual(ptr);
+		};
+	}
+
 	public Pointer getHandle() {
 		return handle.get();
 	}
@@ -26,13 +34,5 @@ public class Visual {
 
 	public VisualType getType() {
 		return ZenKit.API.ZkVisual_getType(getHandle());
-	}
-
-	public static @NotNull Visual create(VisualType type) {
-		var ptr = ZenKit.API.ZkVisual_new(type);
-		return switch (type) {
-			case DECAL -> new VisualDecal(ptr);
-			default -> new Visual(ptr);
-		};
 	}
 }

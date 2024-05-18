@@ -1,128 +1,77 @@
 package dev.gothickit.zenkit.mat;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.Color;
-import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.Vec2f;
-import dev.gothickit.zenkit.capi.ZenKit;
-import dev.gothickit.zenkit.utils.Handle;
+import dev.gothickit.zenkit.*;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public class Material {
-	private final Handle handle;
-
-	public Material(@NotNull Read buf) {
-		this.handle = new Handle(ZenKit.API.ZkMaterial_load(buf.getHandle()), ZenKit.API::ZkMaterial_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load material");
+public interface Material extends CacheableObject<CachedMaterial> {
+	@Contract("_ -> new")
+	static @NotNull Material load(@NotNull String path) throws ResourceIOException {
+		return new NativeMaterial(path);
 	}
 
-	public Material(String path) {
-		this.handle = new Handle(ZenKit.API.ZkMaterial_loadPath(path), ZenKit.API::ZkMaterial_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load material");
+	@Contract("_ -> new")
+	static @NotNull Material load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeMaterial(buf);
 	}
 
-	public Material(Pointer handle) {
-		this.handle = new Handle(handle, (o) -> {
-		});
-	}
+	@NotNull
+	String name();
 
-	public Pointer getHandle() {
-		return handle.get();
-	}
+	@NotNull
+	MaterialGroup group();
 
-	public String getName() {
-		return ZenKit.API.ZkMaterial_getName(this.getHandle());
-	}
+	@NotNull
+	Color color();
 
-	public MaterialGroup getGroup() {
-		return ZenKit.API.ZkMaterial_getGroup(this.getHandle());
-	}
+	float smoothAngle();
 
-	public Color getColor() {
-		return ZenKit.API.ZkMaterial_getColor(this.getHandle());
-	}
+	@NotNull
+	String texture();
 
-	public float getSmoothAngle() {
-		return ZenKit.API.ZkMaterial_getSmoothAngle(this.getHandle());
-	}
+	@NotNull
+	Vec2f textureScale();
 
-	public String getTexture() {
-		return ZenKit.API.ZkMaterial_getTexture(this.getHandle());
-	}
+	float textureAnimationFps();
 
-	public Vec2f getTextureScale() {
-		return ZenKit.API.ZkMaterial_getTextureScale(this.getHandle());
-	}
+	@NotNull
+	AnimationMapping textureAnimationMapping();
 
-	public float getTextureAnimationFps() {
-		return ZenKit.API.ZkMaterial_getTextureAnimationFps(this.getHandle());
-	}
+	@NotNull
+	Vec2f textureAnimationMappingDirection();
 
-	public AnimationMapping getTextureAnimationMapping() {
-		return ZenKit.API.ZkMaterial_getTextureAnimationMapping(this.getHandle());
-	}
+	boolean disableCollision();
 
-	public Vec2f getTextureAnimationMappingDirection() {
-		return ZenKit.API.ZkMaterial_getTextureAnimationMappingDirection(this.getHandle());
-	}
+	boolean disableLightmap();
 
-	public boolean getDisableCollision() {
-		return ZenKit.API.ZkMaterial_getDisableCollision(this.getHandle());
-	}
+	boolean dontCollapse();
 
-	public boolean getDisableLightmap() {
-		return ZenKit.API.ZkMaterial_getDisableLightmap(this.getHandle());
-	}
+	@NotNull
+	String detailObject();
 
-	public boolean getDontCollapse() {
-		return ZenKit.API.ZkMaterial_getDontCollapse(this.getHandle());
-	}
+	float detailObjectScale();
 
-	public String getDetailObject() {
-		return ZenKit.API.ZkMaterial_getDetailObject(this.getHandle());
-	}
+	boolean forceOccluder();
 
-	public float getDetailObjectScale() {
-		return ZenKit.API.ZkMaterial_getDetailObjectScale(this.getHandle());
-	}
+	boolean environmentMapping();
 
-	public boolean getForceOccluder() {
-		return ZenKit.API.ZkMaterial_getForceOccluder(this.getHandle());
-	}
+	float environmentMappingStrength();
 
-	public boolean getEnvironmentMapping() {
-		return ZenKit.API.ZkMaterial_getEnvironmentMapping(this.getHandle());
-	}
+	@NotNull
+	WaveMode waveMode();
 
-	public float getEnvironmentMappingStrength() {
-		return ZenKit.API.ZkMaterial_getEnvironmentMappingStrength(this.getHandle());
-	}
+	@NotNull
+	WaveSpeed waveSpeed();
 
-	public WaveMode getWaveMode() {
-		return ZenKit.API.ZkMaterial_getWaveMode(this.getHandle());
-	}
+	float waveAmplitude();
 
-	public WaveSpeed getWaveSpeed() {
-		return ZenKit.API.ZkMaterial_getWaveSpeed(this.getHandle());
-	}
+	float waveGridSize();
 
-	public float getWaveAmplitude() {
-		return ZenKit.API.ZkMaterial_getWaveAmplitude(this.getHandle());
-	}
+	boolean ignoreSun();
 
-	public float getWaveGridSize() {
-		return ZenKit.API.ZkMaterial_getWaveGridSize(this.getHandle());
-	}
+	@NotNull
+	AlphaFunction alphaFunction();
 
-	public boolean getIgnoreSun() {
-		return ZenKit.API.ZkMaterial_getIgnoreSun(this.getHandle());
-	}
-
-	public AlphaFunction getAlphaFunction() {
-		return ZenKit.API.ZkMaterial_getAlphaFunction(this.getHandle());
-	}
-
-	public Vec2f getDefaultMapping() {
-		return ZenKit.API.ZkMaterial_getDefaultMapping(this.getHandle());
-	}
+	@NotNull
+	Vec2f defaultMapping();
 }

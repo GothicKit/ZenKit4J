@@ -5,12 +5,12 @@ import dev.gothickit.zenkit.Vec3f;
 
 @Structure.FieldOrder({"distance", "normal"})
 public class MeshPlane extends Structure {
-	public float distance;
-	public Vec3f normal;
+	public float distance = 0;
+	public Vec3f normal = new Vec3f();
 
-	public static class ByValue extends MeshPlane implements Structure.ByValue {
+	public static final class ByValue extends MeshPlane implements Structure.ByValue {
 	}
 
-	public static class ByReference extends MeshPlane implements Structure.ByValue {
+	public static final class ByReference extends MeshPlane implements Structure.ByValue {
 	}
 }

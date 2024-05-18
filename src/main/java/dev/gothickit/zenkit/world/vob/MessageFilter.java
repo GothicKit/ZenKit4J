@@ -29,20 +29,20 @@ public class MessageFilter extends VirtualObject {
 		return ZenKit.API.ZkMessageFilter_getTarget(getHandle());
 	}
 
-	public MessageFilterAction getOnTrigger() {
-		return ZenKit.API.ZkMessageFilter_getOnTrigger(getHandle());
-	}
-
-	public MessageFilterAction getOnUntrigger() {
-		return ZenKit.API.ZkMessageFilter_getOnUntrigger(getHandle());
-	}
-
 	public void setTarget(String val) {
 		ZenKit.API.ZkMessageFilter_setTarget(getHandle(), val);
 	}
 
+	public MessageFilterAction getOnTrigger() {
+		return ZenKit.API.ZkMessageFilter_getOnTrigger(getHandle());
+	}
+
 	public void setOnTrigger(MessageFilterAction val) {
 		ZenKit.API.ZkMessageFilter_setOnTrigger(getHandle(), val);
+	}
+
+	public MessageFilterAction getOnUntrigger() {
+		return ZenKit.API.ZkMessageFilter_getOnUntrigger(getHandle());
 	}
 
 	public void setOnUntrigger(MessageFilterAction val) {

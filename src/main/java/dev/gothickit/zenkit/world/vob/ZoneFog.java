@@ -30,36 +30,36 @@ public class ZoneFog extends VirtualObject {
 		return ZenKit.API.ZkZoneFog_getRangeCenter(getHandle());
 	}
 
-	public float getInnerRangePercentage() {
-		return ZenKit.API.ZkZoneFog_getInnerRangePercentage(getHandle());
-	}
-
-	public Color getColor() {
-		return ZenKit.API.ZkZoneFog_getColor(getHandle());
-	}
-
-	public boolean getFadeOutSky() {
-		return ZenKit.API.ZkZoneFog_getFadeOutSky(getHandle());
-	}
-
-	public boolean getOverrideColor() {
-		return ZenKit.API.ZkZoneFog_getOverrideColor(getHandle());
-	}
-
 	public void setRangeCenter(float val) {
 		ZenKit.API.ZkZoneFog_setRangeCenter(getHandle(), val);
+	}
+
+	public float getInnerRangePercentage() {
+		return ZenKit.API.ZkZoneFog_getInnerRangePercentage(getHandle());
 	}
 
 	public void setInnerRangePercentage(float val) {
 		ZenKit.API.ZkZoneFog_setInnerRangePercentage(getHandle(), val);
 	}
 
+	public Color getColor() {
+		return ZenKit.API.ZkZoneFog_getColor(getHandle());
+	}
+
 	public void setColor(Color val) {
 		ZenKit.API.ZkZoneFog_setColor(getHandle(), new Color.ByValue(val));
 	}
 
+	public boolean getFadeOutSky() {
+		return ZenKit.API.ZkZoneFog_getFadeOutSky(getHandle());
+	}
+
 	public void setFadeOutSky(boolean val) {
 		ZenKit.API.ZkZoneFog_setFadeOutSky(getHandle(), val);
+	}
+
+	public boolean getOverrideColor() {
+		return ZenKit.API.ZkZoneFog_getOverrideColor(getHandle());
 	}
 
 	public void setOverrideColor(boolean val) {

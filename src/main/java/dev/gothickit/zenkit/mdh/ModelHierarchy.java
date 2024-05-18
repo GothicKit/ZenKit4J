@@ -1,98 +1,52 @@
 package dev.gothickit.zenkit.mdh;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.AxisAlignedBoundingBox;
-import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
-import dev.gothickit.zenkit.utils.Handle;
+import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ModelHierarchy {
-	private final Handle handle;
-
-	public ModelHierarchy(String path) {
-		var handle = new Handle(ZenKit.API.ZkModelHierarchy_loadPath(path), ZenKit.API::ZkModelHierarchy_del);
-		if (handle.isNull()) throw new RuntimeException("Failed to load model hierarchy");
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
+public interface ModelHierarchy extends CacheableObject<CachedModelHierarchy> {
+	@Contract("_ -> new")
+	static @NotNull ModelHierarchy load(@NotNull String path) throws ResourceIOException {
+		return new NativeModelHierarchy(path);
 	}
 
-	public ModelHierarchy(@NotNull Read buf) {
-		var handle = new Handle(ZenKit.API.ZkModelHierarchy_load(buf.getHandle()), ZenKit.API::ZkModelHierarchy_del);
-		if (handle.isNull()) throw new RuntimeException("Failed to load model hierarchy");
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
+	@Contract("_ -> new")
+	static @NotNull ModelHierarchy load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeModelHierarchy(buf);
 	}
 
-	public ModelHierarchy(@NotNull Vfs vfs, String name) {
-		var handle = new Handle(
-				ZenKit.API.ZkModelHierarchy_loadVfs(vfs.getHandle(), name),
-				ZenKit.API::ZkModelHierarchy_del
-		);
-
-		if (handle.isNull()) {
-			throw new RuntimeException("Failed to load model hierarchy");
-		}
-
-		ZenKit.CLEANER.register(this, handle);
-		this.handle = handle;
+	@Contract("_, _ -> new")
+	static @NotNull ModelHierarchy load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeModelHierarchy(vfs, name);
 	}
 
-	public ModelHierarchy(Pointer handle) {
-		this.handle = new Handle(handle, (o) -> {
-		});
-	}
+	long nodeCount();
 
-	public Pointer getHandle() {
-		return handle.get();
-	}
+	@Nullable
+	ModelHierarchyNode node(long i);
 
-	public long getNodeCount() {
-		return ZenKit.API.ZkModelHierarchy_getNodeCount(this.getHandle());
-	}
+	@NotNull
+	AxisAlignedBoundingBox bbox();
 
-	public ModelHierarchyNode getNode(long i) {
-		return ZenKit.API.ZkModelHierarchy_getNode(this.getHandle(), i);
-	}
+	@NotNull
+	AxisAlignedBoundingBox collisionBbox();
 
-	public AxisAlignedBoundingBox getBbox() {
-		return ZenKit.API.ZkModelHierarchy_getBbox(this.getHandle());
-	}
+	@NotNull
+	Vec3f rootTranslation();
 
-	public AxisAlignedBoundingBox getCollisionBbox() {
-		return ZenKit.API.ZkModelHierarchy_getCollisionBbox(this.getHandle());
-	}
+	long checksum();
 
-	public Vec3f getRootTranslation() {
-		return ZenKit.API.ZkModelHierarchy_getRootTranslation(this.getHandle());
-	}
+	@NotNull
+	Calendar sourceDate();
 
-	public long getChecksum() {
-		return ZenKit.API.ZkModelHierarchy_getChecksum(this.getHandle());
-	}
+	@NotNull
+	String sourcePath();
 
-	public Calendar getSourceDate() {
-		return ZenKit.API.ZkModelHierarchy_getSourceDate(this.getHandle()).toCalendar();
-	}
-
-	public String getSourcePath() {
-		return ZenKit.API.ZkModelHierarchy_getSourcePath(this.getHandle());
-	}
-
-	public List<ModelHierarchyNode> getNodes() {
-		var nodes = new ArrayList<ModelHierarchyNode>();
-
-		ZenKit.API.ZkModelHierarchy_enumerateNodes(this.getHandle(), (ctx, node) -> {
-			nodes.add(node);
-			return false;
-		}, Pointer.NULL);
-
-		return nodes;
-	}
+	@NotNull
+	List<@NotNull ModelHierarchyNode> nodes();
 }

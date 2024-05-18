@@ -1,29 +1,17 @@
 package dev.gothickit.zenkit.msh;
 
-import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.tex.Texture;
+import org.jetbrains.annotations.NotNull;
 
-public class LightMap {
-	private final Pointer handle;
+public interface LightMap extends CacheableObject<CachedLightMap> {
+	@NotNull
+	Texture image();
 
-	public LightMap(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull
+	Vec3f origin();
 
-	public Texture getImage() {
-		return new Texture(ZenKit.API.ZkLightMap_getImage(handle));
-	}
-
-	public Vec3f getOrigin() {
-		return ZenKit.API.ZkLightMap_getOrigin(handle);
-	}
-
-	public Vec3f[] getNormals() {
-		return new Vec3f[]{
-				ZenKit.API.ZkLightMap_getNormal(handle, 0),
-				ZenKit.API.ZkLightMap_getNormal(handle, 1),
-		};
-	}
+	@NotNull
+	Vec3f @NotNull [] normals();
 }

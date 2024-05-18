@@ -35,12 +35,12 @@ public class Fire extends InteractiveObject {
 		return ZenKit.API.ZkFire_getSlot(getHandle());
 	}
 
-	public String getVobTree() {
-		return ZenKit.API.ZkFire_getVobTree(getHandle());
-	}
-
 	public void setSlot(String val) {
 		ZenKit.API.ZkFire_setSlot(getHandle(), val);
+	}
+
+	public String getVobTree() {
+		return ZenKit.API.ZkFire_getVobTree(getHandle());
 	}
 
 	public void setVobTree(String val) {

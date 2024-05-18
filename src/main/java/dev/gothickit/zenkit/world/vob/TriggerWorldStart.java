@@ -35,12 +35,12 @@ public class TriggerWorldStart extends VirtualObject {
 		return ZenKit.API.ZkTriggerWorldStart_getTarget(getHandle());
 	}
 
-	public boolean getFireOnce() {
-		return ZenKit.API.ZkTriggerWorldStart_getFireOnce(getHandle());
-	}
-
 	public void setTarget(String val) {
 		ZenKit.API.ZkTriggerWorldStart_setTarget(getHandle(), val);
+	}
+
+	public boolean getFireOnce() {
+		return ZenKit.API.ZkTriggerWorldStart_getFireOnce(getHandle());
 	}
 
 	public void setFireOnce(boolean val) {

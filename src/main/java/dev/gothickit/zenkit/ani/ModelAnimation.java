@@ -13,6 +13,21 @@ import java.util.Calendar;
 import java.util.List;
 
 public interface ModelAnimation extends CacheableObject<CachedModelAnimation> {
+	@Contract("_ -> new")
+	static @NotNull ModelAnimation load(@NotNull String path) throws ResourceIOException {
+		return new NativeModelAnimation(path);
+	}
+
+	@Contract("_ -> new")
+	static @NotNull ModelAnimation load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeModelAnimation(buf);
+	}
+
+	@Contract("_, _ -> new")
+	static @NotNull ModelAnimation load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeModelAnimation(vfs, name);
+	}
+
 	@NotNull
 	String name();
 
@@ -52,19 +67,4 @@ public interface ModelAnimation extends CacheableObject<CachedModelAnimation> {
 	List<@NotNull AnimationSample> samples();
 
 	int @NotNull [] nodeIndices();
-
-	@Contract("_ -> new")
-	static @NotNull ModelAnimation load(@NotNull String path) throws ResourceIOException {
-		return new NativeModelAnimation(path);
-	}
-
-	@Contract("_ -> new")
-	static @NotNull ModelAnimation load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModelAnimation(buf);
-	}
-
-	@Contract("_, _ -> new")
-	static @NotNull ModelAnimation load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
-		return new NativeModelAnimation(vfs, name);
-	}
 }

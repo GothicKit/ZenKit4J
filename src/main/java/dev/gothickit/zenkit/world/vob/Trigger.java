@@ -148,29 +148,29 @@ public class Trigger extends VirtualObject {
 		return ZenKit.API.ZkTrigger_getNextTimeTriggerable(getHandle());
 	}
 
+	public void setNextTimeTriggerable(float val) {
+		ZenKit.API.ZkTrigger_setNextTimeTriggerable(getHandle(), val);
+	}
+
 	public VirtualObject getOtherVob() {
 		var ptr = ZenKit.API.ZkTrigger_getOtherVob(getHandle());
 		return VirtualObject.fromNative(ptr);
-	}
-
-	public int getCountCanBeActivated() {
-		return ZenKit.API.ZkTrigger_getCountCanBeActivated(getHandle());
-	}
-
-	public boolean isEnabled() {
-		return ZenKit.API.ZkTrigger_getIsEnabled(getHandle());
-	}
-
-	public void setNextTimeTriggerable(float val) {
-		ZenKit.API.ZkTrigger_setNextTimeTriggerable(getHandle(), val);
 	}
 
 	public void setOtherVob(VirtualObject obj) {
 		ZenKit.API.ZkTrigger_setOtherVob(getHandle(), obj != null ? obj.getHandle() : Pointer.NULL);
 	}
 
+	public int getCountCanBeActivated() {
+		return ZenKit.API.ZkTrigger_getCountCanBeActivated(getHandle());
+	}
+
 	public void setCountCanBeActivated(int val) {
 		ZenKit.API.ZkTrigger_setCountCanBeActivated(getHandle(), val);
+	}
+
+	public boolean isEnabled() {
+		return ZenKit.API.ZkTrigger_getIsEnabled(getHandle());
 	}
 
 	public void setEnabled(boolean val) {

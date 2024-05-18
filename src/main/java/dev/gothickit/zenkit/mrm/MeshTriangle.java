@@ -6,9 +6,9 @@ import com.sun.jna.Structure;
 public class MeshTriangle extends Structure {
 	public short wedge0, wedge1, wedge2;
 
-	public static class ByValue extends MeshTriangle implements Structure.ByValue {
+	public static final class ByValue extends MeshTriangle implements Structure.ByValue {
 	}
 
-	public static class ByReference extends MeshTriangle implements Structure.ByValue {
+	public static final class ByReference extends MeshTriangle implements Structure.ByValue {
 	}
 }

@@ -10,9 +10,9 @@ public class MeshWedge extends Structure {
 	public Vec2f texture;
 	public short index;
 
-	public static class ByValue extends MeshWedge implements Structure.ByValue {
+	public static final class ByValue extends MeshWedge implements Structure.ByValue {
 	}
 
-	public static class ByReference extends MeshWedge implements Structure.ByValue {
+	public static final class ByReference extends MeshWedge implements Structure.ByValue {
 	}
 }

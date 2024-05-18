@@ -32,20 +32,20 @@ public class Earthquake extends VirtualObject {
 		return ZenKit.API.ZkEarthquake_getRadius(getHandle());
 	}
 
-	public Duration getDuration() {
-		return Duration.ofSeconds((long) ZenKit.API.ZkEarthquake_getDuration(getHandle()));
-	}
-
-	public Vec3f getAmplitude() {
-		return ZenKit.API.ZkEarthquake_getAmplitude(getHandle());
-	}
-
 	public void setRadius(float val) {
 		ZenKit.API.ZkEarthquake_setRadius(getHandle(), val);
 	}
 
+	public Duration getDuration() {
+		return Duration.ofSeconds((long) ZenKit.API.ZkEarthquake_getDuration(getHandle()));
+	}
+
 	public void setDuration(@NotNull Duration val) {
 		ZenKit.API.ZkEarthquake_setDuration(getHandle(), val.getSeconds());
+	}
+
+	public Vec3f getAmplitude() {
+		return ZenKit.API.ZkEarthquake_getAmplitude(getHandle());
 	}
 
 	public void setAmplitude(Vec3f val) {

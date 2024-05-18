@@ -1,86 +1,33 @@
 package dev.gothickit.zenkit.ssm;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.OrientedBoundingBox;
-import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.mrm.MultiResolutionMesh;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SoftSkinMesh {
-	private final Pointer handle;
+public interface SoftSkinMesh extends CacheableObject<CachedSoftSkinMesh> {
+	long nodeCount();
 
-	public SoftSkinMesh(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull
+	MultiResolutionMesh mesh();
 
-	public Pointer getHandle() {
-		return handle;
-	}
+	@Nullable
+	OrientedBoundingBox bbox(long node);
 
-	public long getNodeCount() {
-		return ZenKit.API.ZkSoftSkinMesh_getNodeCount(handle);
-	}
+	@NotNull
+	List<@NotNull OrientedBoundingBox> boundingBoxes();
 
-	public MultiResolutionMesh getMesh() {
-		return new MultiResolutionMesh(ZenKit.API.ZkSoftSkinMesh_getMesh(handle));
-	}
+	@NotNull
+	SoftSkinWeightEntry @Nullable [] weights(long node);
 
-	public OrientedBoundingBox getBbox(long node) {
-		var obb = ZenKit.API.ZkSoftSkinMesh_getBbox(handle, node);
-		if (obb == Pointer.NULL) return null;
-		return new OrientedBoundingBox(obb);
-	}
+	@NotNull
+	List<@NotNull SoftSkinWeightEntry[]> weights();
 
-	public List<OrientedBoundingBox> getBoundingBoxes() {
-		var bboxes = new ArrayList<OrientedBoundingBox>();
+	@NotNull
+	SoftSkinWedgeNormal @NotNull [] wedgeNormals();
 
-		ZenKit.API.ZkSoftSkinMesh_enumerateBoundingBoxes(handle, (ctx, box) -> {
-			bboxes.add(new OrientedBoundingBox(box));
-			return false;
-		}, Pointer.NULL);
-
-		return bboxes;
-	}
-
-	public SoftSkinWeightEntry[] getWeights(long node) {
-		var count = ZenKit.API.ZkSoftSkinMesh_getWeightCount(handle, node);
-		var weights = new SoftSkinWeightEntry[(int) count];
-
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkSoftSkinMesh_getWeight(handle, node, i);
-		}
-
-		return weights;
-	}
-
-	public List<SoftSkinWeightEntry[]> getWeights() {
-		var weights = new ArrayList<SoftSkinWeightEntry[]>();
-		var count = ZenKit.API.ZkSoftSkinMesh_getWeightTotal(getHandle());
-
-		for (int i = 0; i < count; i++) {
-			weights.add(getWeights(i));
-		}
-
-		return weights;
-	}
-
-	public SoftSkinWedgeNormal[] getWedgeNormals() {
-		var count = ZenKit.API.ZkSoftSkinMesh_getWedgeNormalCount(handle);
-		var weights = new SoftSkinWedgeNormal[(int) count];
-
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkSoftSkinMesh_getWedgeNormal(handle, i);
-		}
-
-		return weights;
-	}
-
-	public int[] getNodes() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkSoftSkinMesh_getNodes(handle, count);
-		return ptr.getIntArray(0, count.getValue());
-	}
+	int[] nodes();
 }

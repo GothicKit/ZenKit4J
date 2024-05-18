@@ -17,12 +17,12 @@ public class TriggerListTarget {
 		return ZenKit.API.ZkTriggerListTarget_getName(handle);
 	}
 
-	public Duration getDelay() {
-		return Duration.ofSeconds((long) ZenKit.API.ZkTriggerListTarget_getDelaySeconds(handle));
-	}
-
 	public void setName(String val) {
 		ZenKit.API.ZkTriggerListTarget_setName(handle, val);
+	}
+
+	public Duration getDelay() {
+		return Duration.ofSeconds((long) ZenKit.API.ZkTriggerListTarget_getDelaySeconds(handle));
 	}
 
 	public void setDelay(@NotNull Duration val) {

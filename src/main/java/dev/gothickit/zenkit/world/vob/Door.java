@@ -35,20 +35,20 @@ public class Door extends InteractiveObject {
 		return ZenKit.API.ZkDoor_getIsLocked(getHandle());
 	}
 
-	public String getKey() {
-		return ZenKit.API.ZkDoor_getKey(getHandle());
-	}
-
-	public String getPickString() {
-		return ZenKit.API.ZkDoor_getPickString(getHandle());
-	}
-
 	public void setLocked(boolean val) {
 		ZenKit.API.ZkDoor_setIsLocked(getHandle(), val);
 	}
 
+	public String getKey() {
+		return ZenKit.API.ZkDoor_getKey(getHandle());
+	}
+
 	public void setKey(String val) {
 		ZenKit.API.ZkDoor_setKey(getHandle(), val);
+	}
+
+	public String getPickString() {
+		return ZenKit.API.ZkDoor_getPickString(getHandle());
 	}
 
 	public void setPickString(String val) {

@@ -29,12 +29,12 @@ public class ZoneFarPlane extends VirtualObject {
 		return ZenKit.API.ZkZoneFarPlane_getVobFarPlaneZ(getHandle());
 	}
 
-	public float getInnerRangePercentage() {
-		return ZenKit.API.ZkZoneFarPlane_getInnerRangePercentage(getHandle());
-	}
-
 	public void setVobFarPlaneZ(float val) {
 		ZenKit.API.ZkZoneFarPlane_setVobFarPlaneZ(getHandle(), val);
+	}
+
+	public float getInnerRangePercentage() {
+		return ZenKit.API.ZkZoneFarPlane_getInnerRangePercentage(getHandle());
 	}
 
 	public void setInnerRangePercentage(float val) {

@@ -180,68 +180,68 @@ public class Mover extends Trigger {
 		return ZenKit.API.ZkMover_getActKeyPosDelta(getHandle());
 	}
 
-	public float getActKeyframeF() {
-		return ZenKit.API.ZkMover_getActKeyframeF(getHandle());
-	}
-
-	public int getActKeyframe() {
-		return ZenKit.API.ZkMover_getActKeyframe(getHandle());
-	}
-
-	public int getNextKeyframe() {
-		return ZenKit.API.ZkMover_getNextKeyframe(getHandle());
-	}
-
-	public float getMoveSpeedUnit() {
-		return ZenKit.API.ZkMover_getMoveSpeedUnit(getHandle());
-	}
-
-	public float getAdvanceDir() {
-		return ZenKit.API.ZkMover_getAdvanceDir(getHandle());
-	}
-
-	public int getMoverState() {
-		return ZenKit.API.ZkMover_getMoverState(getHandle());
-	}
-
-	public int getTriggerEventCount() {
-		return ZenKit.API.ZkMover_getTriggerEventCount(getHandle());
-	}
-
-	public float getStayOpenTimeDest() {
-		return ZenKit.API.ZkMover_getStayOpenTimeDest(getHandle());
-	}
-
 	public void setActKeyPosDelta(Vec3f val) {
 		ZenKit.API.ZkMover_setActKeyPosDelta(getHandle(), val);
+	}
+
+	public float getActKeyframeF() {
+		return ZenKit.API.ZkMover_getActKeyframeF(getHandle());
 	}
 
 	public void setActKeyframeF(float val) {
 		ZenKit.API.ZkMover_setActKeyframeF(getHandle(), val);
 	}
 
+	public int getActKeyframe() {
+		return ZenKit.API.ZkMover_getActKeyframe(getHandle());
+	}
+
 	public void setActKeyframe(int val) {
 		ZenKit.API.ZkMover_setActKeyframe(getHandle(), val);
+	}
+
+	public int getNextKeyframe() {
+		return ZenKit.API.ZkMover_getNextKeyframe(getHandle());
 	}
 
 	public void setNextKeyframe(int val) {
 		ZenKit.API.ZkMover_setNextKeyframe(getHandle(), val);
 	}
 
+	public float getMoveSpeedUnit() {
+		return ZenKit.API.ZkMover_getMoveSpeedUnit(getHandle());
+	}
+
 	public void setMoveSpeedUnit(float val) {
 		ZenKit.API.ZkMover_setMoveSpeedUnit(getHandle(), val);
+	}
+
+	public float getAdvanceDir() {
+		return ZenKit.API.ZkMover_getAdvanceDir(getHandle());
 	}
 
 	public void setAdvanceDir(float val) {
 		ZenKit.API.ZkMover_setAdvanceDir(getHandle(), val);
 	}
 
+	public int getMoverState() {
+		return ZenKit.API.ZkMover_getMoverState(getHandle());
+	}
+
 	public void setMoverState(int val) {
 		ZenKit.API.ZkMover_setMoverState(getHandle(), val);
 	}
 
+	public int getTriggerEventCount() {
+		return ZenKit.API.ZkMover_getTriggerEventCount(getHandle());
+	}
+
 	public void setTriggerEventCount(int val) {
 		ZenKit.API.ZkMover_setTriggerEventCount(getHandle(), val);
+	}
+
+	public float getStayOpenTimeDest() {
+		return ZenKit.API.ZkMover_getStayOpenTimeDest(getHandle());
 	}
 
 	public void setStayOpenTimeDest(float val) {

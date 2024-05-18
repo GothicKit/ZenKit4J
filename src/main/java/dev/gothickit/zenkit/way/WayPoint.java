@@ -1,37 +1,22 @@
 package dev.gothickit.zenkit.way;
 
-import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
+import org.jetbrains.annotations.NotNull;
 
-public class WayPoint {
-	private final Pointer handle;
+public interface WayPoint extends CacheableObject<CachedWayPoint> {
+	@NotNull
+	String name();
 
-	public WayPoint(Pointer handle) {
-		this.handle = handle;
-	}
+	int waterDepth();
 
-	public String getName() {
-		return ZenKit.API.ZkWayPoint_getName(handle);
-	}
+	boolean underWater();
 
-	public int getWaterDepth() {
-		return ZenKit.API.ZkWayPoint_getWaterDepth(handle);
-	}
+	@NotNull
+	Vec3f position();
 
-	public boolean isUnderWater() {
-		return ZenKit.API.ZkWayPoint_getUnderWater(handle);
-	}
+	@NotNull
+	Vec3f direction();
 
-	public Vec3f getPosition() {
-		return ZenKit.API.ZkWayPoint_getPosition(handle);
-	}
-
-	public Vec3f getDirection() {
-		return ZenKit.API.ZkWayPoint_getDirection(handle);
-	}
-
-	public boolean isFreePoint() {
-		return ZenKit.API.ZkWayPoint_getFreePoint(handle);
-	}
+	boolean freePoint();
 }

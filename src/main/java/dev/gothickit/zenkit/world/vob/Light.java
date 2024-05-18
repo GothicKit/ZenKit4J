@@ -31,20 +31,40 @@ public class Light extends VirtualObject {
 		return ZenKit.API.ZkLight_getPreset(getHandle());
 	}
 
+	public void setPreset(String val) {
+		ZenKit.API.ZkLight_setPreset(getHandle(), val);
+	}
+
 	public LightType getLightType() {
 		return ZenKit.API.ZkLight_getLightType(getHandle());
+	}
+
+	public void setLightType(LightType val) {
+		ZenKit.API.ZkLight_setLightType(getHandle(), val);
 	}
 
 	public float getRange() {
 		return ZenKit.API.ZkLight_getRange(getHandle());
 	}
 
+	public void setRange(float val) {
+		ZenKit.API.ZkLight_setRange(getHandle(), val);
+	}
+
 	public Color getColor() {
 		return ZenKit.API.ZkLight_getColor(getHandle());
 	}
 
+	public void setColor(Color val) {
+		ZenKit.API.ZkLight_setColor(getHandle(), val);
+	}
+
 	public float getConeAngle() {
 		return ZenKit.API.ZkLight_getConeAngle(getHandle());
+	}
+
+	public void setConeAngle(float val) {
+		ZenKit.API.ZkLight_setConeAngle(getHandle(), val);
 	}
 
 	public boolean isLightStatic() {
@@ -55,12 +75,24 @@ public class Light extends VirtualObject {
 		return ZenKit.API.ZkLight_getQuality(getHandle());
 	}
 
+	public void setQuality(LightQuality val) {
+		ZenKit.API.ZkLight_setQuality(getHandle(), val);
+	}
+
 	public String getLensflareFx() {
 		return ZenKit.API.ZkLight_getLensflareFx(getHandle());
 	}
 
+	public void setLensflareFx(String val) {
+		ZenKit.API.ZkLight_setLensflareFx(getHandle(), val);
+	}
+
 	public boolean getOn() {
 		return ZenKit.API.ZkLight_getOn(getHandle());
+	}
+
+	public void setOn(boolean val) {
+		ZenKit.API.ZkLight_setOn(getHandle(), val);
 	}
 
 	public float[] getRangeAnimationScale() {
@@ -70,12 +102,24 @@ public class Light extends VirtualObject {
 		return ptr.getFloatArray(0, count.getValue());
 	}
 
+	public void setRangeAnimationScale(float[] val) {
+		ZenKit.API.ZkLight_setRangeAnimationScale(getHandle(), val, val.length);
+	}
+
 	public float getRangeAnimationFps() {
 		return ZenKit.API.ZkLight_getRangeAnimationFps(getHandle());
 	}
 
+	public void setRangeAnimationFps(float val) {
+		ZenKit.API.ZkLight_setRangeAnimationFps(getHandle(), val);
+	}
+
 	public boolean getRangeAnimationSmooth() {
 		return ZenKit.API.ZkLight_getRangeAnimationSmooth(getHandle());
+	}
+
+	public void setRangeAnimationSmooth(boolean val) {
+		ZenKit.API.ZkLight_setRangeAnimationSmooth(getHandle(), val);
 	}
 
 	public Color[] getColorAnimationList() {
@@ -93,71 +137,27 @@ public class Light extends VirtualObject {
 		return ZenKit.API.ZkLight_getColorAnimationFps(getHandle());
 	}
 
-	public boolean getColorAnimationSmooth() {
-		return ZenKit.API.ZkLight_getColorAnimationSmooth(getHandle());
-	}
-
-	public boolean getCanMove() {
-		return ZenKit.API.ZkLight_getCanMove(getHandle());
-	}
-
-	public void setPreset(String val) {
-		ZenKit.API.ZkLight_setPreset(getHandle(), val);
-	}
-
-	public void setLightType(LightType val) {
-		ZenKit.API.ZkLight_setLightType(getHandle(), val);
-	}
-
-	public void setRange(float val) {
-		ZenKit.API.ZkLight_setRange(getHandle(), val);
-	}
-
-	public void setColor(Color val) {
-		ZenKit.API.ZkLight_setColor(getHandle(), val);
-	}
-
-	public void setConeAngle(float val) {
-		ZenKit.API.ZkLight_setConeAngle(getHandle(), val);
-	}
-
-	public void setStatic(boolean val) {
-		ZenKit.API.ZkLight_setIsStatic(getHandle(), val);
-	}
-
-	public void setQuality(LightQuality val) {
-		ZenKit.API.ZkLight_setQuality(getHandle(), val);
-	}
-
-	public void setLensflareFx(String val) {
-		ZenKit.API.ZkLight_setLensflareFx(getHandle(), val);
-	}
-
-	public void setOn(boolean val) {
-		ZenKit.API.ZkLight_setOn(getHandle(), val);
-	}
-
-	public void setRangeAnimationScale(float[] val) {
-		ZenKit.API.ZkLight_setRangeAnimationScale(getHandle(), val, val.length);
-	}
-
-	public void setRangeAnimationFps(float val) {
-		ZenKit.API.ZkLight_setRangeAnimationFps(getHandle(), val);
-	}
-
-	public void setRangeAnimationSmooth(boolean val) {
-		ZenKit.API.ZkLight_setRangeAnimationSmooth(getHandle(), val);
-	}
-
 	public void setColorAnimationFps(float val) {
 		ZenKit.API.ZkLight_setColorAnimationFps(getHandle(), val);
+	}
+
+	public boolean getColorAnimationSmooth() {
+		return ZenKit.API.ZkLight_getColorAnimationSmooth(getHandle());
 	}
 
 	public void setColorAnimationSmooth(boolean val) {
 		ZenKit.API.ZkLight_setColorAnimationSmooth(getHandle(), val);
 	}
 
+	public boolean getCanMove() {
+		return ZenKit.API.ZkLight_getCanMove(getHandle());
+	}
+
 	public void setCanMove(boolean val) {
 		ZenKit.API.ZkLight_setCanMove(getHandle(), val);
+	}
+
+	public void setStatic(boolean val) {
+		ZenKit.API.ZkLight_setIsStatic(getHandle(), val);
 	}
 }

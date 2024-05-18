@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public record CachedBinarySpacePartitionSector(
 		@NotNull String name,
 		int @NotNull [] nodeIndices,
-	    int @NotNull [] portalPolygonIndices
+		int @NotNull [] portalPolygonIndices
 ) implements BinarySpacePartitionSector {
 	@Override
 	public @NotNull CachedBinarySpacePartitionSector cache() {

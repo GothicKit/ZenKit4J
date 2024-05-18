@@ -1,97 +1,55 @@
 package dev.gothickit.zenkit.mmb;
 
-import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.mrm.MultiResolutionMesh;
-import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MorphMesh {
-	private final Handle handle;
-
-	public MorphMesh(@NotNull Read buf) {
-		this.handle = new Handle(ZenKit.API.ZkMorphMesh_load(buf.getHandle()), ZenKit.API::ZkMorphMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load morph mesh");
+public interface MorphMesh extends CacheableObject<CachedMorphMesh> {
+	@Contract("_ -> new")
+	static @NotNull MorphMesh load(@NotNull String path) throws ResourceIOException {
+		return new NativeMorphMesh(path);
 	}
 
-	public MorphMesh(String path) {
-		this.handle = new Handle(ZenKit.API.ZkMorphMesh_loadPath(path), ZenKit.API::ZkMorphMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load morph mesh");
+	@Contract("_ -> new")
+	static @NotNull MorphMesh load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeMorphMesh(buf);
 	}
 
-	public MorphMesh(@NotNull Vfs vfs, String name) {
-		this.handle = new Handle(ZenKit.API.ZkMorphMesh_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkMorphMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load morph mesh");
+	@Contract("_, _ -> new")
+	static @NotNull MorphMesh load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeMorphMesh(vfs, name);
 	}
 
-	public Pointer getHandle() {
-		return handle.get();
-	}
+	@NotNull
+	String name();
 
-	public String getName() {
-		return ZenKit.API.ZkMorphMesh_getName(this.getHandle());
-	}
+	@Nullable
+	MultiResolutionMesh mesh();
 
-	public MultiResolutionMesh getMesh() {
-		return new MultiResolutionMesh(ZenKit.API.ZkMorphMesh_getMesh(this.getHandle()));
-	}
+	@NotNull
+	Vec3f @NotNull [] morphPositions();
 
-	public Vec3f[] getMorphPositions() {
-		var count = ZenKit.API.ZkMorphMesh_getMorphPositionCount(getHandle());
-		var weights = new Vec3f[(int) count];
+	long animationCount();
 
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkMorphMesh_getMorphPosition(getHandle(), i);
-		}
+	@Nullable
+	MorphAnimation animation(long i);
 
-		return weights;
-	}
+	@NotNull
+	List<@NotNull MorphAnimation> animations();
 
-	public long getAnimationCount() {
-		return ZenKit.API.ZkMorphMesh_getAnimationCount(this.getHandle());
-	}
+	long sourceCount();
 
-	public MorphAnimation getAnimation(long i) {
-		var ptr = ZenKit.API.ZkMorphMesh_getAnimation(this.getHandle(), i);
-		if (ptr == Pointer.NULL) return null;
-		return new MorphAnimation(ptr);
-	}
+	@Nullable
+	MorphSource source(long i);
 
-	public List<MorphAnimation> getAnimations() {
-		var animations = new ArrayList<MorphAnimation>();
-
-		ZenKit.API.ZkMorphMesh_enumerateAnimations(this.getHandle(), (ctx, ani) -> {
-			animations.add(new MorphAnimation(ani));
-			return false;
-		}, Pointer.NULL);
-
-		return animations;
-	}
-
-	public long getSourceCount() {
-		return ZenKit.API.ZkMorphMesh_getSourceCount(this.getHandle());
-	}
-
-	public MorphSource getSource(long i) {
-		var ptr = ZenKit.API.ZkMorphMesh_getSource(this.getHandle(), i);
-		if (ptr == Pointer.NULL) return null;
-		return new MorphSource(ptr);
-	}
-
-	public List<MorphSource> getSources() {
-		var sources = new ArrayList<MorphSource>();
-
-		ZenKit.API.ZkMorphMesh_enumerateSources(this.getHandle(), (ctx, src) -> {
-			sources.add(new MorphSource(src));
-			return false;
-		}, Pointer.NULL);
-
-		return sources;
-	}
+	@NotNull
+	List<@NotNull MorphSource> sources();
 }

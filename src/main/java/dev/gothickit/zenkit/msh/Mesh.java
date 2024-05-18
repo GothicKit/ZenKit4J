@@ -1,147 +1,70 @@
 package dev.gothickit.zenkit.msh;
 
-import com.sun.jna.Memory;
-import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
-import dev.gothickit.zenkit.AxisAlignedBoundingBox;
-import dev.gothickit.zenkit.OrientedBoundingBox;
-import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.Vec3f;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.mat.Material;
-import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Mesh {
-	private final Handle handle;
-
-	public Mesh(@NotNull Read buf) {
-		this.handle = new Handle(ZenKit.API.ZkMesh_load(buf.getHandle()), ZenKit.API::ZkMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load mesh");
+public interface Mesh extends CacheableObject<CachedMesh> {
+	@Contract("_ -> new")
+	static @NotNull Mesh load(@NotNull String path) throws ResourceIOException {
+		return new NativeMesh(path);
 	}
 
-	public Mesh(String path) {
-		this.handle = new Handle(ZenKit.API.ZkMesh_loadPath(path), ZenKit.API::ZkMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load mesh");
+	@Contract("_ -> new")
+	static @NotNull Mesh load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeMesh(buf);
 	}
 
-	public Mesh(@NotNull Vfs vfs, String name) {
-		this.handle = new Handle(ZenKit.API.ZkMesh_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkMesh_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load mesh");
+	@Contract("_, _ -> new")
+	static @NotNull Mesh load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeMesh(vfs, name);
 	}
 
-	public Mesh(Pointer handle) {
-		this.handle = new Handle(handle, (o) -> {
-		});
-	}
+	@NotNull
+	Calendar sourceDate();
 
-	public Pointer getHandle() {
-		return handle.get();
-	}
+	@NotNull
+	String name();
 
-	public Calendar getSourceDate() {
-		return ZenKit.API.ZkMesh_getSourceDate(getHandle()).toCalendar();
-	}
+	@NotNull
+	AxisAlignedBoundingBox boundingBox();
 
-	public String getName() {
-		return ZenKit.API.ZkMesh_getName(getHandle());
-	}
+	@NotNull
+	OrientedBoundingBox orientedBoundingBox();
 
-	public AxisAlignedBoundingBox getBoundingBox() {
-		return ZenKit.API.ZkMesh_getBoundingBox(getHandle());
-	}
+	long materialCount();
 
-	public OrientedBoundingBox getOrientedBoundingBox() {
-		return new OrientedBoundingBox(ZenKit.API.ZkMesh_getOrientedBoundingBox(getHandle()));
-	}
+	@Nullable
+	Material material(long i);
 
-	public long getMaterialCount() {
-		return ZenKit.API.ZkMesh_getMaterialCount(getHandle());
-	}
+	@NotNull
+	List<@NotNull Material> materials();
 
-	public Material getMaterial(long i) {
-		var ptr = ZenKit.API.ZkMesh_getMaterial(getHandle(), i);
-		if (ptr == Pointer.NULL) return null;
-		return new Material(ptr);
-	}
+	@NotNull
+	Vec3f @NotNull [] positions();
 
-	public List<Material> getMaterials() {
-		var materials = new ArrayList<Material>();
+	@NotNull
+	Vertex @NotNull [] vertices();
 
-		ZenKit.API.ZkMesh_enumerateMaterials(getHandle(), (ctx, material) -> {
-			materials.add(new Material(material));
-			return false;
-		}, Pointer.NULL);
+	long lightMapCount();
 
-		return materials;
-	}
+	@Nullable
+	LightMap lightMap(long i);
 
-	public Vec3f[] getPositions() {
-		var count = ZenKit.API.ZkMesh_getPositionCount(getHandle());
-		var weights = new Vec3f[(int) count];
+	@NotNull
+	List<@NotNull LightMap> lightMaps();
 
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkMesh_getPosition(getHandle(), i);
-		}
+	long polygonCount();
 
-		return weights;
-	}
+	@Nullable
+	Polygon polygon(long i);
 
-	public Vertex[] getVertices() {
-		var count = ZenKit.API.ZkMesh_getVertexCount(getHandle());
-		var weights = new Vertex[(int) count];
-
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkMesh_getVertex(getHandle(), i);
-		}
-
-		return weights;
-	}
-
-	public long getLightMapCount() {
-		return ZenKit.API.ZkMesh_getLightMapCount(getHandle());
-	}
-
-	public LightMap getLightMap(long i) {
-		var ptr = ZenKit.API.ZkMesh_getLightMap(getHandle(), i);
-		if (ptr == Pointer.NULL) return null;
-		return new LightMap(ptr);
-	}
-
-	public List<LightMap> getLightMaps() {
-		var lightMaps = new ArrayList<LightMap>();
-
-		ZenKit.API.ZkMesh_enumerateLightMaps(getHandle(), (ctx, lightMap) -> {
-			lightMaps.add(new LightMap(lightMap));
-			return false;
-		}, Pointer.NULL);
-
-		return lightMaps;
-	}
-
-	public long getPolygonCount() {
-		return ZenKit.API.ZkMesh_getPolygonCount(getHandle());
-	}
-
-	public Polygon getPolygon(long i) {
-		var ptr = ZenKit.API.ZkMesh_getPolygon(getHandle(), i);
-		if (ptr == Pointer.NULL) return null;
-		return new Polygon(ptr);
-	}
-
-	public List<Polygon> getPolygons() {
-		var polygons = new ArrayList<Polygon>();
-
-		ZenKit.API.ZkMesh_enumeratePolygons(getHandle(), (ctx, polygon) -> {
-			polygons.add(new Polygon(polygon));
-			return false;
-		}, Pointer.NULL);
-
-		return polygons;
-	}
+	@NotNull
+	List<@NotNull Polygon> polygons();
 }

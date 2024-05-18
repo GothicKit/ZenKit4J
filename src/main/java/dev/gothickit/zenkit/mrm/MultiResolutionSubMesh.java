@@ -1,93 +1,34 @@
 package dev.gothickit.zenkit.mrm;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.mat.Material;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class MultiResolutionSubMesh {
-	private final Pointer handle;
+public interface MultiResolutionSubMesh extends CacheableObject<CachedMultiResolutionSubMesh> {
+	@Nullable
+	Material material();
 
-	public MultiResolutionSubMesh(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull
+	MeshTriangle @NotNull [] triangles();
 
-	public Pointer getHandle() {
-		return handle;
-	}
+	@NotNull
+	MeshWedge @NotNull [] wedges();
 
-	public Material getMaterial() {
-		return new Material(ZenKit.API.ZkSubMesh_getMaterial(handle));
-	}
+	float @NotNull [] colors();
 
-	public MeshTriangle[] getTriangles() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getTriangles(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new MeshTriangle[0];
-		return (MeshTriangle[]) arr.toArray(count.getValue());
-	}
+	short @NotNull [] trianglePlaneIndices();
 
-	public MeshWedge[] getWedges() {
-		var count = ZenKit.API.ZkSubMesh_getWedgeCount(getHandle());
-		var weights = new MeshWedge[(int) count];
+	@NotNull
+	MeshPlane @NotNull [] trianglePlanes();
 
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkSubMesh_getWedge(getHandle(), i);
-		}
+	@NotNull
+	MeshTriangleEdge @NotNull [] triangleEdges();
 
-		return weights;
-	}
+	@NotNull
+	MeshEdge @NotNull [] edges();
 
-	public float[] getColors() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getColors(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new float[0];
-		return arr.getFloatArray(0, count.getValue());
-	}
+	float @NotNull [] edgeScores();
 
-	public short[] getTrianglePlaneIndices() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getTrianglePlaneIndices(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new short[0];
-		return arr.getShortArray(0, count.getValue());
-	}
-
-	public MeshPlane[] getTrianglePlanes() {
-		var count = ZenKit.API.ZkSubMesh_getTrianglePlaneCount(getHandle());
-		var weights = new MeshPlane[(int) count];
-
-		for (int i = 0; i < count; i++) {
-			weights[i] = ZenKit.API.ZkSubMesh_getTrianglePlane(getHandle(), i);
-		}
-
-		return weights;
-	}
-
-	public MeshTriangleEdge[] getTriangleEdges() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getTriangleEdges(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new MeshTriangleEdge[0];
-		return (MeshTriangleEdge[]) arr.toArray(count.getValue());
-	}
-
-	public MeshEdge[] getEdges() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getEdges(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new MeshEdge[0];
-		return (MeshEdge[]) arr.toArray(count.getValue());
-	}
-
-	public float[] getEdgeScores() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getEdgeScores(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new float[0];
-		return arr.getFloatArray(0, count.getValue());
-	}
-
-	public short[] getWedgeMap() {
-		var count = new IntByReference();
-		var arr = ZenKit.API.ZkSubMesh_getWedgeMap(this.getHandle(), count);
-		if (arr == null || count.getValue() == 0) return new short[0];
-		return arr.getShortArray(0, count.getValue());
-	}
+	short @NotNull [] wedgeMap();
 }

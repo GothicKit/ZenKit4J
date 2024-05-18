@@ -32,24 +32,24 @@ class WorldTest {
 		var wld = new World(Util.getResource("world.proprietary.zen"));
 
 		var mesh = wld.getMesh();
-		var feats = mesh.getVertices();
-		assertEquals(mesh.getPositions().length, 55439);
+		var feats = mesh.vertices();
+		assertEquals(mesh.positions().length, 55439);
 		assertEquals(feats.length, 419936);
-		assertEquals(mesh.getMaterials().size(), 2263);
-		assertEquals(mesh.getName(), "");
+		assertEquals(mesh.materials().size(), 2263);
+		assertEquals(mesh.name(), "");
 
-		var box0 = mesh.getBoundingBox();
+		var box0 = mesh.boundingBox();
 		checkVec3(box0.min, 0, 0, 0);
 		checkVec3(box0.max, 0, 0, 0);
 
-		var obb = mesh.getOrientedBoundingBox();
-		checkVec3(obb.getCenter(), 0, 0, 0);
-		checkVec3(obb.getAxes()[0], 0, 0, 0);
-		checkVec3(obb.getAxes()[1], 0, 0, 0);
-		checkVec3(obb.getAxes()[2], 0, 0, 0);
-		checkVec3(obb.getHalfWidth(), 0, 0, 0);
+		var obb = mesh.orientedBoundingBox();
+		checkVec3(obb.center(), 0, 0, 0);
+		checkVec3(obb.axes()[0], 0, 0, 0);
+		checkVec3(obb.axes()[1], 0, 0, 0);
+		checkVec3(obb.axes()[2], 0, 0, 0);
+		checkVec3(obb.halfWidth(), 0, 0, 0);
 
-		var verts = mesh.getPositions();
+		var verts = mesh.positions();
 		checkVec3(verts[0], 91365, -4026.60083f, 46900);
 		checkVec3(verts[1], 92900, -4029.99976f, 38399.9961f);
 		checkVec3(verts[500], 44263.8203f, 708.517822f, 6841.18262f);
@@ -71,17 +71,17 @@ class WorldTest {
 		checkVec3(feats[501].normal, 0.000102534526f, -1, -0.00014051389f);
 		assertEquals(feats[501].light, -13882324);
 
-		var mats = mesh.getMaterials();
+		var mats = mesh.materials();
 		var mat0 = mats.get(0);
 		var mat500 = mats.get(500);
 
-		assertEquals(mat0.getName(), "OWODWATSTOP");
-		assertEquals(mat0.getGroup(), MaterialGroup.WATER);
-		assertEquals(mat0.getTexture(), "OWODSEA_A0.TGA");
+		assertEquals(mat0.name(), "OWODWATSTOP");
+		assertEquals(mat0.group(), MaterialGroup.WATER);
+		assertEquals(mat0.texture(), "OWODSEA_A0.TGA");
 
-		assertEquals(mat500.getName(), "OMWABROWNGREEN01");
-		assertEquals(mat500.getGroup(), MaterialGroup.STONE);
-		assertEquals(mat500.getTexture(), "OMWABROWNGREEN01.TGA");
+		assertEquals(mat500.name(), "OMWABROWNGREEN01");
+		assertEquals(mat500.group(), MaterialGroup.STONE);
+		assertEquals(mat500.texture(), "OMWABROWNGREEN01.TGA");
 
 		// Check the BSP tree
 		var tree = wld.getBspTree();
@@ -270,28 +270,28 @@ class WorldTest {
 		// Check the waynet
 
 		var waynet = wld.getWayNet();
-		var points = waynet.getPoints();
+		var points = waynet.points();
 		assertEquals(points.size(), 2784);
-		assertEquals(waynet.getEdges().length, 3500);
+		assertEquals(waynet.edges().length, 3500);
 
 		var wp0 = points.get(0);
 		var wp100 = points.get(100);
 
-		assertEquals(wp0.getName(), "LOCATION_28_07");
-		assertEquals(wp0.getWaterDepth(), 0);
-		assertFalse(wp0.isUnderWater());
-		checkVec3(wp0.getPosition(), 23871.457f, -553.283813f, 27821.3516f);
-		checkVec3(wp0.getDirection(), 0.86651814f, 0, -0.499145567f);
-		assertTrue(wp0.isFreePoint());
+		assertEquals(wp0.name(), "LOCATION_28_07");
+		assertEquals(wp0.waterDepth(), 0);
+		assertFalse(wp0.underWater());
+		checkVec3(wp0.position(), 23871.457f, -553.283813f, 27821.3516f);
+		checkVec3(wp0.direction(), 0.86651814f, 0, -0.499145567f);
+		assertTrue(wp0.freePoint());
 
-		assertEquals(wp100.getName(), "CASTLE_MOVEMENT_STRAIGHT3");
-		assertEquals(wp100.getWaterDepth(), 0);
-		assertFalse(wp100.isUnderWater());
-		checkVec3(wp100.getPosition(), 3362.21948f, 8275.1709f, -21067.9473f);
-		checkVec3(wp100.getDirection(), -0.342115372f, 0, 0.939657927f);
-		assertFalse(wp100.isFreePoint());
+		assertEquals(wp100.name(), "CASTLE_MOVEMENT_STRAIGHT3");
+		assertEquals(wp100.waterDepth(), 0);
+		assertFalse(wp100.underWater());
+		checkVec3(wp100.position(), 3362.21948f, 8275.1709f, -21067.9473f);
+		checkVec3(wp100.direction(), -0.342115372f, 0, 0.939657927f);
+		assertFalse(wp100.freePoint());
 
-		var edges = waynet.getEdges();
+		var edges = waynet.edges();
 		var edge0 = edges[0];
 		var edge5 = edges[5];
 		var edge100 = edges[100];

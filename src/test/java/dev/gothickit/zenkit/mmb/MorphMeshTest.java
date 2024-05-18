@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.mmb;
 
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,11 +20,11 @@ class MorphMeshTest {
 	}
 
 	@Test
-	void load() {
-		var mmb = new MorphMesh(Util.getResource("morph0.mmb"));
-		assertEquals("ITRWSMALLBOW", mmb.getName());
+	void load() throws ResourceIOException {
+		var mmb = MorphMesh.load(Util.getResource("morph0.mmb"));
+		assertEquals("ITRWSMALLBOW", mmb.name());
 
-		var positions = mmb.getMorphPositions();
+		var positions = mmb.morphPositions();
 		assertEquals(28, positions.length);
 		assertEquals(-40.9461403f, positions[0].x);
 		assertEquals(-1.73638999f, positions[0].y);
@@ -32,27 +33,27 @@ class MorphMeshTest {
 		assertEquals(-1.97599006f, positions[1].y);
 		assertEquals(-9.19756984f, positions[1].z);
 
-		var animations = mmb.getAnimations();
+		var animations = mmb.animations();
 		assertEquals(4, animations.size());
-		assertEquals(4, mmb.getAnimationCount());
+		assertEquals(4, mmb.animationCount());
 
 		var ani = animations.get(1);
-		assertEquals("S_SHOOT", ani.getName());
-		assertEquals(1, ani.getLayer());
-		assertEquals(0.0100000007f, ani.getBlendIn());
-		assertEquals(-0.0100000007f, ani.getBlendOut());
-		assertEquals(400.0f, ani.getDuration());
-		assertEquals(0.0250000004f, ani.getSpeed());
-		assertEquals(0, ani.getFlags());
-		assertEquals(10, ani.getFrameCount());
+		assertEquals("S_SHOOT", ani.name());
+		assertEquals(1, ani.layer());
+		assertEquals(0.0100000007f, ani.blendIn());
+		assertEquals(-0.0100000007f, ani.blendOut());
+		assertEquals(400.0f, ani.duration());
+		assertEquals(0.0250000004f, ani.speed());
+		assertEquals(0, ani.flags());
+		assertEquals(10, ani.frameCount());
 
-		var vertices = ani.getVertices();
+		var vertices = ani.vertices();
 		assertEquals(3, vertices.length);
 		assertEquals(25, vertices[0]);
 		assertEquals(26, vertices[1]);
 		assertEquals(27, vertices[2]);
 
-		var samples = ani.getSamples();
+		var samples = ani.samples();
 		assertEquals(30, samples.length);
 		assertEquals(0.519770026f, samples[0].x);
 		assertEquals(0, samples[0].y);
@@ -64,16 +65,16 @@ class MorphMeshTest {
 		assertEquals(0, samples[19].y);
 		assertEquals(-20.8299408f, samples[19].z);
 
-		var sources = mmb.getSources();
+		var sources = mmb.sources();
 		assertEquals(4, sources.size());
 
 		var source = sources.get(1);
-		assertEquals(2000, source.getFileDate().get(Calendar.YEAR));
-		assertEquals(5, source.getFileDate().get(Calendar.MONTH));
-		assertEquals(8, source.getFileDate().get(Calendar.DAY_OF_MONTH));
-		assertEquals(9, source.getFileDate().get(Calendar.HOUR_OF_DAY));
-		assertEquals(13, source.getFileDate().get(Calendar.MINUTE));
-		assertEquals(58, source.getFileDate().get(Calendar.SECOND));
-		assertEquals("ITRWSMALLBOWSHOOT.ASC", source.getFileName());
+		assertEquals(2000, source.fileDate().get(Calendar.YEAR));
+		assertEquals(5, source.fileDate().get(Calendar.MONTH));
+		assertEquals(8, source.fileDate().get(Calendar.DAY_OF_MONTH));
+		assertEquals(9, source.fileDate().get(Calendar.HOUR_OF_DAY));
+		assertEquals(13, source.fileDate().get(Calendar.MINUTE));
+		assertEquals(58, source.fileDate().get(Calendar.SECOND));
+		assertEquals("ITRWSMALLBOWSHOOT.ASC", source.fileName());
 	}
 }

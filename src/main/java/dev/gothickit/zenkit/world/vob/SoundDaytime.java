@@ -29,20 +29,20 @@ public class SoundDaytime extends Sound {
 		return ZenKit.API.ZkSoundDaytime_getStartTime(getHandle());
 	}
 
-	public float getEndTime() {
-		return ZenKit.API.ZkSoundDaytime_getEndTime(getHandle());
-	}
-
-	public String getSoundNameDaytime() {
-		return ZenKit.API.ZkSoundDaytime_getSoundNameDaytime(getHandle());
-	}
-
 	public void setStartTime(float val) {
 		ZenKit.API.ZkSoundDaytime_setStartTime(getHandle(), val);
 	}
 
+	public float getEndTime() {
+		return ZenKit.API.ZkSoundDaytime_getEndTime(getHandle());
+	}
+
 	public void setEndTime(float val) {
 		ZenKit.API.ZkSoundDaytime_setEndTime(getHandle(), val);
+	}
+
+	public String getSoundNameDaytime() {
+		return ZenKit.API.ZkSoundDaytime_getSoundNameDaytime(getHandle());
 	}
 
 	public void setSoundNameDaytime(String val) {

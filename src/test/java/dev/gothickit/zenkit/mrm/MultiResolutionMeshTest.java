@@ -1,9 +1,6 @@
 package dev.gothickit.zenkit.mrm;
 
-import dev.gothickit.zenkit.LogLevel;
-import dev.gothickit.zenkit.Logger;
-import dev.gothickit.zenkit.Util;
-import dev.gothickit.zenkit.Vec3f;
+import dev.gothickit.zenkit.*;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
@@ -48,60 +45,60 @@ class MultiResolutionMeshTest {
 	}
 
 	@Test
-	void load() {
-		var mrm = new MultiResolutionMesh(Util.getResource("mesh0.mrm"));
-		var positions = mrm.getPositions();
+	void load() throws ResourceIOException {
+		var mrm = MultiResolutionMesh.load(Util.getResource("mesh0.mrm"));
+		var positions = mrm.positions();
 		assertEquals(8, positions.length);
 		checkVec3(positions[0], 200, 398.503906f, 200);
 		checkVec3(positions[1], -200, 398.503906f, 200);
 		checkVec3(positions[7], -200, 0, -200);
 
-		var normals = mrm.getNormals();
+		var normals = mrm.normals();
 		assertEquals(0, normals.length);
 
-		assertTrue(mrm.getAlphaTest());
-		checkVec3(mrm.getBbox().min, -200, 0, -200);
-		checkVec3(mrm.getBbox().max, 200, 398.503906f, 200);
+		assertTrue(mrm.alphaTest());
+		checkVec3(mrm.bbox().min, -200, 0, -200);
+		checkVec3(mrm.bbox().max, 200, 398.503906f, 200);
 
-		var subMeshes = mrm.getSubMeshes();
+		var subMeshes = mrm.subMeshes();
 		assertEquals(1, subMeshes.size());
 
 		var subMesh = subMeshes.get(0);
-		assertEquals("EVT_TPL_GITTERKAEFIG_01", subMesh.getMaterial().getName());
-		assertEquals("OCODFLGATELI.TGA", subMesh.getMaterial().getTexture());
-		assertEquals(0, subMesh.getColors().length);
-		assertEquals(0, subMesh.getTriangleEdges().length);
-		assertEquals(0, subMesh.getEdgeScores().length);
-		assertEquals(0, subMesh.getEdges().length);
+		assertEquals("EVT_TPL_GITTERKAEFIG_01", subMesh.material().name());
+		assertEquals("OCODFLGATELI.TGA", subMesh.material().texture());
+		assertEquals(0, subMesh.colors().length);
+		assertEquals(0, subMesh.triangleEdges().length);
+		assertEquals(0, subMesh.edgeScores().length);
+		assertEquals(0, subMesh.edges().length);
 
-		var triangles = subMesh.getTriangles();
+		var triangles = subMesh.triangles();
 		assertEquals(16, triangles.length);
 		checkTriangle(triangles[0], 26, 19, 12);
 		checkTriangle(triangles[1], 8, 13, 18);
 		checkTriangle(triangles[14], 2, 6, 29);
 		checkTriangle(triangles[15], 28, 20, 3);
 
-		var wedges = subMesh.getWedges();
+		var wedges = subMesh.wedges();
 		assertEquals(32, wedges.length);
 		checkWedge(wedges[0], 0, 0, -1, -1.50000048f, -1.49251938f, 4);
 		checkWedge(wedges[1], -1, 0, 0, 2.49999952f, -1.49251938f, 4);
 		checkWedge(wedges[31], 0, 0, -1, -1.50000048f, 2.49251938f, 7);
 
-		var tpi = subMesh.getTrianglePlaneIndices();
+		var tpi = subMesh.trianglePlaneIndices();
 		assertEquals(16, tpi.length);
 		assertEquals(0, tpi[0]);
 		assertEquals(1, tpi[1]);
 		assertEquals(7, tpi[14]);
 		assertEquals(5, tpi[15]);
 
-		var tp = subMesh.getTrianglePlanes();
+		var tp = subMesh.trianglePlanes();
 		assertEquals(8, tp.length);
 		checkPlane(tp[0], 200, 1, -0.0f, 0);
 		checkPlane(tp[1], 200, 0, 0, 1);
 		checkPlane(tp[6], 200, 0, 0, -1);
 		checkPlane(tp[7], -200, 0, 0, 1);
 
-		var wedgeMap = subMesh.getWedgeMap();
+		var wedgeMap = subMesh.wedgeMap();
 		assertEquals(32, wedgeMap.length);
 		assertEquals(-1, wedgeMap[0]);
 		assertEquals(-1, wedgeMap[1]);

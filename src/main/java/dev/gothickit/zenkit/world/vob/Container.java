@@ -35,28 +35,28 @@ public class Container extends InteractiveObject {
 		return ZenKit.API.ZkContainer_getIsLocked(getHandle());
 	}
 
-	public String getKey() {
-		return ZenKit.API.ZkContainer_getKey(getHandle());
-	}
-
-	public String getPickString() {
-		return ZenKit.API.ZkContainer_getPickString(getHandle());
-	}
-
-	public String getContents() {
-		return ZenKit.API.ZkContainer_getContents(getHandle());
-	}
-
 	public void setLocked(boolean val) {
 		ZenKit.API.ZkContainer_setIsLocked(getHandle(), val);
+	}
+
+	public String getKey() {
+		return ZenKit.API.ZkContainer_getKey(getHandle());
 	}
 
 	public void setKey(String val) {
 		ZenKit.API.ZkContainer_setKey(getHandle(), val);
 	}
 
+	public String getPickString() {
+		return ZenKit.API.ZkContainer_getPickString(getHandle());
+	}
+
 	public void setPickString(String val) {
 		ZenKit.API.ZkContainer_setPickString(getHandle(), val);
+	}
+
+	public String getContents() {
+		return ZenKit.API.ZkContainer_getContents(getHandle());
 	}
 
 	public void setContents(String val) {

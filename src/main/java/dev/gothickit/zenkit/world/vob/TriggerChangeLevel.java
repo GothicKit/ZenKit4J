@@ -29,12 +29,12 @@ public class TriggerChangeLevel extends Trigger {
 		return ZenKit.API.ZkTriggerChangeLevel_getLevelName(getHandle());
 	}
 
-	public String getStartVob() {
-		return ZenKit.API.ZkTriggerChangeLevel_getStartVob(getHandle());
-	}
-
 	public void setLevelName(String val) {
 		ZenKit.API.ZkTriggerChangeLevel_setLevelName(getHandle(), val);
+	}
+
+	public String getStartVob() {
+		return ZenKit.API.ZkTriggerChangeLevel_getStartVob(getHandle());
 	}
 
 	public void setStartVob(String val) {

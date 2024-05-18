@@ -5,8 +5,10 @@ import dev.gothickit.zenkit.Read;
 import dev.gothickit.zenkit.bsp.NativeBinarySpacePartitionTree;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.msh.Mesh;
+import dev.gothickit.zenkit.msh.NativeMesh;
 import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
+import dev.gothickit.zenkit.way.NativeWayNet;
 import dev.gothickit.zenkit.way.WayNet;
 import dev.gothickit.zenkit.world.vob.VirtualObject;
 import org.jetbrains.annotations.NotNull;
@@ -37,11 +39,11 @@ public class World {
 	}
 
 	public Mesh getMesh() {
-		return new Mesh(ZenKit.API.ZkWorld_getMesh(getHandle()));
+		return NativeMesh.fromNativeHandle(ZenKit.API.ZkWorld_getMesh(getHandle()));
 	}
 
 	public WayNet getWayNet() {
-		return new WayNet(ZenKit.API.ZkWorld_getWayNet(getHandle()));
+		return NativeWayNet.fromNativeHandle(ZenKit.API.ZkWorld_getWayNet(getHandle()));
 	}
 
 	public NativeBinarySpacePartitionTree getBspTree() {

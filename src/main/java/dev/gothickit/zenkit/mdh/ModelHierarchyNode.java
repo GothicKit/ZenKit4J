@@ -1,23 +1,20 @@
 package dev.gothickit.zenkit.mdh;
 
+import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import dev.gothickit.zenkit.Mat4x4;
 
-import java.util.List;
+@Structure.FieldOrder({"parentIndex", "name", "transform"})
+public final class ModelHierarchyNode extends Structure implements Structure.ByValue {
+	public short parentIndex = 0;
+	public String name = "";
+	public Mat4x4 transform = new Mat4x4();
 
-public class ModelHierarchyNode extends Structure {
-	public short parentIndex;
-	public String name;
-	public Mat4x4 transform;
-
-	@Override
-	protected List<String> getFieldOrder() {
-		return List.of("parentIndex", "name", "transform");
+	public ModelHierarchyNode(Pointer p) {
+		super(p);
+		this.autoRead();
 	}
 
-	public static class ByValue extends ModelHierarchyNode implements Structure.ByValue {
-	}
-
-	public static class ByReference extends ModelHierarchyNode implements Structure.ByReference {
+	public ModelHierarchyNode() {
 	}
 }

@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NotNull;
 public interface CutsceneMessage extends CacheableObject<CachedCutsceneMessage> {
 	int type();
 
-	@NotNull String text();
+	@NotNull
+	String text();
 
-	@NotNull String name();
+	@NotNull
+	String name();
 }

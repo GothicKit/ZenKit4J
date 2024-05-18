@@ -1,41 +1,34 @@
 package dev.gothickit.zenkit.mdl;
 
-import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.CacheableObject;
 import dev.gothickit.zenkit.Read;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.mdh.ModelHierarchy;
 import dev.gothickit.zenkit.mdm.ModelMesh;
-import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class Model {
-	private final Handle handle;
-
-	public Model(@NotNull Read buf) {
-		this.handle = new Handle(ZenKit.API.ZkModel_load(buf.getHandle()), ZenKit.API::ZkModel_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load model");
+public interface Model extends CacheableObject<CachedModel> {
+	@Contract("_ -> new")
+	static @NotNull Model load(@NotNull String path) throws ResourceIOException {
+		return new NativeModel(path);
 	}
 
-	public Model(String path) {
-		this.handle = new Handle(ZenKit.API.ZkModel_loadPath(path), ZenKit.API::ZkModel_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load model");
+	@Contract("_ -> new")
+	static @NotNull Model load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeModel(buf);
 	}
 
-	public Model(@NotNull Vfs vfs, String name) {
-		this.handle = new Handle(ZenKit.API.ZkModel_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkModel_del);
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load model");
+	@Contract("_, _ -> new")
+	static @NotNull Model load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new NativeModel(vfs, name);
 	}
 
-	public Pointer getHandle() {
-		return handle.get();
-	}
+	@Nullable
+	ModelHierarchy hierarchy();
 
-	public ModelHierarchy getHierarchy() {
-		return new ModelHierarchy(ZenKit.API.ZkModel_getHierarchy(this.getHandle()));
-	}
-
-	public ModelMesh getMesh() {
-		return new ModelMesh(ZenKit.API.ZkModel_getMesh(this.getHandle()));
-	}
+	@Nullable
+	ModelMesh mesh();
 }

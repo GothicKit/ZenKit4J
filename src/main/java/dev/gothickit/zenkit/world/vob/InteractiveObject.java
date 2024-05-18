@@ -35,44 +35,44 @@ public class InteractiveObject extends MovableObject {
 		return ZenKit.API.ZkInteractiveObject_getState(getHandle());
 	}
 
-	public String getTarget() {
-		return ZenKit.API.ZkInteractiveObject_getTarget(getHandle());
-	}
-
-	public String getItem() {
-		return ZenKit.API.ZkInteractiveObject_getItem(getHandle());
-	}
-
-	public String getConditionFunction() {
-		return ZenKit.API.ZkInteractiveObject_getConditionFunction(getHandle());
-	}
-
-	public String getOnStateChangeFunction() {
-		return ZenKit.API.ZkInteractiveObject_getOnStateChangeFunction(getHandle());
-	}
-
-	public boolean getRewind() {
-		return ZenKit.API.ZkInteractiveObject_getRewind(getHandle());
-	}
-
 	public void setState(int val) {
 		ZenKit.API.ZkInteractiveObject_setState(getHandle(), val);
+	}
+
+	public String getTarget() {
+		return ZenKit.API.ZkInteractiveObject_getTarget(getHandle());
 	}
 
 	public void setTarget(String val) {
 		ZenKit.API.ZkInteractiveObject_setTarget(getHandle(), val);
 	}
 
+	public String getItem() {
+		return ZenKit.API.ZkInteractiveObject_getItem(getHandle());
+	}
+
 	public void setItem(String val) {
 		ZenKit.API.ZkInteractiveObject_setItem(getHandle(), val);
+	}
+
+	public String getConditionFunction() {
+		return ZenKit.API.ZkInteractiveObject_getConditionFunction(getHandle());
 	}
 
 	public void setConditionFunction(String val) {
 		ZenKit.API.ZkInteractiveObject_setConditionFunction(getHandle(), val);
 	}
 
+	public String getOnStateChangeFunction() {
+		return ZenKit.API.ZkInteractiveObject_getOnStateChangeFunction(getHandle());
+	}
+
 	public void setOnStateChangeFunction(String val) {
 		ZenKit.API.ZkInteractiveObject_setOnStateChangeFunction(getHandle(), val);
+	}
+
+	public boolean getRewind() {
+		return ZenKit.API.ZkInteractiveObject_getRewind(getHandle());
 	}
 
 	public void setRewind(boolean val) {

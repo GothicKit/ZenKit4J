@@ -29,20 +29,20 @@ public class MoverController extends VirtualObject {
 		return ZenKit.API.ZkMoverController_getTarget(getHandle());
 	}
 
-	public MoverMessageType getMessage() {
-		return ZenKit.API.ZkMoverController_getMessage(getHandle());
-	}
-
-	public int getKey() {
-		return ZenKit.API.ZkMoverController_getKey(getHandle());
-	}
-
 	public void setTarget(String val) {
 		ZenKit.API.ZkMoverController_setTarget(getHandle(), val);
 	}
 
+	public MoverMessageType getMessage() {
+		return ZenKit.API.ZkMoverController_getMessage(getHandle());
+	}
+
 	public void setMessage(MoverMessageType val) {
 		ZenKit.API.ZkMoverController_setMessage(getHandle(), val);
+	}
+
+	public int getKey() {
+		return ZenKit.API.ZkMoverController_getKey(getHandle());
 	}
 
 	public void setKey(int val) {
