@@ -1,32 +1,16 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class EventParticleEffect {
-	private final Pointer handle;
+public interface EventParticleEffect extends CacheableObject<CachedEventParticleEffect> {
+	int frame();
 
-	public EventParticleEffect(Pointer handle) {
-		this.handle = handle;
-	}
+	int index();
 
-	public int getFrame() {
-		return ZenKit.API.ZkEventParticleEffect_getFrame(handle);
-	}
+	@NotNull String name();
 
-	public int getIndex() {
-		return ZenKit.API.ZkEventParticleEffect_getIndex(handle);
-	}
+	@NotNull String position();
 
-	public String getName() {
-		return ZenKit.API.ZkEventParticleEffect_getName(handle);
-	}
-
-	public String getPosition() {
-		return ZenKit.API.ZkEventParticleEffect_getPosition(handle);
-	}
-
-	public boolean isAttached() {
-		return ZenKit.API.ZkEventParticleEffect_getIsAttached(handle);
-	}
+	boolean isAttached();
 }

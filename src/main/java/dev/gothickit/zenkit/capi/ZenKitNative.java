@@ -690,7 +690,7 @@ public interface ZenKitNative extends Library {
 
 	String ZkEventTag_getItem(Pointer slf);
 
-	Pointer ZkEventTag_getFrames(Pointer slf, IntByReference count);
+	Pointer ZkEventTag_getFrames(Pointer slf, LongByReference count);
 
 	FightMode ZkEventTag_getFightMode(Pointer slf);
 

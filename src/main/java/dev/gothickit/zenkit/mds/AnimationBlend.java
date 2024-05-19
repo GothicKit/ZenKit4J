@@ -1,28 +1,15 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class AnimationBlend {
-	private final Pointer handle;
+public interface AnimationBlend extends CacheableObject<CachedAnimationBlend> {
+	@NotNull
+	String name();
 
-	public AnimationBlend(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull String next();
 
-	public String getName() {
-		return ZenKit.API.ZkAnimationBlend_getName(handle);
-	}
+	float blendIn();
 
-	public String getNext() {
-		return ZenKit.API.ZkAnimationBlend_getNext(handle);
-	}
-
-	public float getBlendIn() {
-		return ZenKit.API.ZkAnimationBlend_getBlendIn(handle);
-	}
-
-	public float getBlendOut() {
-		return ZenKit.API.ZkAnimationBlend_getBlendOut(handle);
-	}
+	float blendOut();
 }

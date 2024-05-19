@@ -1,44 +1,30 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class EventTag {
-	private final Pointer handle;
+import java.util.List;
 
-	public EventTag(Pointer handle) {
-		this.handle = handle;
-	}
+public interface EventTag extends CacheableObject<CachedEventTag> {
+	int frame();
 
-	public int getFrame() {
-		return ZenKit.API.ZkEventTag_getFrame(handle);
-	}
+	@NotNull
+	EventType type();
 
-	public EventType getType() {
-		return ZenKit.API.ZkEventTag_getType(handle);
-	}
+	@Nullable
+	String slot(long i);
 
-	public String getSlot(long i) {
-		return ZenKit.API.ZkEventTag_getSlot(handle, i);
-	}
+	@NotNull
+	List<String> slots();
 
-	public String getItem() {
-		return ZenKit.API.ZkEventTag_getItem(handle);
-	}
+	@NotNull
+	String item();
 
-	public int[] getFrames() {
-		var count = new IntByReference();
-		var ptr = ZenKit.API.ZkEventTag_getFrames(handle, count);
-		if (ptr == Pointer.NULL || count.getValue() == 0) return new int[0];
-		return ptr.getIntArray(0, count.getValue());
-	}
+	int @NotNull [] frames();
 
-	public FightMode getFightMode() {
-		return ZenKit.API.ZkEventTag_getFightMode(handle);
-	}
+	@NotNull
+	FightMode fightMode();
 
-	public boolean isAttached() {
-		return ZenKit.API.ZkEventTag_getIsAttached(handle);
-	}
+	boolean isAttached();
 }

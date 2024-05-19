@@ -1,32 +1,15 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
 
-public class EventCameraTremor {
-	private final Pointer handle;
+public interface EventCameraTremor extends CacheableObject<CachedEventCameraTremor> {
+	int frame();
 
-	public EventCameraTremor(Pointer handle) {
-		this.handle = handle;
-	}
+	int field1();
 
-	public int getFrame() {
-		return ZenKit.API.ZkEventCameraTremor_getFrame(handle);
-	}
+	int field2();
 
-	public int getField1() {
-		return ZenKit.API.ZkEventCameraTremor_getField1(handle);
-	}
+	int field3();
 
-	public int getField2() {
-		return ZenKit.API.ZkEventCameraTremor_getField2(handle);
-	}
-
-	public int getField3() {
-		return ZenKit.API.ZkEventCameraTremor_getField3(handle);
-	}
-
-	public int getField4() {
-		return ZenKit.API.ZkEventCameraTremor_getField4(handle);
-	}
+	int field4();
 }

@@ -1,45 +1,28 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class AnimationCombine {
-	private final Pointer handle;
+import java.util.EnumSet;
 
-	public AnimationCombine(Pointer handle) {
+public interface AnimationCombine extends CacheableObject<CachedAnimationCombine> {
+	@NotNull
+	String name();
 
-		this.handle = handle;
-	}
+	int layer();
 
-	public String getName() {
-		return ZenKit.API.ZkAnimationCombine_getName(handle);
-	}
+	@NotNull
+	String next();
 
-	public int getLayer() {
-		return ZenKit.API.ZkAnimationCombine_getLayer(handle);
-	}
+	float blendIn();
 
-	public String getNext() {
-		return ZenKit.API.ZkAnimationCombine_getNext(handle);
-	}
+	float blendOut();
 
-	public float getBlendIn() {
-		return ZenKit.API.ZkAnimationCombine_getBlendIn(handle);
-	}
+	@NotNull
+	EnumSet<AnimationFlag> flags();
 
-	public float getBlendOut() {
-		return ZenKit.API.ZkAnimationCombine_getBlendOut(handle);
-	}
+	@NotNull
+	String model();
 
-	public int getFlags() {
-		return ZenKit.API.ZkAnimationCombine_getFlags(handle);
-	}
-
-	public String getModel() {
-		return ZenKit.API.ZkAnimationCombine_getModel(handle);
-	}
-
-	public int getLastFrame() {
-		return ZenKit.API.ZkAnimationCombine_getLastFrame(handle);
-	}
+	int lastFrame();
 }

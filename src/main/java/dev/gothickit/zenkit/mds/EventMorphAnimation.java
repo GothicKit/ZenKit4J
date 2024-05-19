@@ -1,24 +1,14 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class EventMorphAnimation {
-	private final Pointer handle;
+public interface EventMorphAnimation extends CacheableObject<CachedEventMorphAnimation> {
+	int frame();
 
-	public EventMorphAnimation(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull
+	String animation();
 
-	public int getFrame() {
-		return ZenKit.API.ZkMorphAnimation_getFrame(handle);
-	}
-
-	public String getAnimation() {
-		return ZenKit.API.ZkMorphAnimation_getAnimation(handle);
-	}
-
-	public String getNode() {
-		return ZenKit.API.ZkMorphAnimation_getNode(handle);
-	}
+	@NotNull
+	String node();
 }

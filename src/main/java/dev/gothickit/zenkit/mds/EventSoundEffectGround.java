@@ -1,28 +1,15 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class EventSoundEffectGround {
-	private final Pointer handle;
+public interface EventSoundEffectGround extends CacheableObject<CachedEventSoundEffectGround> {
+	int frame();
 
-	public EventSoundEffectGround(Pointer handle) {
-		this.handle = handle;
-	}
+	@NotNull
+	String name();
 
-	public int getFrame() {
-		return ZenKit.API.ZkEventSoundEffectGround_getFrame(handle);
-	}
+	float range();
 
-	public String getName() {
-		return ZenKit.API.ZkEventSoundEffectGround_getName(handle);
-	}
-
-	public float getRange() {
-		return ZenKit.API.ZkEventSoundEffectGround_getRange(handle);
-	}
-
-	public boolean getEmptySlot() {
-		return ZenKit.API.ZkEventSoundEffectGround_getEmptySlot(handle);
-	}
+	boolean emptySlot();
 }

@@ -1,200 +1,96 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
-public class Animation {
-	private final Pointer handle;
+public interface Animation extends CacheableObject<CachedAnimation> {
+	@NotNull
+	String name();
 
-	public Animation(Pointer handle) {
-		this.handle = handle;
-	}
+	int layer();
 
-	public String getName() {
-		return ZenKit.API.ZkAnimation_getName(handle);
-	}
+	@NotNull
+	String next();
 
-	public int getLayer() {
-		return ZenKit.API.ZkAnimation_getLayer(handle);
-	}
+	float blendIn();
 
-	public String getNext() {
-		return ZenKit.API.ZkAnimation_getNext(handle);
-	}
+	float blendOut();
 
-	public float getBlendIn() {
-		return ZenKit.API.ZkAnimation_getBlendIn(handle);
-	}
+	@NotNull EnumSet<AnimationFlag> flags();
 
-	public float getBlendOut() {
-		return ZenKit.API.ZkAnimation_getBlendOut(handle);
-	}
+	@NotNull
+	String model();
 
-	public int getFlags() {
-		return ZenKit.API.ZkAnimation_getFlags(handle);
-	}
+	@NotNull
+	AnimationDirection direction();
 
-	public String getModel() {
-		return ZenKit.API.ZkAnimation_getModel(handle);
-	}
+	int firstFrame();
 
-	public AnimationDirection getDirection() {
-		return ZenKit.API.ZkAnimation_getDirection(handle);
-	}
+	int lastFrame();
 
-	public int getFirstFrame() {
-		return ZenKit.API.ZkAnimation_getFirstFrame(handle);
-	}
+	float fps();
 
-	public int getLastFrame() {
-		return ZenKit.API.ZkAnimation_getLastFrame(handle);
-	}
+	float speed();
 
-	public float getFps() {
-		return ZenKit.API.ZkAnimation_getFps(handle);
-	}
+	float collisionVolumeScale();
 
-	public float getSpeed() {
-		return ZenKit.API.ZkAnimation_getSpeed(handle);
-	}
+	long eventTagCount();
 
-	public float getCollisionVolumeScale() {
-		return ZenKit.API.ZkAnimation_getCollisionVolumeScale(handle);
-	}
+	long particleEffectCount();
 
-	public long getEventTagCount() {
-		return ZenKit.API.ZkAnimation_getEventTagCount(handle);
-	}
+	long particleEffectStopCount();
 
-	public long getParticleEffectCount() {
-		return ZenKit.API.ZkAnimation_getParticleEffectCount(handle);
-	}
+	long soundEffectCount();
 
-	public long getParticleEffectStopCount() {
-		return ZenKit.API.ZkAnimation_getParticleEffectStopCount(handle);
-	}
+	long soundEffectGroundCount();
 
-	public long getSoundEffectCount() {
-		return ZenKit.API.ZkAnimation_getSoundEffectCount(handle);
-	}
+	long morphAnimationCount();
 
-	public long getSoundEffectGroundCount() {
-		return ZenKit.API.ZkAnimation_getSoundEffectGroundCount(handle);
-	}
+	long cameraTremorCount();
 
-	public long getMorphAnimationCount() {
-		return ZenKit.API.ZkAnimation_getMorphAnimationCount(handle);
-	}
+	@Nullable
+	EventTag eventTag(long i);
 
-	public long getCameraTremorCount() {
-		return ZenKit.API.ZkAnimation_getCameraTremorCount(handle);
-	}
+	@Nullable
+	EventParticleEffect particleEffect(long i);
 
-	public EventTag getEventTag(long i) {
-		return new EventTag(ZenKit.API.ZkAnimation_getEventTag(handle, i));
-	}
+	@Nullable
+	EventParticleEffectStop particleEffectStop(long i);
 
-	public EventParticleEffect getParticleEffect(long i) {
-		return new EventParticleEffect(ZenKit.API.ZkAnimation_getParticleEffect(handle, i));
-	}
+	@Nullable
+	EventSoundEffect soundEffect(long i);
 
-	public EventParticleEffectStop getParticleEffectStop(long i) {
-		return new EventParticleEffectStop(ZenKit.API.ZkAnimation_getParticleEffectStop(handle, i));
-	}
+	@Nullable
+	EventSoundEffectGround soundEffectGround(long i);
 
-	public EventSoundEffect getSoundEffect(long i) {
-		return new EventSoundEffect(ZenKit.API.ZkAnimation_getSoundEffect(handle, i));
-	}
+	@Nullable
+	EventMorphAnimation morphAnimation(long i);
 
-	public EventSoundEffectGround getSoundEffectGround(long i) {
-		return new EventSoundEffectGround(ZenKit.API.ZkAnimation_getSoundEffectGround(handle, i));
-	}
+	@Nullable
+	EventCameraTremor cameraTremor(long i);
 
-	public EventMorphAnimation getMorphAnimation(long i) {
-		return new EventMorphAnimation(ZenKit.API.ZkAnimation_getMorphAnimation(handle, i));
-	}
+	@NotNull
+	List<@NotNull EventTag> eventTags();
 
-	public EventCameraTremor getCameraTremor(long i) {
-		return new EventCameraTremor(ZenKit.API.ZkAnimation_getCameraTremor(handle, i));
-	}
+	@NotNull
+	List<@NotNull EventParticleEffect> particleEffects();
 
-	public List<EventTag> getEventTags() {
-		var arr = new ArrayList<EventTag>();
+	@NotNull
+	List<@NotNull EventParticleEffectStop> particleEffectsStop();
 
-		ZenKit.API.ZkAnimation_enumerateEventTags(handle, (ctx, evt) -> {
-			arr.add(new EventTag(evt));
-			return false;
-		}, Pointer.NULL);
+	@NotNull
+	List<@NotNull EventSoundEffect> soundEffects();
 
-		return arr;
-	}
+	@NotNull
+	List<@NotNull EventSoundEffectGround> soundEffectsGround();
 
-	public List<EventParticleEffect> getParticleEffects() {
-		var arr = new ArrayList<EventParticleEffect>();
+	@NotNull
+	List<@NotNull EventMorphAnimation> morphAnimations();
 
-		ZenKit.API.ZkAnimation_enumerateParticleEffects(handle, (ctx, evt) -> {
-			arr.add(new EventParticleEffect(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
-
-	public List<EventParticleEffectStop> getParticleEffectsStop() {
-		var arr = new ArrayList<EventParticleEffectStop>();
-
-		ZenKit.API.ZkAnimation_enumerateParticleEffectStops(handle, (ctx, evt) -> {
-			arr.add(new EventParticleEffectStop(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
-
-	public List<EventSoundEffect> getSoundEffects() {
-		var arr = new ArrayList<EventSoundEffect>();
-
-		ZenKit.API.ZkAnimation_enumerateSoundEffects(handle, (ctx, evt) -> {
-			arr.add(new EventSoundEffect(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
-
-	public List<EventSoundEffectGround> getSoundEffectsGround() {
-		var arr = new ArrayList<EventSoundEffectGround>();
-
-		ZenKit.API.ZkAnimation_enumerateSoundEffectGrounds(handle, (ctx, evt) -> {
-			arr.add(new EventSoundEffectGround(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
-
-	public List<EventMorphAnimation> getMorphAnimations() {
-		var arr = new ArrayList<EventMorphAnimation>();
-
-		ZenKit.API.ZkAnimation_enumerateMorphAnimations(handle, (ctx, evt) -> {
-			arr.add(new EventMorphAnimation(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
-
-	public List<EventCameraTremor> getCameraTremors() {
-		var arr = new ArrayList<EventCameraTremor>();
-
-		ZenKit.API.ZkAnimation_enumerateCameraTremors(handle, (ctx, evt) -> {
-			arr.add(new EventCameraTremor(evt));
-			return false;
-		}, Pointer.NULL);
-
-		return arr;
-	}
+	@NotNull
+	List<@NotNull EventCameraTremor> cameraTremors();
 }

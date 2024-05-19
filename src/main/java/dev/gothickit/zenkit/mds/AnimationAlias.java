@@ -1,44 +1,24 @@
 package dev.gothickit.zenkit.mds;
 
-import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.capi.ZenKit;
+import dev.gothickit.zenkit.CacheableObject;
+import org.jetbrains.annotations.NotNull;
 
-public class AnimationAlias {
-	private final Pointer handle;
+import java.util.EnumSet;
 
-	public AnimationAlias(Pointer handle) {
-		this.handle = handle;
-	}
+public interface AnimationAlias extends CacheableObject<CachedAnimationAlias> {
+	@NotNull String name();
 
-	public String getName() {
-		return ZenKit.API.ZkAnimationAlias_getName(handle);
-	}
+	int layer();
 
-	public int getLayer() {
-		return ZenKit.API.ZkAnimationAlias_getLayer(handle);
-	}
+	@NotNull String next();
 
-	public String getNext() {
-		return ZenKit.API.ZkAnimationAlias_getNext(handle);
-	}
+	float blendIn();
 
-	public float getBlendIn() {
-		return ZenKit.API.ZkAnimationAlias_getBlendIn(handle);
-	}
+	float blendOut();
 
-	public float getBlendOut() {
-		return ZenKit.API.ZkAnimationAlias_getBlendOut(handle);
-	}
+	@NotNull EnumSet<AnimationFlag> flags();
 
-	public int getFlags() {
-		return ZenKit.API.ZkAnimationAlias_getFlags(handle);
-	}
+	@NotNull String alias();
 
-	public String getAlias() {
-		return ZenKit.API.ZkAnimationAlias_getAlias(handle);
-	}
-
-	public AnimationDirection getDirection() {
-		return ZenKit.API.ZkAnimationAlias_getDirection(handle);
-	}
+	@NotNull AnimationDirection direction();
 }

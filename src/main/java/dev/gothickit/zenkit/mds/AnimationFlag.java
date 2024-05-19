@@ -1,11 +1,50 @@
 package dev.gothickit.zenkit.mds;
 
-public class AnimationFlag {
-	public static final int NONE = 0;
-	public static final int MOVE = 1;
-	public static final int ROTATE = 2;
-	public static final int QUEUE = 4;
-	public static final int FLY = 8;
-	public static final int IDLE = 16;
-	public static final int INPLACE = 32;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.EnumSet;
+
+public enum AnimationFlag {
+	MOVE(1),
+	ROTATE(2),
+	QUEUE(4),
+	FLY(8),
+	IDLE(16),
+	INPLACE(32);
+
+	private final int value;
+
+	AnimationFlag(int value) {
+		this.value = value;
+	}
+
+	public static @NotNull EnumSet<AnimationFlag> fromInt(int value) {
+		var flags = EnumSet.noneOf(AnimationFlag.class);
+
+		if ((value & MOVE.value) != 0) {
+			flags.add(AnimationFlag.MOVE);
+		}
+
+		if ((value & ROTATE.value) != 0) {
+			flags.add(AnimationFlag.ROTATE);
+		}
+
+		if ((value & QUEUE.value) != 0) {
+			flags.add(AnimationFlag.QUEUE);
+		}
+
+		if ((value & FLY.value) != 0) {
+			flags.add(AnimationFlag.FLY);
+		}
+
+		if ((value & IDLE.value) != 0) {
+			flags.add(AnimationFlag.IDLE);
+		}
+
+		if ((value & INPLACE.value) != 0) {
+			flags.add(AnimationFlag.INPLACE);
+		}
+
+		return flags;
+	}
 }
