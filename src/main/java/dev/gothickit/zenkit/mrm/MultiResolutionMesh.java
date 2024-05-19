@@ -17,7 +17,7 @@ public interface MultiResolutionMesh extends CacheableObject<CachedMultiResoluti
 
 	@Contract("_ -> new")
 	static @NotNull MultiResolutionMesh load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeMultiResolutionMesh(buf);
+		return new NativeMultiResolutionMesh(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

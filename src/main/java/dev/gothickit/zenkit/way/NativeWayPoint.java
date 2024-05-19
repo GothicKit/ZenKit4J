@@ -16,7 +16,7 @@ public final class NativeWayPoint implements NativeObject, WayPoint {
 	}
 
 	@Contract("null -> null; !null -> new")
-	public static @Nullable WayPoint fromNativeHandle(Pointer handle) {
+	public static @Nullable NativeWayPoint fromNativeHandle(Pointer handle) {
 		if (handle == null) return null;
 		return new NativeWayPoint(handle);
 	}

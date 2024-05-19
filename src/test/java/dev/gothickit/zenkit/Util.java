@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Util {
-	public static Read getResource(String path) {
+	public static NativeRead getResource(String path) {
 		URL url = Thread.currentThread().getContextClassLoader().getResource(path);
 		File file = new File(url.getPath());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -18,6 +18,6 @@ public class Util {
 			throw new RuntimeException(e);
 		}
 
-		return new Read(out.toByteArray());
+		return new NativeRead(out.toByteArray());
 	}
 }

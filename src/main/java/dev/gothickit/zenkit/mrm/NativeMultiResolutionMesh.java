@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 public final class NativeMultiResolutionMesh implements NativeObject, MultiResolutionMesh {
 	private final Handle handle;
 
-	NativeMultiResolutionMesh(@NotNull Read buf) throws ResourceIOException {
+	NativeMultiResolutionMesh(@NotNull NativeRead buf) throws ResourceIOException {
 		this.handle = new Handle(
-				ZenKit.API.ZkMultiResolutionMesh_load(buf.getHandle()),
+				ZenKit.API.ZkMultiResolutionMesh_load(buf.getNativeHandle()),
 				ZenKit.API::ZkMultiResolutionMesh_del
 		);
 
@@ -42,7 +42,7 @@ public final class NativeMultiResolutionMesh implements NativeObject, MultiResol
 
 	NativeMultiResolutionMesh(@NotNull Vfs vfs, String name) throws ResourceIOException {
 		this.handle = new Handle(
-				ZenKit.API.ZkMultiResolutionMesh_loadVfs(vfs.getHandle(), name),
+				ZenKit.API.ZkMultiResolutionMesh_loadVfs(vfs.getNativeHandle(), name),
 				ZenKit.API::ZkMultiResolutionMesh_del
 		);
 

@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public final class NativeMorphMesh implements NativeObject, MorphMesh {
 	private final Handle handle;
 
-	NativeMorphMesh(@NotNull Read buf) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkMorphMesh_load(buf.getHandle()), ZenKit.API::ZkMorphMesh_del);
+	NativeMorphMesh(@NotNull NativeRead buf) throws ResourceIOException {
+		this.handle = new Handle(ZenKit.API.ZkMorphMesh_load(buf.getNativeHandle()), ZenKit.API::ZkMorphMesh_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(MorphMesh.class, ResourceIOSource.STREAM, buf.toString());
@@ -33,7 +33,7 @@ public final class NativeMorphMesh implements NativeObject, MorphMesh {
 	}
 
 	NativeMorphMesh(@NotNull Vfs vfs, String name) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkMorphMesh_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkMorphMesh_del);
+		this.handle = new Handle(ZenKit.API.ZkMorphMesh_loadVfs(vfs.getNativeHandle(), name), ZenKit.API::ZkMorphMesh_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(MorphMesh.class, ResourceIOSource.VFS, name);

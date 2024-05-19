@@ -1,26 +1,30 @@
 package dev.gothickit.zenkit.daedalus;
 
 import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.NativeObject;
 import dev.gothickit.zenkit.capi.ZenKit;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DaedalusSymbol {
+public final class DaedalusSymbol implements NativeObject {
 	private final Pointer handle;
 
-
-	DaedalusSymbol(Pointer handle) {
+	private DaedalusSymbol(Pointer handle) {
 		this.handle = handle;
 	}
 
-	public Pointer getHandle() {
-		return handle;
+	@Contract("null -> null; !null -> new")
+	public static @Nullable DaedalusSymbol fromNativeHandle(@Nullable Pointer handle) {
+		if (handle == null) return null;
+		return new DaedalusSymbol(handle);
 	}
 
 	public String getString(short index, @Nullable DaedalusInstance context) {
 		return ZenKit.API.ZkDaedalusSymbol_getString(
 				handle,
 				index,
-				context == null ? Pointer.NULL : context.getHandle()
+				context == null ? Pointer.NULL : context.getNativeHandle()
 		);
 	}
 
@@ -28,12 +32,12 @@ public class DaedalusSymbol {
 		return ZenKit.API.ZkDaedalusSymbol_getFloat(
 				handle,
 				index,
-				context == null ? Pointer.NULL : context.getHandle()
+				context == null ? Pointer.NULL : context.getNativeHandle()
 		);
 	}
 
 	public int getInt(short index, @Nullable DaedalusInstance context) {
-		return ZenKit.API.ZkDaedalusSymbol_getInt(handle, index, context == null ? Pointer.NULL : context.getHandle());
+		return ZenKit.API.ZkDaedalusSymbol_getInt(handle, index, context == null ? Pointer.NULL : context.getNativeHandle());
 	}
 
 	public void setString(String value, short index, @Nullable DaedalusInstance context) {
@@ -41,7 +45,7 @@ public class DaedalusSymbol {
 				handle,
 				value,
 				index,
-				context == null ? Pointer.NULL : context.getHandle()
+				context == null ? Pointer.NULL : context.getNativeHandle()
 		);
 	}
 
@@ -50,12 +54,12 @@ public class DaedalusSymbol {
 				handle,
 				value,
 				index,
-				context == null ? Pointer.NULL : context.getHandle()
+				context == null ? Pointer.NULL : context.getNativeHandle()
 		);
 	}
 
 	public void setInt(int value, short index, @Nullable DaedalusInstance context) {
-		ZenKit.API.ZkDaedalusSymbol_setInt(handle, value, index, context == null ? Pointer.NULL : context.getHandle());
+		ZenKit.API.ZkDaedalusSymbol_setInt(handle, value, index, context == null ? Pointer.NULL : context.getNativeHandle());
 	}
 
 	public boolean isConst() {
@@ -108,5 +112,10 @@ public class DaedalusSymbol {
 
 	public DaedalusDataType getReturnType() {
 		return ZenKit.API.ZkDaedalusSymbol_getReturnType(handle);
+	}
+
+	@Override
+	public @NotNull Pointer getNativeHandle() {
+		return handle;
 	}
 }

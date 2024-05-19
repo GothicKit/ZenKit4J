@@ -1,10 +1,12 @@
 package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.NativeObject;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
+import org.jetbrains.annotations.NotNull;
 
-public class NpcSlot {
+public final class NpcSlot implements NativeObject {
 	private final Handle handle;
 
 	public NpcSlot(Pointer handle) {
@@ -46,6 +48,11 @@ public class NpcSlot {
 	}
 
 	public void getItem(Item val) {
-		ZenKit.API.ZkNpcSlot_setItem(handle.get(), val != null ? val.getHandle() : Pointer.NULL);
+		ZenKit.API.ZkNpcSlot_setItem(handle.get(), val != null ? val.getNativeHandle() : Pointer.NULL);
+	}
+
+	@Override
+	public @NotNull Pointer getNativeHandle() {
+		return handle.get();
 	}
 }

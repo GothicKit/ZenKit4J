@@ -2,7 +2,7 @@ package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,166 +14,166 @@ public class Trigger extends VirtualObject {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCTrigger));
 	}
 
-	public Trigger(@NotNull Read buf, GameVersion version) {
-		super(ZenKit.API.ZkTrigger_load(buf.getHandle(), version), ZenKit.API::ZkTrigger_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Trigger vob");
+	Trigger(@NotNull NativeRead buf, GameVersion version) {
+		super(ZenKit.API.ZkTrigger_load(buf.getNativeHandle(), version), ZenKit.API::ZkTrigger_del);
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Trigger vob");
 	}
 
-	public Trigger(String path, GameVersion version) {
+	Trigger(String path, GameVersion version) {
 		super(ZenKit.API.ZkTrigger_loadPath(path, version), ZenKit.API::ZkTrigger_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Trigger vob");
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Trigger vob");
 	}
 
 	protected Trigger(Pointer handle, Consumer<Pointer> delete) {
 		super(handle, delete);
 	}
 
-	public Trigger(Pointer handle) {
+	Trigger(Pointer handle) {
 		super(handle, ZenKit.API::ZkTrigger_del);
 	}
 
 	public String getTarget() {
-		return ZenKit.API.ZkTrigger_getTarget(getHandle());
+		return ZenKit.API.ZkTrigger_getTarget(getNativeHandle());
 	}
 
 	public void setTarget(String val) {
-		ZenKit.API.ZkTrigger_setTarget(getHandle(), val);
+		ZenKit.API.ZkTrigger_setTarget(getNativeHandle(), val);
 	}
 
 	public String getVobTarget() {
-		return ZenKit.API.ZkTrigger_getVobTarget(getHandle());
+		return ZenKit.API.ZkTrigger_getVobTarget(getNativeHandle());
 	}
 
 	public void setVobTarget(String val) {
-		ZenKit.API.ZkTrigger_setVobTarget(getHandle(), val);
+		ZenKit.API.ZkTrigger_setVobTarget(getNativeHandle(), val);
 	}
 
 	public int getMaxActivationCount() {
-		return ZenKit.API.ZkTrigger_getMaxActivationCount(getHandle());
+		return ZenKit.API.ZkTrigger_getMaxActivationCount(getNativeHandle());
 	}
 
 	public void setMaxActivationCount(int val) {
-		ZenKit.API.ZkTrigger_setMaxActivationCount(getHandle(), val);
+		ZenKit.API.ZkTrigger_setMaxActivationCount(getNativeHandle(), val);
 	}
 
 	public Duration getRetriggerDelay() {
-		return Duration.ofSeconds((long) ZenKit.API.ZkTrigger_getRetriggerDelaySeconds(getHandle()));
+		return Duration.ofSeconds((long) ZenKit.API.ZkTrigger_getRetriggerDelaySeconds(getNativeHandle()));
 	}
 
 	public void setRetriggerDelay(@NotNull Duration val) {
-		ZenKit.API.ZkTrigger_setRetriggerDelaySeconds(getHandle(), val.getSeconds());
+		ZenKit.API.ZkTrigger_setRetriggerDelaySeconds(getNativeHandle(), val.getSeconds());
 	}
 
 	public float getDamageThreshold() {
-		return ZenKit.API.ZkTrigger_getDamageThreshold(getHandle());
+		return ZenKit.API.ZkTrigger_getDamageThreshold(getNativeHandle());
 	}
 
 	public void setDamageThreshold(float val) {
-		ZenKit.API.ZkTrigger_setDamageThreshold(getHandle(), val);
+		ZenKit.API.ZkTrigger_setDamageThreshold(getNativeHandle(), val);
 	}
 
 	public Duration getFireDelay() {
-		return Duration.ofSeconds((long) ZenKit.API.ZkTrigger_getFireDelaySeconds(getHandle()));
+		return Duration.ofSeconds((long) ZenKit.API.ZkTrigger_getFireDelaySeconds(getNativeHandle()));
 	}
 
 	public void setFireDelay(@NotNull Duration val) {
-		ZenKit.API.ZkTrigger_setFireDelaySeconds(getHandle(), val.getSeconds());
+		ZenKit.API.ZkTrigger_setFireDelaySeconds(getNativeHandle(), val.getSeconds());
 	}
 
 	public boolean getStartEnabled() {
-		return ZenKit.API.ZkTrigger_getStartEnabled(getHandle());
+		return ZenKit.API.ZkTrigger_getStartEnabled(getNativeHandle());
 	}
 
 	public void setStartEnabled(boolean b) {
-		ZenKit.API.ZkTrigger_setStartEnabled(getHandle(), b);
+		ZenKit.API.ZkTrigger_setStartEnabled(getNativeHandle(), b);
 	}
 
 	public boolean getSendUntrigger() {
-		return ZenKit.API.ZkTrigger_getSendUntrigger(getHandle());
+		return ZenKit.API.ZkTrigger_getSendUntrigger(getNativeHandle());
 	}
 
 	public void setSendUntrigger(boolean b) {
-		ZenKit.API.ZkTrigger_setSendUntrigger(getHandle(), b);
+		ZenKit.API.ZkTrigger_setSendUntrigger(getNativeHandle(), b);
 	}
 
 	public boolean getReactToOnTrigger() {
-		return ZenKit.API.ZkTrigger_getReactToOnTrigger(getHandle());
+		return ZenKit.API.ZkTrigger_getReactToOnTrigger(getNativeHandle());
 	}
 
 	public void setReactToOnTrigger(boolean b) {
-		ZenKit.API.ZkTrigger_setReactToOnTrigger(getHandle(), b);
+		ZenKit.API.ZkTrigger_setReactToOnTrigger(getNativeHandle(), b);
 	}
 
 	public boolean getReactToOnTouch() {
-		return ZenKit.API.ZkTrigger_getReactToOnTouch(getHandle());
+		return ZenKit.API.ZkTrigger_getReactToOnTouch(getNativeHandle());
 	}
 
 	public void setReactToOnTouch(boolean b) {
-		ZenKit.API.ZkTrigger_setReactToOnTouch(getHandle(), b);
+		ZenKit.API.ZkTrigger_setReactToOnTouch(getNativeHandle(), b);
 	}
 
 	public boolean getReactToOnDamage() {
-		return ZenKit.API.ZkTrigger_getReactToOnDamage(getHandle());
+		return ZenKit.API.ZkTrigger_getReactToOnDamage(getNativeHandle());
 	}
 
 	public void setReactToOnDamage(boolean b) {
-		ZenKit.API.ZkTrigger_setReactToOnDamage(getHandle(), b);
+		ZenKit.API.ZkTrigger_setReactToOnDamage(getNativeHandle(), b);
 	}
 
 	public boolean getRespondToObject() {
-		return ZenKit.API.ZkTrigger_getRespondToObject(getHandle());
+		return ZenKit.API.ZkTrigger_getRespondToObject(getNativeHandle());
 	}
 
 	public void setRespondToObject(boolean b) {
-		ZenKit.API.ZkTrigger_setRespondToObject(getHandle(), b);
+		ZenKit.API.ZkTrigger_setRespondToObject(getNativeHandle(), b);
 	}
 
 	public boolean getRespondToPC() {
-		return ZenKit.API.ZkTrigger_getRespondToPC(getHandle());
+		return ZenKit.API.ZkTrigger_getRespondToPC(getNativeHandle());
 	}
 
 	public void setRespondToPC(boolean b) {
-		ZenKit.API.ZkTrigger_setRespondToPC(getHandle(), b);
+		ZenKit.API.ZkTrigger_setRespondToPC(getNativeHandle(), b);
 	}
 
 	public boolean getRespondToNPC() {
-		return ZenKit.API.ZkTrigger_getRespondToNPC(getHandle());
+		return ZenKit.API.ZkTrigger_getRespondToNPC(getNativeHandle());
 	}
 
 	public void setRespondToNPC(boolean b) {
-		ZenKit.API.ZkTrigger_setRespondToNPC(getHandle(), b);
+		ZenKit.API.ZkTrigger_setRespondToNPC(getNativeHandle(), b);
 	}
 
 	public float getNextTimeTriggerable() {
-		return ZenKit.API.ZkTrigger_getNextTimeTriggerable(getHandle());
+		return ZenKit.API.ZkTrigger_getNextTimeTriggerable(getNativeHandle());
 	}
 
 	public void setNextTimeTriggerable(float val) {
-		ZenKit.API.ZkTrigger_setNextTimeTriggerable(getHandle(), val);
+		ZenKit.API.ZkTrigger_setNextTimeTriggerable(getNativeHandle(), val);
 	}
 
 	public VirtualObject getOtherVob() {
-		var ptr = ZenKit.API.ZkTrigger_getOtherVob(getHandle());
-		return VirtualObject.fromNative(ptr);
+		var ptr = ZenKit.API.ZkTrigger_getOtherVob(getNativeHandle());
+		return VirtualObject.fromNativeHandle(ptr);
 	}
 
 	public void setOtherVob(VirtualObject obj) {
-		ZenKit.API.ZkTrigger_setOtherVob(getHandle(), obj != null ? obj.getHandle() : Pointer.NULL);
+		ZenKit.API.ZkTrigger_setOtherVob(getNativeHandle(), obj != null ? obj.getNativeHandle() : Pointer.NULL);
 	}
 
 	public int getCountCanBeActivated() {
-		return ZenKit.API.ZkTrigger_getCountCanBeActivated(getHandle());
+		return ZenKit.API.ZkTrigger_getCountCanBeActivated(getNativeHandle());
 	}
 
 	public void setCountCanBeActivated(int val) {
-		ZenKit.API.ZkTrigger_setCountCanBeActivated(getHandle(), val);
+		ZenKit.API.ZkTrigger_setCountCanBeActivated(getNativeHandle(), val);
 	}
 
 	public boolean isEnabled() {
-		return ZenKit.API.ZkTrigger_getIsEnabled(getHandle());
+		return ZenKit.API.ZkTrigger_getIsEnabled(getNativeHandle());
 	}
 
 	public void setEnabled(boolean val) {
-		ZenKit.API.ZkTrigger_setIsEnabled(getHandle(), val);
+		ZenKit.API.ZkTrigger_setIsEnabled(getNativeHandle(), val);
 	}
 }

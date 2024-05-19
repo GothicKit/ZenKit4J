@@ -15,9 +15,9 @@ public class Quat extends Structure {
 		return List.of("x", "y", "z", "w");
 	}
 
-	public static class ByValue extends Quat implements Structure.ByValue {
+	public static final class ByValue extends Quat implements Structure.ByValue {
 	}
 
-	public static class ByReference extends Quat implements Structure.ByReference {
+	public static final class ByReference extends Quat implements Structure.ByReference {
 	}
 }

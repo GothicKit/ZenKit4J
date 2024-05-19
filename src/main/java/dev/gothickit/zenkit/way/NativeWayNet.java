@@ -19,7 +19,7 @@ public final class NativeWayNet implements NativeObject, WayNet {
 	}
 
 	@Contract("null -> null; !null -> new")
-	public static @Nullable WayNet fromNativeHandle(Pointer handle) {
+	public static @Nullable NativeWayNet fromNativeHandle(Pointer handle) {
 		if (handle == null) return null;
 		return new NativeWayNet(handle);
 	}

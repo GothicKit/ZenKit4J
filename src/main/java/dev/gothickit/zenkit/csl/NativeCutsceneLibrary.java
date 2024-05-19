@@ -26,11 +26,11 @@ public final class NativeCutsceneLibrary implements NativeObject, CutsceneLibrar
 		this.handle = handle;
 	}
 
-	NativeCutsceneLibrary(@NotNull Read buf) throws ResourceIOException {
-		var handle = new Handle(ZenKit.API.ZkCutsceneLibrary_load(buf.getHandle()), ZenKit.API::ZkCutsceneLibrary_del);
+	NativeCutsceneLibrary(@NotNull NativeRead buf) throws ResourceIOException {
+		var handle = new Handle(ZenKit.API.ZkCutsceneLibrary_load(buf.getNativeHandle()), ZenKit.API::ZkCutsceneLibrary_del);
 
 		if (handle.isNull()) {
-			throw new ResourceIOException(CutsceneLibrary.class, ResourceIOSource.STREAM, buf.getHandle().toString());
+			throw new ResourceIOException(CutsceneLibrary.class, ResourceIOSource.STREAM, buf.getNativeHandle().toString());
 		}
 
 		ZenKit.CLEANER.register(this, handle);
@@ -39,7 +39,7 @@ public final class NativeCutsceneLibrary implements NativeObject, CutsceneLibrar
 
 	NativeCutsceneLibrary(@NotNull Vfs vfs, String name) throws ResourceIOException {
 		var handle = new Handle(
-				ZenKit.API.ZkCutsceneLibrary_loadVfs(vfs.getHandle(), name),
+				ZenKit.API.ZkCutsceneLibrary_loadVfs(vfs.getNativeHandle(), name),
 				ZenKit.API::ZkCutsceneLibrary_del
 		);
 

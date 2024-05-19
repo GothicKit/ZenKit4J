@@ -24,7 +24,7 @@ public class Color extends Structure {
 		return r == color.r && g == color.g && b == color.b && a == color.a;
 	}
 
-	public static class ByValue extends Color implements Structure.ByValue {
+	public static final class ByValue extends Color implements Structure.ByValue {
 		public ByValue() {
 		}
 
@@ -33,6 +33,6 @@ public class Color extends Structure {
 		}
 	}
 
-	public static class ByReference extends Color implements Structure.ByReference {
+	public static final class ByReference extends Color implements Structure.ByReference {
 	}
 }

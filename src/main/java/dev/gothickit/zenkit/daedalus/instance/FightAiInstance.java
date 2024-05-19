@@ -4,12 +4,12 @@ import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.daedalus.DaedalusInstance;
 
-public class FightAiInstance extends DaedalusInstance {
+public final class FightAiInstance extends DaedalusInstance {
 	public FightAiInstance(Pointer handle) {
 		super(handle);
 	}
 
 	public FightAiMove getMove(long i) {
-		return ZenKit.API.ZkFightAiInstance_getMove(getHandle(), i);
+		return ZenKit.API.ZkFightAiInstance_getMove(getNativeHandle(), i);
 	}
 }

@@ -2170,7 +2170,7 @@ public interface ZenKitNative extends Library {
 			Pointer ctx
 	);
 
-	DaedalusInstruction.ByValue ZkDaedalusScript_getInstruction(Pointer slf, long address);
+	DaedalusInstruction ZkDaedalusScript_getInstruction(Pointer slf, long address);
 
 	Pointer ZkDaedalusScript_getSymbolByIndex(Pointer slf, int i);
 

@@ -18,7 +18,7 @@ public interface Model extends CacheableObject<CachedModel> {
 
 	@Contract("_ -> new")
 	static @NotNull Model load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModel(buf);
+		return new NativeModel(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

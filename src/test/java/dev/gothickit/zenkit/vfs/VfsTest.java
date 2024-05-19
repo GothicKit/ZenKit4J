@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class VfsTest {
 
 	private void checkContents(Vfs vfs) {
-		var roots = vfs.getRoot().getChildren();
+		var roots = vfs.getRoot().children();
 		assertEquals(3, roots.size());
 
 		var configYml = vfs.find("config.yml");
@@ -25,24 +25,24 @@ class VfsTest {
 
 		var licensesDir = vfs.find("licenses");
 		assertNotNull(licensesDir);
-		assertTrue(licensesDir.isDir());
-		assertEquals(2, licensesDir.getChildren().size());
+		assertTrue(licensesDir.isDirectory());
+		assertEquals(2, licensesDir.children().size());
 
 		var mitMd = vfs.find("MIT.MD");
 		assertNotNull(mitMd);
 		assertTrue(mitMd.isFile());
 
-		var gplDir = licensesDir.getChild("gpl");
+		var gplDir = licensesDir.get("gpl");
 		assertNotNull(gplDir);
-		assertTrue(gplDir.isDir());
-		assertEquals(2, gplDir.getChildren().size());
+		assertTrue(gplDir.isDirectory());
+		assertEquals(2, gplDir.children().size());
 
-		var lgplMd = gplDir.getChild("lgpl-3.0.md");
+		var lgplMd = gplDir.get("lgpl-3.0.md");
 		assertNotNull(lgplMd);
 		assertTrue(lgplMd.isFile());
-		assertNull(gplDir.getChild("lgpl"));
+		assertNull(gplDir.get("lgpl"));
 
-		var gplMd = gplDir.getChild("gpl-3.0.MD");
+		var gplMd = gplDir.get("gpl-3.0.MD");
 		assertNotNull(gplMd);
 		assertTrue(gplMd.isFile());
 

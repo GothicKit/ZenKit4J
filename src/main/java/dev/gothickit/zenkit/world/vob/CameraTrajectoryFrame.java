@@ -4,116 +4,116 @@ import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.Mat4x4;
 import dev.gothickit.zenkit.capi.ZenKit;
 
-public class CameraTrajectoryFrame extends VirtualObject {
+public final class CameraTrajectoryFrame extends VirtualObject {
 	public CameraTrajectoryFrame() {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCCamTrj_KeyFrame));
 	}
 
-	protected CameraTrajectoryFrame(Pointer handle) {
+	CameraTrajectoryFrame(Pointer handle) {
 		super(handle, ZenKit.API::ZkCameraTrajectoryFrame_del);
 	}
 
 	public float getTime() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getTime(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getTime(getNativeHandle());
 	}
 
 	public void setTime(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setTime(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setTime(getNativeHandle(), val);
 	}
 
 	public float getRollAngle() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getRollAngle(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getRollAngle(getNativeHandle());
 	}
 
 	public void setRollAngle(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setRollAngle(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setRollAngle(getNativeHandle(), val);
 	}
 
 	public float getFovScale() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getFovScale(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getFovScale(getNativeHandle());
 	}
 
 	public void setFovScale(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setFovScale(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setFovScale(getNativeHandle(), val);
 	}
 
 	public CameraMotion getMotionType() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionType(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionType(getNativeHandle());
 	}
 
 	public void setMotionType(CameraMotion val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setMotionType(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionType(getNativeHandle(), val);
 	}
 
 	public CameraMotion getMotionTypeFov() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeFov(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeFov(getNativeHandle());
 	}
 
 	public void setMotionTypeFov(CameraMotion val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeFov(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeFov(getNativeHandle(), val);
 	}
 
 	public CameraMotion getMotionTypeRoll() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeRoll(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeRoll(getNativeHandle());
 	}
 
 	public void setMotionTypeRoll(CameraMotion val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeRoll(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeRoll(getNativeHandle(), val);
 	}
 
 	public CameraMotion getMotionTypeTimeScale() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeTimeScale(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getMotionTypeTimeScale(getNativeHandle());
 	}
 
 	public void setMotionTypeTimeScale(CameraMotion val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeTimeScale(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setMotionTypeTimeScale(getNativeHandle(), val);
 	}
 
 	public float getTension() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getTension(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getTension(getNativeHandle());
 	}
 
 	public void setTension(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setTension(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setTension(getNativeHandle(), val);
 	}
 
 	public float getCamBias() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getCamBias(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getCamBias(getNativeHandle());
 	}
 
 	public void setCamBias(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setCamBias(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setCamBias(getNativeHandle(), val);
 	}
 
 	public float getContinuity() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getContinuity(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getContinuity(getNativeHandle());
 	}
 
 	public void setContinuity(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setContinuity(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setContinuity(getNativeHandle(), val);
 	}
 
 	public float getTimeScale() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getTimeScale(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getTimeScale(getNativeHandle());
 	}
 
 	public void setTimeScale(float val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setTimeScale(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setTimeScale(getNativeHandle(), val);
 	}
 
 	public boolean isTimeFixed() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getTimeFixed(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getTimeFixed(getNativeHandle());
 	}
 
 	public void setTimeFixed(boolean val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setTimeFixed(getHandle(), val);
+		ZenKit.API.ZkCameraTrajectoryFrame_setTimeFixed(getNativeHandle(), val);
 	}
 
 	public Mat4x4 getOriginalPose() {
-		return ZenKit.API.ZkCameraTrajectoryFrame_getOriginalPose(getHandle());
+		return ZenKit.API.ZkCameraTrajectoryFrame_getOriginalPose(getNativeHandle());
 	}
 
 	public void setOriginalPose(Mat4x4 val) {
-		ZenKit.API.ZkCameraTrajectoryFrame_setOriginalPose(getHandle(), new Mat4x4.ByValue(val));
+		ZenKit.API.ZkCameraTrajectoryFrame_setOriginalPose(getNativeHandle(), new Mat4x4.ByValue(val));
 	}
 }

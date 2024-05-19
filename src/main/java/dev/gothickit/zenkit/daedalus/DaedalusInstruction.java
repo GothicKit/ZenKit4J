@@ -2,9 +2,10 @@ package dev.gothickit.zenkit.daedalus;
 
 import com.sun.jna.Structure;
 
-public class DaedalusInstruction extends Structure {
-
-
-	public static class ByValue extends DaedalusInstruction implements Structure.ByValue {
-	}
+@Structure.FieldOrder({"op", "size", "data", "index"})
+public final class DaedalusInstruction extends Structure implements Structure.ByValue {
+	public DaedalusOpcode op;
+	public int size;
+	public int data;
+	public int index;
 }

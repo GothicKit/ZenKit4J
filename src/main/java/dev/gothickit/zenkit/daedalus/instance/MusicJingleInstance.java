@@ -4,24 +4,24 @@ import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.daedalus.DaedalusInstance;
 
-public class MusicJingleInstance extends DaedalusInstance {
+public final class MusicJingleInstance extends DaedalusInstance {
 	public MusicJingleInstance(Pointer handle) {
 		super(handle);
 	}
 
 	public String getName() {
-		return ZenKit.API.ZkMusicJingleInstance_getName(getHandle());
+		return ZenKit.API.ZkMusicJingleInstance_getName(getNativeHandle());
 	}
 
 	public int getLoop() {
-		return ZenKit.API.ZkMusicJingleInstance_getLoop(getHandle());
+		return ZenKit.API.ZkMusicJingleInstance_getLoop(getNativeHandle());
 	}
 
 	public float getVol() {
-		return ZenKit.API.ZkMusicJingleInstance_getVol(getHandle());
+		return ZenKit.API.ZkMusicJingleInstance_getVol(getNativeHandle());
 	}
 
 	public int getTransSubType() {
-		return ZenKit.API.ZkMusicJingleInstance_getTranssubtype(getHandle());
+		return ZenKit.API.ZkMusicJingleInstance_getTranssubtype(getNativeHandle());
 	}
 }

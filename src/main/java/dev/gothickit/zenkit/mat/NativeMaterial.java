@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 public final class NativeMaterial implements NativeObject, Material {
 	private final Handle handle;
 
-	NativeMaterial(@NotNull Read buf) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkMaterial_load(buf.getHandle()), ZenKit.API::ZkMaterial_del);
+	NativeMaterial(@NotNull NativeRead buf) throws ResourceIOException {
+		this.handle = new Handle(ZenKit.API.ZkMaterial_load(buf.getNativeHandle()), ZenKit.API::ZkMaterial_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(Material.class, ResourceIOSource.STREAM, buf.toString());

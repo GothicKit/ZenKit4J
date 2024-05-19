@@ -27,8 +27,8 @@ public final class NativeModelHierarchy implements NativeObject, ModelHierarchy 
 		this.handle = handle;
 	}
 
-	NativeModelHierarchy(@NotNull Read buf) throws ResourceIOException {
-		var handle = new Handle(ZenKit.API.ZkModelHierarchy_load(buf.getHandle()), ZenKit.API::ZkModelHierarchy_del);
+	NativeModelHierarchy(@NotNull NativeRead buf) throws ResourceIOException {
+		var handle = new Handle(ZenKit.API.ZkModelHierarchy_load(buf.getNativeHandle()), ZenKit.API::ZkModelHierarchy_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(ModelHierarchy.class, ResourceIOSource.STREAM, buf.toString());
@@ -40,7 +40,7 @@ public final class NativeModelHierarchy implements NativeObject, ModelHierarchy 
 
 	NativeModelHierarchy(@NotNull Vfs vfs, String name) throws ResourceIOException {
 		var handle = new Handle(
-				ZenKit.API.ZkModelHierarchy_loadVfs(vfs.getHandle(), name),
+				ZenKit.API.ZkModelHierarchy_loadVfs(vfs.getNativeHandle(), name),
 				ZenKit.API::ZkModelHierarchy_del
 		);
 

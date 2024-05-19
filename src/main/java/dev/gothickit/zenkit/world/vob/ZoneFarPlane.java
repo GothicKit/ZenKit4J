@@ -2,42 +2,42 @@ package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
-public class ZoneFarPlane extends VirtualObject {
+public final class ZoneFarPlane extends VirtualObject {
 	public ZoneFarPlane() {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCZoneVobFarPlane));
 	}
 
-	public ZoneFarPlane(@NotNull Read buf, GameVersion version) {
-		super(ZenKit.API.ZkZoneFarPlane_load(buf.getHandle(), version), ZenKit.API::ZkZoneFarPlane_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFarPlane vob");
+	ZoneFarPlane(@NotNull NativeRead buf, GameVersion version) {
+		super(ZenKit.API.ZkZoneFarPlane_load(buf.getNativeHandle(), version), ZenKit.API::ZkZoneFarPlane_del);
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFarPlane vob");
 	}
 
-	public ZoneFarPlane(String path, GameVersion version) {
+	ZoneFarPlane(String path, GameVersion version) {
 		super(ZenKit.API.ZkZoneFarPlane_loadPath(path, version), ZenKit.API::ZkZoneFarPlane_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFarPlane vob");
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFarPlane vob");
 	}
 
-	public ZoneFarPlane(Pointer handle) {
+	ZoneFarPlane(Pointer handle) {
 		super(handle, ZenKit.API::ZkZoneFarPlane_del);
 	}
 
 	public float getVobFarPlaneZ() {
-		return ZenKit.API.ZkZoneFarPlane_getVobFarPlaneZ(getHandle());
+		return ZenKit.API.ZkZoneFarPlane_getVobFarPlaneZ(getNativeHandle());
 	}
 
 	public void setVobFarPlaneZ(float val) {
-		ZenKit.API.ZkZoneFarPlane_setVobFarPlaneZ(getHandle(), val);
+		ZenKit.API.ZkZoneFarPlane_setVobFarPlaneZ(getNativeHandle(), val);
 	}
 
 	public float getInnerRangePercentage() {
-		return ZenKit.API.ZkZoneFarPlane_getInnerRangePercentage(getHandle());
+		return ZenKit.API.ZkZoneFarPlane_getInnerRangePercentage(getNativeHandle());
 	}
 
 	public void setInnerRangePercentage(float val) {
-		ZenKit.API.ZkZoneFarPlane_setInnerRangePercentage(getHandle(), val);
+		ZenKit.API.ZkZoneFarPlane_setInnerRangePercentage(getNativeHandle(), val);
 	}
 }

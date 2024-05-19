@@ -12,7 +12,7 @@ public interface Material extends CacheableObject<CachedMaterial> {
 
 	@Contract("_ -> new")
 	static @NotNull Material load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeMaterial(buf);
+		return new NativeMaterial(Read.adapt(buf));
 	}
 
 	@NotNull

@@ -26,10 +26,10 @@ public final class NativeModelAnimation implements NativeObject, ModelAnimation 
 		this.handle = handle;
 	}
 
-	NativeModelAnimation(@NotNull Read buf) throws ResourceIOException {
-		var handle = new Handle(ZenKit.API.ZkModelAnimation_load(buf.getHandle()), ZenKit.API::ZkModelAnimation_del);
+	NativeModelAnimation(@NotNull NativeRead buf) throws ResourceIOException {
+		var handle = new Handle(ZenKit.API.ZkModelAnimation_load(buf.getNativeHandle()), ZenKit.API::ZkModelAnimation_del);
 		if (handle.isNull()) {
-			throw new ResourceIOException(ModelAnimation.class, ResourceIOSource.STREAM, buf.getHandle().toString());
+			throw new ResourceIOException(ModelAnimation.class, ResourceIOSource.STREAM, buf.getNativeHandle().toString());
 		}
 
 		ZenKit.CLEANER.register(this, handle);
@@ -38,7 +38,7 @@ public final class NativeModelAnimation implements NativeObject, ModelAnimation 
 
 	NativeModelAnimation(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
 		var handle = new Handle(
-				ZenKit.API.ZkModelAnimation_loadVfs(vfs.getHandle(), name),
+				ZenKit.API.ZkModelAnimation_loadVfs(vfs.getNativeHandle(), name),
 				ZenKit.API::ZkModelAnimation_del
 		);
 

@@ -24,9 +24,9 @@ public class Vec4f extends Structure {
 		this.w = w;
 	}
 
-	public static class ByValue extends Vec4f implements Structure.ByValue {
+	public static final class ByValue extends Vec4f implements Structure.ByValue {
 	}
 
-	public static class ByReference extends Vec4f implements Structure.ByReference {
+	public static final class ByReference extends Vec4f implements Structure.ByReference {
 	}
 }

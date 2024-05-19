@@ -2,7 +2,7 @@ package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,125 +13,125 @@ public class Sound extends VirtualObject {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCVobSound));
 	}
 
-	public Sound(@NotNull Read buf, GameVersion version) {
-		super(ZenKit.API.ZkSound_load(buf.getHandle(), version), ZenKit.API::ZkSound_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Sound vob");
+	Sound(@NotNull NativeRead buf, GameVersion version) {
+		super(ZenKit.API.ZkSound_load(buf.getNativeHandle(), version), ZenKit.API::ZkSound_del);
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Sound vob");
 	}
 
-	public Sound(String path, GameVersion version) {
+	Sound(String path, GameVersion version) {
 		super(ZenKit.API.ZkSound_loadPath(path, version), ZenKit.API::ZkSound_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Sound vob");
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Sound vob");
 	}
 
-	public Sound(Pointer handle, Consumer<Pointer> delete) {
+	Sound(Pointer handle, Consumer<Pointer> delete) {
 		super(handle, delete);
 	}
 
-	public Sound(Pointer handle) {
+	Sound(Pointer handle) {
 		super(handle, ZenKit.API::ZkSound_del);
 	}
 
 	public float getVolume() {
-		return ZenKit.API.ZkSound_getVolume(getHandle());
+		return ZenKit.API.ZkSound_getVolume(getNativeHandle());
 	}
 
 	public void setVolume(float val) {
-		ZenKit.API.ZkSound_setVolume(getHandle(), val);
+		ZenKit.API.ZkSound_setVolume(getNativeHandle(), val);
 	}
 
 	public SoundMode getMode() {
-		return ZenKit.API.ZkSound_getMode(getHandle());
+		return ZenKit.API.ZkSound_getMode(getNativeHandle());
 	}
 
 	public void setMode(SoundMode val) {
-		ZenKit.API.ZkSound_setMode(getHandle(), val);
+		ZenKit.API.ZkSound_setMode(getNativeHandle(), val);
 	}
 
 	public float getRandomDelay() {
-		return ZenKit.API.ZkSound_getRandomDelay(getHandle());
+		return ZenKit.API.ZkSound_getRandomDelay(getNativeHandle());
 	}
 
 	public void setRandomDelay(float val) {
-		ZenKit.API.ZkSound_setRandomDelay(getHandle(), val);
+		ZenKit.API.ZkSound_setRandomDelay(getNativeHandle(), val);
 	}
 
 	public float getRandomDelayVar() {
-		return ZenKit.API.ZkSound_getRandomDelayVar(getHandle());
+		return ZenKit.API.ZkSound_getRandomDelayVar(getNativeHandle());
 	}
 
 	public void setRandomDelayVar(float val) {
-		ZenKit.API.ZkSound_setRandomDelayVar(getHandle(), val);
+		ZenKit.API.ZkSound_setRandomDelayVar(getNativeHandle(), val);
 	}
 
 	public boolean getInitiallyPlaying() {
-		return ZenKit.API.ZkSound_getInitiallyPlaying(getHandle());
+		return ZenKit.API.ZkSound_getInitiallyPlaying(getNativeHandle());
 	}
 
 	public void setInitiallyPlaying(boolean val) {
-		ZenKit.API.ZkSound_setInitiallyPlaying(getHandle(), val);
+		ZenKit.API.ZkSound_setInitiallyPlaying(getNativeHandle(), val);
 	}
 
 	public boolean isAmbient3d() {
-		return ZenKit.API.ZkSound_getAmbient3d(getHandle());
+		return ZenKit.API.ZkSound_getAmbient3d(getNativeHandle());
 	}
 
 	public void setAmbient3d(boolean val) {
-		ZenKit.API.ZkSound_setAmbient3d(getHandle(), val);
+		ZenKit.API.ZkSound_setAmbient3d(getNativeHandle(), val);
 	}
 
 	public boolean getObstruction() {
-		return ZenKit.API.ZkSound_getObstruction(getHandle());
+		return ZenKit.API.ZkSound_getObstruction(getNativeHandle());
 	}
 
 	public void setObstruction(boolean val) {
-		ZenKit.API.ZkSound_setObstruction(getHandle(), val);
+		ZenKit.API.ZkSound_setObstruction(getNativeHandle(), val);
 	}
 
 	public float getConeAngle() {
-		return ZenKit.API.ZkSound_getConeAngle(getHandle());
+		return ZenKit.API.ZkSound_getConeAngle(getNativeHandle());
 	}
 
 	public void setConeAngle(float val) {
-		ZenKit.API.ZkSound_setConeAngle(getHandle(), val);
+		ZenKit.API.ZkSound_setConeAngle(getNativeHandle(), val);
 	}
 
 	public SoundTriggerVolumeType getVolumeType() {
-		return ZenKit.API.ZkSound_getVolumeType(getHandle());
+		return ZenKit.API.ZkSound_getVolumeType(getNativeHandle());
 	}
 
 	public void setVolumeType(SoundTriggerVolumeType val) {
-		ZenKit.API.ZkSound_setVolumeType(getHandle(), val);
+		ZenKit.API.ZkSound_setVolumeType(getNativeHandle(), val);
 	}
 
 	public float getRadius() {
-		return ZenKit.API.ZkSound_getRadius(getHandle());
+		return ZenKit.API.ZkSound_getRadius(getNativeHandle());
 	}
 
 	public void setRadius(float val) {
-		ZenKit.API.ZkSound_setRadius(getHandle(), val);
+		ZenKit.API.ZkSound_setRadius(getNativeHandle(), val);
 	}
 
 	public String getSoundName() {
-		return ZenKit.API.ZkSound_getSoundName(getHandle());
+		return ZenKit.API.ZkSound_getSoundName(getNativeHandle());
 	}
 
 	public void setSoundName(String val) {
-		ZenKit.API.ZkSound_setSoundName(getHandle(), val);
+		ZenKit.API.ZkSound_setSoundName(getNativeHandle(), val);
 	}
 
 	public boolean isRunning() {
-		return ZenKit.API.ZkSound_getIsRunning(getHandle());
+		return ZenKit.API.ZkSound_getIsRunning(getNativeHandle());
 	}
 
 	public void setRunning(boolean val) {
-		ZenKit.API.ZkSound_setIsRunning(getHandle(), val);
+		ZenKit.API.ZkSound_setIsRunning(getNativeHandle(), val);
 	}
 
 	public boolean isAllowedToRun() {
-		return ZenKit.API.ZkSound_getIsAllowedToRun(getHandle());
+		return ZenKit.API.ZkSound_getIsAllowedToRun(getNativeHandle());
 	}
 
 	public void setAllowedToRun(boolean val) {
-		ZenKit.API.ZkSound_setIsAllowedToRun(getHandle(), val);
+		ZenKit.API.ZkSound_setIsAllowedToRun(getNativeHandle(), val);
 	}
 }

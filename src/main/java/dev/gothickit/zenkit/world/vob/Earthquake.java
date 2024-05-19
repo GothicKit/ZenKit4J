@@ -2,53 +2,53 @@ package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.Vec3f;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
-public class Earthquake extends VirtualObject {
+public final class Earthquake extends VirtualObject {
 	public Earthquake() {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCEarthquake));
 	}
 
-	public Earthquake(@NotNull Read buf, GameVersion version) {
-		super(ZenKit.API.ZkEarthquake_load(buf.getHandle(), version), ZenKit.API::ZkEarthquake_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Earthquake vob");
+	Earthquake(@NotNull NativeRead buf, GameVersion version) {
+		super(ZenKit.API.ZkEarthquake_load(buf.getNativeHandle(), version), ZenKit.API::ZkEarthquake_del);
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Earthquake vob");
 	}
 
-	public Earthquake(String path, GameVersion version) {
+	Earthquake(String path, GameVersion version) {
 		super(ZenKit.API.ZkEarthquake_loadPath(path, version), ZenKit.API::ZkEarthquake_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Earthquake vob");
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load Earthquake vob");
 	}
 
-	public Earthquake(Pointer handle) {
+	Earthquake(Pointer handle) {
 		super(handle, ZenKit.API::ZkEarthquake_del);
 	}
 
 	public float getRadius() {
-		return ZenKit.API.ZkEarthquake_getRadius(getHandle());
+		return ZenKit.API.ZkEarthquake_getRadius(getNativeHandle());
 	}
 
 	public void setRadius(float val) {
-		ZenKit.API.ZkEarthquake_setRadius(getHandle(), val);
+		ZenKit.API.ZkEarthquake_setRadius(getNativeHandle(), val);
 	}
 
 	public Duration getDuration() {
-		return Duration.ofSeconds((long) ZenKit.API.ZkEarthquake_getDuration(getHandle()));
+		return Duration.ofSeconds((long) ZenKit.API.ZkEarthquake_getDuration(getNativeHandle()));
 	}
 
 	public void setDuration(@NotNull Duration val) {
-		ZenKit.API.ZkEarthquake_setDuration(getHandle(), val.getSeconds());
+		ZenKit.API.ZkEarthquake_setDuration(getNativeHandle(), val.getSeconds());
 	}
 
 	public Vec3f getAmplitude() {
-		return ZenKit.API.ZkEarthquake_getAmplitude(getHandle());
+		return ZenKit.API.ZkEarthquake_getAmplitude(getNativeHandle());
 	}
 
 	public void setAmplitude(Vec3f val) {
-		ZenKit.API.ZkEarthquake_setAmplitude(getHandle(), val);
+		ZenKit.API.ZkEarthquake_setAmplitude(getNativeHandle(), val);
 	}
 }

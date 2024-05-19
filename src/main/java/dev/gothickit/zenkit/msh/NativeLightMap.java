@@ -24,7 +24,7 @@ public final class NativeLightMap implements NativeObject, LightMap {
 
 	@Override
 	public @NotNull Texture image() {
-		return new Texture(ZenKit.API.ZkLightMap_getImage(handle));
+		return Texture.fromNativeHandle(ZenKit.API.ZkLightMap_getImage(handle));
 	}
 
 	@Override

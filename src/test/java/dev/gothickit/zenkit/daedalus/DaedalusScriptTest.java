@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.daedalus;
 
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,8 +18,8 @@ class DaedalusScriptTest {
 	}
 
 	@Test
-	void load() {
-		var scr = new DaedalusScript(Util.getResource("menu.proprietary.dat"));
+	void load() throws ResourceIOException {
+		var scr = DaedalusScript.load(Util.getResource("menu.proprietary.dat"));
 
 		var syms = scr.getSymbols();
 		assertEquals(1093, syms.size());

@@ -20,7 +20,7 @@ public interface ModelAnimation extends CacheableObject<CachedModelAnimation> {
 
 	@Contract("_ -> new")
 	static @NotNull ModelAnimation load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModelAnimation(buf);
+		return new NativeModelAnimation(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

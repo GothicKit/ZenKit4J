@@ -2,7 +2,7 @@ package dev.gothickit.zenkit.mdl;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.NativeObject;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.ResourceIOSource;
 import dev.gothickit.zenkit.capi.ZenKit;
@@ -18,8 +18,8 @@ import org.jetbrains.annotations.Nullable;
 public final class NativeModel implements NativeObject, Model {
 	private final Handle handle;
 
-	NativeModel(@NotNull Read buf) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkModel_load(buf.getHandle()), ZenKit.API::ZkModel_del);
+	NativeModel(@NotNull NativeRead buf) throws ResourceIOException {
+		this.handle = new Handle(ZenKit.API.ZkModel_load(buf.getNativeHandle()), ZenKit.API::ZkModel_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(Model.class, ResourceIOSource.STREAM, buf.toString());
@@ -35,7 +35,7 @@ public final class NativeModel implements NativeObject, Model {
 	}
 
 	NativeModel(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkModel_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkModel_del);
+		this.handle = new Handle(ZenKit.API.ZkModel_loadVfs(vfs.getNativeHandle(), name), ZenKit.API::ZkModel_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(Model.class, ResourceIOSource.VFS, name);

@@ -3,66 +3,66 @@ package dev.gothickit.zenkit.world.vob;
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.Color;
 import dev.gothickit.zenkit.GameVersion;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.jetbrains.annotations.NotNull;
 
-public class ZoneFog extends VirtualObject {
+public final class ZoneFog extends VirtualObject {
 	public ZoneFog() {
 		this(ZenKit.API.ZkVirtualObject_new(VirtualObjectType.zCZoneZFog));
 	}
 
-	public ZoneFog(@NotNull Read buf, GameVersion version) {
-		super(ZenKit.API.ZkZoneFog_load(buf.getHandle(), version), ZenKit.API::ZkZoneFog_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFog vob");
+	ZoneFog(@NotNull NativeRead buf, GameVersion version) {
+		super(ZenKit.API.ZkZoneFog_load(buf.getNativeHandle(), version), ZenKit.API::ZkZoneFog_del);
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFog vob");
 	}
 
-	public ZoneFog(String path, GameVersion version) {
+	ZoneFog(String path, GameVersion version) {
 		super(ZenKit.API.ZkZoneFog_loadPath(path, version), ZenKit.API::ZkZoneFog_del);
-		if (this.getHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFog vob");
+		if (this.getNativeHandle() == Pointer.NULL) throw new RuntimeException("Failed to load ZoneFog vob");
 	}
 
-	public ZoneFog(Pointer handle) {
+	ZoneFog(Pointer handle) {
 		super(handle, ZenKit.API::ZkZoneFog_del);
 	}
 
 	public float getRangeCenter() {
-		return ZenKit.API.ZkZoneFog_getRangeCenter(getHandle());
+		return ZenKit.API.ZkZoneFog_getRangeCenter(getNativeHandle());
 	}
 
 	public void setRangeCenter(float val) {
-		ZenKit.API.ZkZoneFog_setRangeCenter(getHandle(), val);
+		ZenKit.API.ZkZoneFog_setRangeCenter(getNativeHandle(), val);
 	}
 
 	public float getInnerRangePercentage() {
-		return ZenKit.API.ZkZoneFog_getInnerRangePercentage(getHandle());
+		return ZenKit.API.ZkZoneFog_getInnerRangePercentage(getNativeHandle());
 	}
 
 	public void setInnerRangePercentage(float val) {
-		ZenKit.API.ZkZoneFog_setInnerRangePercentage(getHandle(), val);
+		ZenKit.API.ZkZoneFog_setInnerRangePercentage(getNativeHandle(), val);
 	}
 
 	public Color getColor() {
-		return ZenKit.API.ZkZoneFog_getColor(getHandle());
+		return ZenKit.API.ZkZoneFog_getColor(getNativeHandle());
 	}
 
 	public void setColor(Color val) {
-		ZenKit.API.ZkZoneFog_setColor(getHandle(), new Color.ByValue(val));
+		ZenKit.API.ZkZoneFog_setColor(getNativeHandle(), new Color.ByValue(val));
 	}
 
 	public boolean getFadeOutSky() {
-		return ZenKit.API.ZkZoneFog_getFadeOutSky(getHandle());
+		return ZenKit.API.ZkZoneFog_getFadeOutSky(getNativeHandle());
 	}
 
 	public void setFadeOutSky(boolean val) {
-		ZenKit.API.ZkZoneFog_setFadeOutSky(getHandle(), val);
+		ZenKit.API.ZkZoneFog_setFadeOutSky(getNativeHandle(), val);
 	}
 
 	public boolean getOverrideColor() {
-		return ZenKit.API.ZkZoneFog_getOverrideColor(getHandle());
+		return ZenKit.API.ZkZoneFog_getOverrideColor(getNativeHandle());
 	}
 
 	public void setOverrideColor(boolean val) {
-		ZenKit.API.ZkZoneFog_setOverrideColor(getHandle(), val);
+		ZenKit.API.ZkZoneFog_setOverrideColor(getNativeHandle(), val);
 	}
 }

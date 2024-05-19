@@ -1,67 +1,95 @@
 package dev.gothickit.zenkit.daedalus;
 
 import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.ResourceIOException;
+import dev.gothickit.zenkit.ResourceIOSource;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DaedalusVm extends DaedalusScript {
-	public DaedalusVm(@NotNull Read buf) {
-		super(new Handle(ZenKit.API.ZkDaedalusVm_load(buf.getHandle()), ZenKit.API::ZkDaedalusVm_del));
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusVm");
+public final class DaedalusVm extends DaedalusScript {
+	private DaedalusVm(@NotNull NativeRead buf) throws ResourceIOException {
+		super(new Handle(ZenKit.API.ZkDaedalusVm_load(buf.getNativeHandle()), ZenKit.API::ZkDaedalusVm_del));
+
+		if (handle.isNull()) {
+			throw new ResourceIOException(DaedalusVm.class, ResourceIOSource.STREAM, buf.toString());
+		}
 	}
 
-	public DaedalusVm(String path) {
+	private DaedalusVm(String path) throws ResourceIOException {
 		super(new Handle(ZenKit.API.ZkDaedalusVm_loadPath(path), ZenKit.API::ZkDaedalusVm_del));
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusVm");
+
+		if (handle.isNull()) {
+			throw new ResourceIOException(DaedalusVm.class, ResourceIOSource.STREAM, path);
+		}
 	}
 
-	public DaedalusVm(@NotNull Vfs vfs, String name) {
-		super(new Handle(ZenKit.API.ZkDaedalusVm_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkDaedalusVm_del));
-		if (this.handle.isNull()) throw new RuntimeException("Failed to load DaedalusVm");
+	private DaedalusVm(@NotNull Vfs vfs, String name) throws ResourceIOException {
+		super(new Handle(ZenKit.API.ZkDaedalusVm_loadVfs(vfs.getNativeHandle(), name), ZenKit.API::ZkDaedalusVm_del));
+
+		if (handle.isNull()) {
+			throw new ResourceIOException(DaedalusVm.class, ResourceIOSource.STREAM, name);
+		}
+	}
+
+	@Contract("_ -> new")
+	public static @NotNull DaedalusVm load(@NotNull String path) throws ResourceIOException {
+		return new DaedalusVm(path);
+	}
+
+	@Contract("_ -> new")
+	public static @NotNull DaedalusVm load(@NotNull Read buf) throws ResourceIOException {
+		return new DaedalusVm(Read.adapt(buf));
+	}
+
+	@Contract("_, _ -> new")
+	public static @NotNull DaedalusVm load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
+		return new DaedalusVm(vfs, name);
 	}
 
 	public @Nullable DaedalusInstance getGlobalSelf() {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_getGlobalSelf(getHandle()));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_getGlobalSelf(getNativeHandle()));
 	}
 
 	public void setGlobalSelf(@Nullable DaedalusInstance value) {
-		ZenKit.API.ZkDaedalusVm_setGlobalSelf(getHandle(), value == null ? null : value.getHandle());
+		ZenKit.API.ZkDaedalusVm_setGlobalSelf(getNativeHandle(), value == null ? null : value.getNativeHandle());
 	}
 
 	public @Nullable DaedalusInstance getGlobalOther() {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_getGlobalOther(getHandle()));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_getGlobalOther(getNativeHandle()));
 	}
 
 	public void setGlobalOther(@Nullable DaedalusInstance value) {
-		ZenKit.API.ZkDaedalusVm_setGlobalOther(getHandle(), value == null ? null : value.getHandle());
+		ZenKit.API.ZkDaedalusVm_setGlobalOther(getNativeHandle(), value == null ? null : value.getNativeHandle());
 	}
 
 	public @Nullable DaedalusInstance getGlobalVictim() {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_getGlobalVictim(getHandle()));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_getGlobalVictim(getNativeHandle()));
 	}
 
 	public void setGlobalVictim(@Nullable DaedalusInstance value) {
-		ZenKit.API.ZkDaedalusVm_setGlobalVictim(getHandle(), value == null ? null : value.getHandle());
+		ZenKit.API.ZkDaedalusVm_setGlobalVictim(getNativeHandle(), value == null ? null : value.getNativeHandle());
 	}
 
 	public @Nullable DaedalusInstance getGlobalHero() {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_getGlobalHero(getHandle()));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_getGlobalHero(getNativeHandle()));
 	}
 
 	public void setGlobalHero(@Nullable DaedalusInstance value) {
-		ZenKit.API.ZkDaedalusVm_setGlobalHero(getHandle(), value == null ? null : value.getHandle());
+		ZenKit.API.ZkDaedalusVm_setGlobalHero(getNativeHandle(), value == null ? null : value.getNativeHandle());
 	}
 
 	public @Nullable DaedalusInstance getGlobalItem() {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_getGlobalItem(getHandle()));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_getGlobalItem(getNativeHandle()));
 	}
 
 	public void setGlobalItem(@Nullable DaedalusInstance value) {
-		ZenKit.API.ZkDaedalusVm_setGlobalItem(getHandle(), value == null ? null : value.getHandle());
+		ZenKit.API.ZkDaedalusVm_setGlobalItem(getNativeHandle(), value == null ? null : value.getNativeHandle());
 	}
 
 	public DaedalusInstance allocInstance(String name, DaedalusInstanceType type) {
@@ -72,7 +100,7 @@ public class DaedalusVm extends DaedalusScript {
 	}
 
 	public DaedalusInstance allocInstance(@NotNull DaedalusSymbol sym, DaedalusInstanceType type) {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_allocInstance(getHandle(), sym.getHandle(), type));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_allocInstance(getNativeHandle(), sym.getNativeHandle(), type));
 	}
 
 	public DaedalusInstance initInstance(String name, DaedalusInstanceType type) {
@@ -83,23 +111,23 @@ public class DaedalusVm extends DaedalusScript {
 	}
 
 	public DaedalusInstance initInstance(@NotNull DaedalusSymbol sym, DaedalusInstanceType type) {
-		return DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_initInstance(getHandle(), sym.getHandle(), type));
+		return DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_initInstance(getNativeHandle(), sym.getNativeHandle(), type));
 	}
 
 	public void initInstanceDirect(DaedalusInstance instance) {
-		ZenKit.API.ZkDaedalusVm_initInstanceDirect(getHandle(), instance.getHandle());
+		ZenKit.API.ZkDaedalusVm_initInstanceDirect(getNativeHandle(), instance.getNativeHandle());
 	}
 
 	public void call(String name) {
 		var sym = getSymbolByName(name);
 		if (sym == null || sym.getType() != DaedalusDataType.FUNCTION) throw new RuntimeException("Symbol not found");
-		ZenKit.API.ZkDaedalusVm_callFunction(getHandle(), sym.getHandle());
+		ZenKit.API.ZkDaedalusVm_callFunction(getNativeHandle(), sym.getNativeHandle());
 	}
 
 	public <TR> TR call(String name, Class<TR> rv) {
 		var sym = getSymbolByName(name);
 		if (sym == null || sym.getType() != DaedalusDataType.FUNCTION) throw new RuntimeException("Symbol not found");
-		ZenKit.API.ZkDaedalusVm_callFunction(getHandle(), sym.getHandle());
+		ZenKit.API.ZkDaedalusVm_callFunction(getNativeHandle(), sym.getNativeHandle());
 
 		if (!sym.hasReturn()) throw new RuntimeException("The function does not return anything");
 		return pop(rv);
@@ -306,38 +334,38 @@ public class DaedalusVm extends DaedalusScript {
 
 
 	public void printStackTrace() {
-		ZenKit.API.ZkDaedalusVm_printStackTrace(getHandle());
+		ZenKit.API.ZkDaedalusVm_printStackTrace(getNativeHandle());
 	}
 
 	public void registerExternalDefault(DefaultExternal cb) {
 		ZenKit.API.ZkDaedalusVm_registerExternalDefault(
-				getHandle(),
-				(ctx, vm, sym) -> cb.invoke(this, new DaedalusSymbol(sym)),
+				getNativeHandle(),
+				(ctx, vm, sym) -> cb.invoke(this, DaedalusSymbol.fromNativeHandle(sym)),
 				Pointer.NULL
 		);
 	}
 
 	private <T> void push(@NotNull T value) {
 		if (value instanceof Integer v)
-			ZenKit.API.ZkDaedalusVm_pushInt(getHandle(), v);
+			ZenKit.API.ZkDaedalusVm_pushInt(getNativeHandle(), v);
 		else if (value instanceof Float v)
-			ZenKit.API.ZkDaedalusVm_pushFloat(getHandle(), v);
+			ZenKit.API.ZkDaedalusVm_pushFloat(getNativeHandle(), v);
 		else if (value instanceof String v)
-			ZenKit.API.ZkDaedalusVm_pushString(getHandle(), v);
+			ZenKit.API.ZkDaedalusVm_pushString(getNativeHandle(), v);
 		else if (value instanceof DaedalusInstance v)
-			ZenKit.API.ZkDaedalusVm_pushInstance(getHandle(), v.getHandle());
+			ZenKit.API.ZkDaedalusVm_pushInstance(getNativeHandle(), v.getNativeHandle());
 		else throw new UnsupportedOperationException("Invalid Daedalus type: " + value.getClass().getName());
 	}
 
 	private <T> T pop(Class<T> cls) {
 		if (cls == Integer.class)
-			return cls.cast(ZenKit.API.ZkDaedalusVm_popInt(getHandle()));
+			return cls.cast(ZenKit.API.ZkDaedalusVm_popInt(getNativeHandle()));
 		if (cls == Float.class)
-			return cls.cast(ZenKit.API.ZkDaedalusVm_popFloat(getHandle()));
+			return cls.cast(ZenKit.API.ZkDaedalusVm_popFloat(getNativeHandle()));
 		if (cls == String.class)
-			return cls.cast(ZenKit.API.ZkDaedalusVm_popString(getHandle()));
+			return cls.cast(ZenKit.API.ZkDaedalusVm_popString(getNativeHandle()));
 		if (DaedalusInstance.class.isAssignableFrom(cls))
-			return cls.cast(DaedalusInstance.fromNative(ZenKit.API.ZkDaedalusVm_popInstance(getHandle())));
+			return cls.cast(DaedalusInstance.fromNativeHandle(ZenKit.API.ZkDaedalusVm_popInstance(getNativeHandle())));
 		throw new UnsupportedOperationException("Invalid Daedalus type: " + cls.getName());
 	}
 
@@ -345,7 +373,7 @@ public class DaedalusVm extends DaedalusScript {
 		var sym = getSymbolByName(name);
 		if (sym == null || sym.getType() != DaedalusDataType.FUNCTION || !sym.isExternal())
 			throw new RuntimeException("Symbol not found");
-		ZenKit.API.ZkDaedalusVm_registerExternal(getHandle(), sym.getHandle(), (ctx, vm) -> cb.invoke(), Pointer.NULL);
+		ZenKit.API.ZkDaedalusVm_registerExternal(getNativeHandle(), sym.getNativeHandle(), (ctx, vm) -> cb.invoke(), Pointer.NULL);
 	}
 
 	public interface External0 {
@@ -395,7 +423,6 @@ public class DaedalusVm extends DaedalusScript {
 	public interface External5R<TR, TP0, TP1, TP2, TP3, TP4> {
 		TR invoke(TP0 p0, TP1 p1, TP2 p2, TP3 p3, TP4 p4);
 	}
-
 
 	public interface DefaultExternal {
 		void invoke(DaedalusVm vm, DaedalusSymbol sym);

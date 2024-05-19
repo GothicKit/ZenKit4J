@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.tex;
 
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,8 +18,8 @@ class TextureTest {
 	}
 
 	@Test
-	void load() {
-		var tex = new Texture(Util.getResource("erz.tex"));
+	void load() throws ResourceIOException {
+		var tex = Texture.load(Util.getResource("erz.tex"));
 
 		assertEquals(128, tex.getWidth());
 		assertEquals(128, tex.getHeight());

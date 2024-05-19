@@ -1,27 +1,25 @@
 package dev.gothickit.zenkit.world.vob;
 
 import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.NativeObject;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
+import org.jetbrains.annotations.NotNull;
 
-public class NpcTalent {
+public final class NpcTalent implements NativeObject {
 	private final Handle handle;
 
 	public NpcTalent() {
 		this.handle = new Handle(ZenKit.API.ZkNpcTalent_new(), ZenKit.API::ZkNpcTalent_del);
 	}
 
-	public NpcTalent(Pointer handle) {
+	NpcTalent(Pointer handle) {
 		this.handle = new Handle(handle, pointer -> {
 		});
 	}
 
-
-	public NpcTalent(Handle handle) {
-		this.handle = handle;
-	}
-
-	public Pointer getHandle() {
+	@Override
+	public @NotNull Pointer getNativeHandle() {
 		return handle.get();
 	}
 

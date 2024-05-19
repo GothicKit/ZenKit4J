@@ -1,11 +1,9 @@
 package dev.gothickit.zenkit;
 
 import com.sun.jna.Structure;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class Vec3f extends Structure implements Structure.ByValue {
+@Structure.FieldOrder({"x", "y", "z"})
+public final class Vec3f extends Structure implements Structure.ByValue {
 	public float x;
 	public float y;
 	public float z;
@@ -20,10 +18,5 @@ public class Vec3f extends Structure implements Structure.ByValue {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
-
-	@Override
-	protected List<String> getFieldOrder() {
-		return List.of("x", "y", "z");
 	}
 }

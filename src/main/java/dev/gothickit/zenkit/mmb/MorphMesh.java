@@ -20,7 +20,7 @@ public interface MorphMesh extends CacheableObject<CachedMorphMesh> {
 
 	@Contract("_ -> new")
 	static @NotNull MorphMesh load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeMorphMesh(buf);
+		return new NativeMorphMesh(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

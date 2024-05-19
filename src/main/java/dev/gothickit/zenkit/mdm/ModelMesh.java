@@ -21,7 +21,7 @@ public interface ModelMesh extends CacheableObject<CachedModelMesh> {
 
 	@Contract("_ -> new")
 	static @NotNull ModelMesh load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModelMesh(buf);
+		return new NativeModelMesh(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

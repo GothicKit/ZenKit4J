@@ -18,7 +18,7 @@ public interface Mesh extends CacheableObject<CachedMesh> {
 
 	@Contract("_ -> new")
 	static @NotNull Mesh load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeMesh(buf);
+		return new NativeMesh(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

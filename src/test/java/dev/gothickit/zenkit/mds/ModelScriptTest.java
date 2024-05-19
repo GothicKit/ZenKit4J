@@ -2,6 +2,7 @@ package dev.gothickit.zenkit.mds;
 
 import dev.gothickit.zenkit.LogLevel;
 import dev.gothickit.zenkit.Logger;
+import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.Util;
 import dev.gothickit.zenkit.capi.ZenKit;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,8 +18,8 @@ class ModelScriptTest {
 	}
 
 	@Test
-	void load() {
-		var script = new ModelScript(Util.getResource("waran.mds"));
+	void load() throws ResourceIOException {
+		var script = ModelScript.load(Util.getResource("waran.mds"));
 
 		assertTrue(script.getSkeletonMeshDisabled());
 		assertEquals("TestModelMesh.asc", script.getSkeletonName());

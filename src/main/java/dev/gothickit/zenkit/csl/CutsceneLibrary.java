@@ -18,7 +18,7 @@ public interface CutsceneLibrary extends CacheableObject<CachedCutsceneLibrary> 
 
 	@Contract("_ -> new")
 	static @NotNull CutsceneLibrary load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeCutsceneLibrary(buf);
+		return new NativeCutsceneLibrary(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

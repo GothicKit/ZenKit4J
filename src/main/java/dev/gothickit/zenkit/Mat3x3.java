@@ -25,7 +25,7 @@ public class Mat3x3 extends Structure {
 		this.m22 = m22;
 	}
 
-	public static class ByValue extends Mat3x3 implements Structure.ByValue {
+	public static final class ByValue extends Mat3x3 implements Structure.ByValue {
 		public ByValue() {
 		}
 

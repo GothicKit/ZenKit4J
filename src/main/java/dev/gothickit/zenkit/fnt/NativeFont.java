@@ -2,7 +2,7 @@ package dev.gothickit.zenkit.fnt;
 
 import com.sun.jna.Pointer;
 import dev.gothickit.zenkit.NativeObject;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.ResourceIOSource;
 import dev.gothickit.zenkit.capi.ZenKit;
@@ -28,11 +28,11 @@ public final class NativeFont implements NativeObject, Font {
 		this.handle = handle;
 	}
 
-	NativeFont(@NotNull Read buf) throws ResourceIOException {
-		var handle = new Handle(ZenKit.API.ZkFont_load(buf.getHandle()), ZenKit.API::ZkFont_del);
+	NativeFont(@NotNull NativeRead buf) throws ResourceIOException {
+		var handle = new Handle(ZenKit.API.ZkFont_load(buf.getNativeHandle()), ZenKit.API::ZkFont_del);
 
 		if (handle.isNull()) {
-			throw new ResourceIOException(Font.class, ResourceIOSource.STREAM, buf.getHandle().toString());
+			throw new ResourceIOException(Font.class, ResourceIOSource.STREAM, buf.getNativeHandle().toString());
 		}
 
 		ZenKit.CLEANER.register(this, handle);
@@ -40,7 +40,7 @@ public final class NativeFont implements NativeObject, Font {
 	}
 
 	NativeFont(@NotNull Vfs vfs, String name) throws ResourceIOException {
-		var handle = new Handle(ZenKit.API.ZkFont_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkFont_del);
+		var handle = new Handle(ZenKit.API.ZkFont_loadVfs(vfs.getNativeHandle(), name), ZenKit.API::ZkFont_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(Font.class, ResourceIOSource.VFS, name);

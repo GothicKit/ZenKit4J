@@ -31,7 +31,7 @@ public class Mat4x4 extends Structure {
 		this.m33 = m33;
 	}
 
-	public static class ByValue extends Mat4x4 implements Structure.ByValue {
+	public static final class ByValue extends Mat4x4 implements Structure.ByValue {
 		public ByValue() {
 		}
 

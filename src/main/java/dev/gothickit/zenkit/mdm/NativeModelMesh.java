@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 public final class NativeModelMesh implements NativeObject, ModelMesh {
 	private final Handle handle;
 
-	NativeModelMesh(@NotNull Read buf) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkModelMesh_load(buf.getHandle()), ZenKit.API::ZkModelMesh_del);
+	NativeModelMesh(@NotNull NativeRead buf) throws ResourceIOException {
+		this.handle = new Handle(ZenKit.API.ZkModelMesh_load(buf.getNativeHandle()), ZenKit.API::ZkModelMesh_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(ModelMesh.class, ResourceIOSource.STREAM, buf.toString());
@@ -39,7 +39,7 @@ public final class NativeModelMesh implements NativeObject, ModelMesh {
 	}
 
 	NativeModelMesh(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
-		this.handle = new Handle(ZenKit.API.ZkModelMesh_loadVfs(vfs.getHandle(), name), ZenKit.API::ZkModelMesh_del);
+		this.handle = new Handle(ZenKit.API.ZkModelMesh_loadVfs(vfs.getNativeHandle(), name), ZenKit.API::ZkModelMesh_del);
 
 		if (handle.isNull()) {
 			throw new ResourceIOException(ModelMesh.class, ResourceIOSource.VFS, name);

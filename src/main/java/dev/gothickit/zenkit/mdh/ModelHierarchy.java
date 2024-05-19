@@ -17,7 +17,7 @@ public interface ModelHierarchy extends CacheableObject<CachedModelHierarchy> {
 
 	@Contract("_ -> new")
 	static @NotNull ModelHierarchy load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModelHierarchy(buf);
+		return new NativeModelHierarchy(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")

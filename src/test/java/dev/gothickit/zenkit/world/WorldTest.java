@@ -28,8 +28,8 @@ class WorldTest {
 	}
 
 	@Test
-	void load() {
-		var wld = new World(Util.getResource("world.proprietary.zen"));
+	void load() throws ResourceIOException {
+		var wld = World.load(Util.getResource("world.proprietary.zen"));
 
 		var mesh = wld.getMesh();
 		var feats = mesh.vertices();

@@ -1,91 +1,104 @@
 package dev.gothickit.zenkit.vfs;
 
 import com.sun.jna.Pointer;
-import dev.gothickit.zenkit.Read;
+import dev.gothickit.zenkit.NativeObject;
+import dev.gothickit.zenkit.NativeRead;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.utils.Handle;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class VfsNode {
-	private final Handle handle;
-	private final byte[] content;
+public final class VfsNode implements NativeObject {
+	private final @NotNull Handle handle;
 
-	public VfsNode(String name, byte[] content, Date timestamp) {
-		var handle = new Handle(ZenKit.API.ZkVfsNode_newFile(
+	private VfsNode(@NotNull Pointer handle, Consumer<Pointer> delete) {
+		this.handle = new Handle(handle, delete);
+		ZenKit.CLEANER.register(this, this.handle);
+	}
+
+	private VfsNode(@NotNull Pointer handle) {
+		this(handle, (o) -> {
+		});
+	}
+
+	@Contract("null -> null; !null -> new")
+	public static @Nullable VfsNode fromNativeHandle(Pointer handle) {
+		if (handle == null) return null;
+		return new VfsNode(handle);
+	}
+
+	@NotNull
+	public static VfsNode createFile(@NotNull String name, byte @NotNull [] content) {
+		return createFile(name, content, Date.from(Instant.now()));
+	}
+
+	@NotNull
+	public static VfsNode createFile(@NotNull String name, byte @NotNull [] content, @NotNull Date timestamp) {
+		var handle = ZenKit.API.ZkVfsNode_newFile(
 				name,
 				content,
 				content.length,
 				timestamp.getTime() / 1000
-		), ZenKit.API::ZkVfsNode_del);
-
-		if (handle.isNull()) {
-			throw new RuntimeException("Failed to create Vfs node");
-		}
-
-		ZenKit.CLEANER.register(this, handle);
-
-		this.handle = handle;
-		this.content = content;
-	}
-
-	public VfsNode(String name, Date timestamp) {
-		var handle = new Handle(
-				ZenKit.API.ZkVfsNode_newDir(name, timestamp.getTime() / 1000),
-				ZenKit.API::ZkVfsNode_del
 		);
 
-		if (handle.isNull()) {
+		if (handle == Pointer.NULL) {
 			throw new RuntimeException("Failed to create Vfs node");
 		}
 
-		ZenKit.CLEANER.register(this, handle);
-
-		this.handle = handle;
-		this.content = null;
+		return new VfsNode(handle, ZenKit.API::ZkVfsNode_del);
 	}
 
-	VfsNode(Pointer handle) {
-		this.handle = new Handle(handle, (o) -> {
-		});
-		this.content = null;
+	@NotNull
+	public static VfsNode createDirectory(@NotNull String name) {
+		return createDirectory(name, Date.from(Instant.now()));
 	}
 
-	public Pointer getHandle() {
-		return this.handle.get();
+	@NotNull
+	public static VfsNode createDirectory(@NotNull String name, @NotNull Date timestamp) {
+		var handle = ZenKit.API.ZkVfsNode_newDir(name, timestamp.getTime() / 1000);
+
+		if (handle == Pointer.NULL) {
+			throw new RuntimeException("Failed to create Vfs node");
+		}
+
+		return new VfsNode(handle, ZenKit.API::ZkVfsNode_del);
 	}
 
 	public boolean isFile() {
-		return ZenKit.API.ZkVfsNode_isFile(this.getHandle());
+		return ZenKit.API.ZkVfsNode_isFile(getNativeHandle());
 	}
 
-	public boolean isDir() {
-		return ZenKit.API.ZkVfsNode_isDir(this.getHandle());
+	public boolean isDirectory() {
+		return ZenKit.API.ZkVfsNode_isDir(getNativeHandle());
 	}
 
-	public Date getTimestamp() {
-		return new Date(ZenKit.API.ZkVfsNode_getTime(this.getHandle()) * 1000);
+	public Date timestamp() {
+		return new Date(ZenKit.API.ZkVfsNode_getTime(getNativeHandle()) * 1000);
 	}
 
-	public String getName() {
-		return ZenKit.API.ZkVfsNode_getName(this.getHandle());
+	public @NotNull String name() {
+		return ZenKit.API.ZkVfsNode_getName(getNativeHandle());
 	}
 
-	public @Nullable VfsNode getChild(String name) {
-		if (!this.isDir()) return null;
-		var child = ZenKit.API.ZkVfsNode_getChild(this.getHandle(), name);
-		return child != null ? new VfsNode(child) : null;
+	public @Nullable VfsNode get(@NotNull String name) {
+		if (!this.isDirectory()) return null;
+		var child = ZenKit.API.ZkVfsNode_getChild(getNativeHandle(), name);
+		return VfsNode.fromNativeHandle(child);
 	}
 
-	public List<VfsNode> getChildren() {
+	public @NotNull List<@NotNull VfsNode> children() {
 		var children = new ArrayList<VfsNode>();
 
-		if (this.isDir()) {
-			ZenKit.API.ZkVfsNode_enumerateChildren(this.getHandle(), (ctx, node) -> {
-				children.add(new VfsNode(node));
+		if (this.isDirectory()) {
+			ZenKit.API.ZkVfsNode_enumerateChildren(getNativeHandle(), (ctx, node) -> {
+				children.add(VfsNode.fromNativeHandle(node));
 				return false;
 			}, Pointer.NULL);
 		}
@@ -93,23 +106,29 @@ public class VfsNode {
 		return children;
 	}
 
-	public VfsNode create(VfsNode node) {
-		if (!this.isDir()) {
+	public @NotNull VfsNode create(@NotNull VfsNode node) {
+		if (!this.isDirectory()) {
 			throw new RuntimeException("create() is only available on directory nodes");
 		}
 
-		return new VfsNode(ZenKit.API.ZkVfsNode_create(this.getHandle(), node.getHandle()));
+		var ptr = ZenKit.API.ZkVfsNode_create(getNativeHandle(), node.getNativeHandle());
+		return VfsNode.fromNativeHandle(ptr);
 	}
 
-	public boolean remove(String name) {
-		return ZenKit.API.ZkVfsNode_remove(this.getHandle(), name);
+	public boolean remove(@NotNull String name) {
+		return ZenKit.API.ZkVfsNode_remove(getNativeHandle(), name);
 	}
 
-	public Read open() {
+	public @NotNull NativeRead open() {
 		if (!this.isFile()) {
 			throw new RuntimeException("open() is only available on file nodes");
 		}
 
-		return new Read(ZenKit.API.ZkVfsNode_open(this.getHandle()));
+		return NativeRead.fromNativeHandle(ZenKit.API.ZkVfsNode_open(getNativeHandle()));
+	}
+
+	@Override
+	public @NotNull Pointer getNativeHandle() {
+		return handle.get();
 	}
 }

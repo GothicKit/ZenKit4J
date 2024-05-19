@@ -1,19 +1,23 @@
 package dev.gothickit.zenkit.daedalus;
 
 import com.sun.jna.Pointer;
+import dev.gothickit.zenkit.NativeObject;
 import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.daedalus.instance.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DaedalusInstance {
+public class DaedalusInstance implements NativeObject {
 	private final Pointer handle;
 
 	protected DaedalusInstance(Pointer handle) {
 		this.handle = handle;
 	}
 
-	public static @Nullable DaedalusInstance fromNative(Pointer handle) {
-		if (handle == Pointer.NULL) return null;
+	@Contract("null -> null; !null -> new")
+	public static @Nullable DaedalusInstance fromNativeHandle(@Nullable Pointer handle) {
+		if (handle == null) return null;
 		return switch (ZenKit.API.ZkDaedalusInstance_getType(handle)) {
 			case GUILD_VALUES -> new GuildValuesInstance(handle);
 			case NPC -> new NpcInstance(handle);
@@ -40,15 +44,16 @@ public class DaedalusInstance {
 		};
 	}
 
-	public Pointer getHandle() {
-		return handle;
-	}
-
 	public DaedalusInstanceType getType() {
 		return ZenKit.API.ZkDaedalusInstance_getType(handle);
 	}
 
 	public int getIndex() {
 		return ZenKit.API.ZkDaedalusInstance_getIndex(handle);
+	}
+
+	@Override
+	public @NotNull Pointer getNativeHandle() {
+		return handle;
 	}
 }
