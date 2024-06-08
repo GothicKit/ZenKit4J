@@ -6,7 +6,6 @@ import dev.gothickit.zenkit.capi.ZenKit;
 import dev.gothickit.zenkit.daedalus.DaedalusScript;
 import dev.gothickit.zenkit.utils.Handle;
 import dev.gothickit.zenkit.vfs.Vfs;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public final class NativeModelScript implements NativeObject, ModelScript {
 	private final Handle handle;
 
-	private NativeModelScript(@NotNull NativeRead buf) throws ResourceIOException {
+	NativeModelScript(@NotNull NativeRead buf) throws ResourceIOException {
 		this.handle = new Handle(ZenKit.API.ZkModelScript_load(buf.getNativeHandle()), ZenKit.API::ZkModelScript_del);
 
 		if (handle.isNull()) {
@@ -24,7 +23,7 @@ public final class NativeModelScript implements NativeObject, ModelScript {
 		}
 	}
 
-	private NativeModelScript(String path) throws ResourceIOException {
+	NativeModelScript(String path) throws ResourceIOException {
 		this.handle = new Handle(ZenKit.API.ZkModelScript_loadPath(path), ZenKit.API::ZkModelScript_del);
 
 		if (handle.isNull()) {
@@ -32,7 +31,7 @@ public final class NativeModelScript implements NativeObject, ModelScript {
 		}
 	}
 
-	private NativeModelScript(@NotNull Vfs vfs, String name) throws ResourceIOException {
+	NativeModelScript(@NotNull Vfs vfs, String name) throws ResourceIOException {
 		this.handle = new Handle(
 				ZenKit.API.ZkModelScript_loadVfs(vfs.getNativeHandle(), name),
 				ZenKit.API::ZkModelScript_del
@@ -41,21 +40,6 @@ public final class NativeModelScript implements NativeObject, ModelScript {
 		if (handle.isNull()) {
 			throw new ResourceIOException(DaedalusScript.class, ResourceIOSource.VFS, name);
 		}
-	}
-
-	@Contract("_ -> new")
-	public static @NotNull NativeModelScript load(@NotNull String path) throws ResourceIOException {
-		return new NativeModelScript(path);
-	}
-
-	@Contract("_ -> new")
-	public static @NotNull NativeModelScript load(@NotNull Read buf) throws ResourceIOException {
-		return new NativeModelScript(Read.adapt(buf));
-	}
-
-	@Contract("_, _ -> new")
-	public static @NotNull NativeModelScript load(@NotNull Vfs vfs, @NotNull String name) throws ResourceIOException {
-		return new NativeModelScript(vfs, name);
 	}
 
 	@Override

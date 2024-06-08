@@ -21,7 +21,7 @@ class ModelScriptTest {
 
 	@Test
 	void load() throws ResourceIOException {
-		var script = NativeModelScript.load(Util.getResource("waran.mds"));
+		var script = ModelScript.load(Util.getResource("waran.mds"));
 
 		assertTrue(script.skeletonMeshDisabled());
 		assertEquals("TestModelMesh.asc", script.skeletonName());

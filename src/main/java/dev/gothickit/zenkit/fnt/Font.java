@@ -1,7 +1,7 @@
 package dev.gothickit.zenkit.fnt;
 
 import dev.gothickit.zenkit.CacheableObject;
-import dev.gothickit.zenkit.NativeRead;
+import dev.gothickit.zenkit.Read;
 import dev.gothickit.zenkit.ResourceIOException;
 import dev.gothickit.zenkit.vfs.Vfs;
 import org.jetbrains.annotations.Contract;
@@ -17,8 +17,8 @@ public interface Font extends CacheableObject<CachedFont> {
 	}
 
 	@Contract("_ -> new")
-	static @NotNull Font load(@NotNull NativeRead buf) throws ResourceIOException {
-		return new NativeFont(buf);
+	static @NotNull Font load(@NotNull Read buf) throws ResourceIOException {
+		return new NativeFont(Read.adapt(buf));
 	}
 
 	@Contract("_, _ -> new")
