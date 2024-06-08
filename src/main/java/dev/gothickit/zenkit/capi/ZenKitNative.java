@@ -536,9 +536,9 @@ public interface ZenKitNative extends Library {
 
 	int ZkPolygon_getLightMapIndex(Pointer slf);
 
-	Pointer ZkPolygon_getPositionIndices(Pointer slf, LongByReference count);
+	Pointer ZkPolygon_getPositionIndices(Pointer slf, Pointer msh, LongByReference count);
 
-	Pointer ZkPolygon_getFeatureIndices(Pointer slf, LongByReference count);
+	Pointer ZkPolygon_getFeatureIndices(Pointer slf, Pointer msh, LongByReference count);
 
 	boolean ZkPolygon_getIsPortal(Pointer slf);
 

@@ -151,10 +151,10 @@ public final class NativeMesh implements NativeObject, Mesh {
 	}
 
 	@Override
-	public Polygon polygon(long i) {
+	public @Nullable Polygon polygon(long i) {
 		var ptr = ZenKit.API.ZkMesh_getPolygon(getNativeHandle(), i);
 		if (ptr == Pointer.NULL) return null;
-		return NativePolygon.fromNativeHandle(ptr);
+		return NativePolygon.fromNativeHandle(ptr, this);
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public final class NativeMesh implements NativeObject, Mesh {
 		var polygons = new ArrayList<Polygon>();
 
 		ZenKit.API.ZkMesh_enumeratePolygons(getNativeHandle(), (ctx, polygon) -> {
-			polygons.add(NativePolygon.fromNativeHandle(polygon));
+			polygons.add(NativePolygon.fromNativeHandle(polygon, this));
 			return false;
 		}, Pointer.NULL);
 

@@ -10,15 +10,17 @@ import org.jetbrains.annotations.Nullable;
 
 public final class NativePolygon implements NativeObject, Polygon {
 	private final Pointer handle;
+	private final NativeMesh mesh;
 
-	private NativePolygon(Pointer handle) {
+	private NativePolygon(Pointer handle, NativeMesh mesh) {
 		this.handle = handle;
+		this.mesh = mesh;
 	}
 
-	@Contract("null -> null; !null -> new")
-	public static @Nullable Polygon fromNativeHandle(Pointer handle) {
+	@Contract("null, _ -> null; !null, _ -> new")
+	public static @Nullable Polygon fromNativeHandle(Pointer handle, @NotNull NativeMesh mesh) {
 		if (handle == null) return null;
-		return new NativePolygon(handle);
+		return new NativePolygon(handle, mesh);
 	}
 
 	@Override
@@ -34,16 +36,16 @@ public final class NativePolygon implements NativeObject, Polygon {
 	@Override
 	public int @NotNull [] positionIndices() {
 		var count = new LongByReference();
-		var ptr = ZenKit.API.ZkPolygon_getPositionIndices(handle, count);
-		if (ptr == Pointer.NULL || count.getValue() == 0) return null;
+		var ptr = ZenKit.API.ZkPolygon_getPositionIndices(handle, mesh.getNativeHandle(), count);
+		if (ptr == Pointer.NULL || count.getValue() == 0) return new int[0];
 		return ptr.getIntArray(0, (int) count.getValue());
 	}
 
 	@Override
 	public int @NotNull [] polygonIndices() {
 		var count = new LongByReference();
-		var ptr = ZenKit.API.ZkPolygon_getFeatureIndices(handle, count);
-		if (ptr == Pointer.NULL || count.getValue() == 0) return null;
+		var ptr = ZenKit.API.ZkPolygon_getFeatureIndices(handle, mesh.getNativeHandle(), count);
+		if (ptr == Pointer.NULL || count.getValue() == 0) return new int[0];
 		return ptr.getIntArray(0, (int) count.getValue());
 	}
 
