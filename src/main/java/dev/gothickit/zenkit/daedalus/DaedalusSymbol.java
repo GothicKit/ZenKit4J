@@ -106,6 +106,34 @@ public final class DaedalusSymbol implements NativeObject {
 		return ZenKit.API.ZkDaedalusSymbol_getType(handle);
 	}
 
+	public int getFileIndex() {
+		return ZenKit.API.ZkDaedalusSymbol_getFileIndex(handle);
+	}
+
+	public int getOffsetAsMember() {
+		return ZenKit.API.ZkDaedalusSymbol_getOffsetAsMember(handle);
+	}
+
+	public int getLineStart() {
+		return ZenKit.API.ZkDaedalusSymbol_getLineStart(handle);
+	}
+
+	public int getLineCount() {
+		return ZenKit.API.ZkDaedalusSymbol_getLineCount(handle);
+	}
+
+	public int getCharStart() {
+		return ZenKit.API.ZkDaedalusSymbol_getCharStart(handle);
+	}
+
+	public int getCharCount() {
+		return ZenKit.API.ZkDaedalusSymbol_getCharCount(handle);
+	}
+
+	public int getClassSize() {
+		return ZenKit.API.ZkDaedalusSymbol_getClassSize(handle);
+	}
+
 	public int getIndex() {
 		return ZenKit.API.ZkDaedalusSymbol_getIndex(handle);
 	}

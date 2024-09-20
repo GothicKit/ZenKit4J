@@ -3075,6 +3075,14 @@ public interface ZenKitNative extends Library {
 
 	DaedalusDataType ZkDaedalusSymbol_getReturnType(Pointer slf);
 
+	int ZkDaedalusSymbol_getFileIndex(Pointer slf);
+	int ZkDaedalusSymbol_getOffsetAsMember(Pointer slf);
+	int ZkDaedalusSymbol_getLineStart(Pointer slf);
+	int ZkDaedalusSymbol_getLineCount(Pointer slf);
+	int ZkDaedalusSymbol_getCharStart(Pointer slf);
+	int ZkDaedalusSymbol_getCharCount(Pointer slf);
+	int ZkDaedalusSymbol_getClassSize(Pointer slf);
+
 	String ZkNpc_getNpcInstance(Pointer slf);
 
 	Vec3f ZkNpc_getModelScale(Pointer slf);
