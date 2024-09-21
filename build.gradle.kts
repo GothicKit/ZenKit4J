@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "dev.gothickit"
-version = "1.0.2"
+version = "1.3.0-java.1"
 
 
 repositories {
